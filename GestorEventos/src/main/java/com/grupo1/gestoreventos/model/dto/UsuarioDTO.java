@@ -2,14 +2,17 @@ package com.grupo1.gestoreventos.model.dto;
 
 import java.io.Serializable;
 
+import com.grupo1.gestoreventos.repository.entity.Direccion;
 import com.grupo1.gestoreventos.repository.entity.Usuario;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 public class UsuarioDTO implements Serializable{
 
 	private static final long serialVersionUID = 1L;
+	private long id;
 	private int tipo;
 	private String nombre;
 	private String apellidos;
@@ -18,6 +21,9 @@ public class UsuarioDTO implements Serializable{
 	private String email;
 	private String nombreUsuario;
 	private String contrasena;
+	
+	@ToString.Exclude
+	private Direccion direccion;
 	
 	public static UsuarioDTO convertToDTO(Usuario usuario) {
 		UsuarioDTO usuarioDTO = new UsuarioDTO();
@@ -29,6 +35,8 @@ public class UsuarioDTO implements Serializable{
 		usuarioDTO.setEmail(usuario.getEmail());
 		usuarioDTO.setNombreUsuario(usuario.getNombreUsuario());
 		usuarioDTO.setContrasena(usuario.getContrasena());
+		usuarioDTO.setDireccion(usuario.getDireccion());
+	
 		return usuarioDTO;
 	}
 	
@@ -42,6 +50,8 @@ public class UsuarioDTO implements Serializable{
 		usuario.setEmail(usuarioDTO.getEmail());
 		usuario.setNombreUsuario(usuarioDTO.getNombreUsuario());
 		usuario.setContrasena(usuarioDTO.getContrasena());
+		usuario.setDireccion(usuarioDTO.getDireccion());
+		
 		return usuario;
 	}
 
