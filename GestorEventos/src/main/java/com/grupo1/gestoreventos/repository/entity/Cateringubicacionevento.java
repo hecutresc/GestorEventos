@@ -1,5 +1,7 @@
 package com.grupo1.gestoreventos.repository.entity;
 
+import java.util.Date;
+import java.util.EventObject;
 import java.util.Objects;
 
 import jakarta.persistence.CascadeType;
@@ -17,27 +19,34 @@ import lombok.ToString;
 
 @Data
 @Entity
-@Table(name="empresas")
-public class Empresa {
+@Table(name="cateringubicacionevento")
+public class Cateringubicacionevento {
 
+	//Atributos
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
-	private String cif;
-	
-	@Column(name = "")
-	private String nombre;
+	@Column(name = "fechahora")
+	private Date fechahora;
 	
 	@ManyToOne( fetch = FetchType.LAZY, 
 			cascade = CascadeType.ALL)
-	@JoinColumn(name = "id_direccion")
+	@JoinColumn(name = "id_catering")
 	@ToString.Exclude
-	private Direccion direccion;
-
+	private Catering catering;
+	@ManyToOne( fetch = FetchType.LAZY, 
+			cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_ubicacion")
+	@ToString.Exclude
+	private Ubicacion ubicacion;
+	
+	@ManyToOne( fetch = FetchType.LAZY, 
+			cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_evento")
+	@ToString.Exclude
+	private Evento evento;
 	
 	//HashCode && Equals
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -46,7 +55,7 @@ public class Empresa {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Empresa other = (Empresa) obj;
+		Cateringubicacionevento other = (Cateringubicacionevento) obj;
 		return Objects.equals(id, other.id);
 	}
 
@@ -56,7 +65,11 @@ public class Empresa {
 	}
 	
 	//Constructor
-	public Empresa() {
-		this.direccion = new Direccion();
+	public Cateringubicacionevento() {
+		this.catering = new Catering();
+		this.evento = new Evento();
+		this.ubicacion = new Ubicacion();
 	}
+	
+	
 }
