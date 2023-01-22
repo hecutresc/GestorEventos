@@ -12,7 +12,8 @@ import lombok.ToString;
 public class UsuarioDTO implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	private long id;
+	
+	private Long id;
 	private int tipo;
 	private String nombre;
 	private String apellidos;

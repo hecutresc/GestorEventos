@@ -10,7 +10,9 @@ import lombok.Data;
 public class DireccionDTO implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	private long id;
+
+	private Long id;
+	
 	private String calle;
 	private String numero;
 	private String ciudad;
