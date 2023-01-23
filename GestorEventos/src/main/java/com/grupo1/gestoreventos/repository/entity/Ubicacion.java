@@ -29,15 +29,23 @@ public class Ubicacion {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	
 	@Column(name = "nombre")
 	private String nombre;
+	
 	@Column(name = "aforo")
 	private String aforo;
-	@ManyToOne( fetch = FetchType.LAZY, 
-			cascade = CascadeType.ALL)
+	
+	@ManyToOne
 	@JoinColumn(name = "id_direccion")
 	@ToString.Exclude
-	private Set<Direccion> listaDirecciones;
+	private Direccion direccion;
+	
+	@OneToMany( fetch = FetchType.LAZY, 
+			cascade = CascadeType.ALL, 
+			mappedBy = "ubicacion")
+	private Set<Cateringubicacionevento> listaCateringubicacioneventos;
+	
 	
 	
 	//Hash id object equals
@@ -59,6 +67,7 @@ public class Ubicacion {
 	}
 	
 	public Ubicacion() {
-		this.listaDirecciones = new HashSet<Direccion>();
+		this.direccion = new Direccion();
+		this.listaCateringubicacioneventos = new HashSet<Cateringubicacionevento>();
 	}
 }

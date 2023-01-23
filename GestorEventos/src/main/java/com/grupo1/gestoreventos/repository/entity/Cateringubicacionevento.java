@@ -29,19 +29,16 @@ public class Cateringubicacionevento {
 	@Column(name = "fechahora")
 	private Date fechahora;
 	
-	@ManyToOne( fetch = FetchType.LAZY, 
-			cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "id_catering")
 	@ToString.Exclude
 	private Catering catering;
-	@ManyToOne( fetch = FetchType.LAZY, 
-			cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "id_ubicacion")
 	@ToString.Exclude
 	private Ubicacion ubicacion;
 	
-	@ManyToOne( fetch = FetchType.LAZY, 
-			cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "id_evento")
 	@ToString.Exclude
 	private Evento evento;
