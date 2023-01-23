@@ -3,9 +3,6 @@ package com.grupo1.gestoreventos.repository.entity;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-
-import com.example.demo.repository.entity.Cuenta;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
