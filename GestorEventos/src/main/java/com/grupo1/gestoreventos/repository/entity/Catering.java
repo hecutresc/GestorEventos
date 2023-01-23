@@ -1,6 +1,7 @@
 package com.grupo1.gestoreventos.repository.entity;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -65,6 +66,7 @@ public class Catering {
 	//Constructor
 	public Catering() {
 		this.empresa = new Empresa();
+		this.listasCateringubicacionevento = new HashSet<Cateringubicacionevento>();
 	}
 	
 }
