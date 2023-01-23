@@ -1,10 +1,8 @@
 package com.grupo1.gestoreventos.repository.entity;
 
-import java.util.HashSet;
+import java.util.Date;
+import java.util.EventObject;
 import java.util.Objects;
-import java.util.Set;
-
-import com.example.demo.repository.entity.Cuenta;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -15,41 +13,37 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.ToString;
 
 @Data
 @Entity
-@Table(name="ubicaciones")
-public class Ubicacion {
+@Table(name="cateringubicacionevento")
+public class Cateringubicacionevento {
 
 	//Atributos
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
-	@Column(name = "nombre")
-	private String nombre;
-	
-	@Column(name = "aforo")
-	private String aforo;
+	@Column(name = "fechahora")
+	private Date fechahora;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_direccion")
+	@JoinColumn(name = "id_catering")
 	@ToString.Exclude
-	private Direccion direccion;
+	private Catering catering;
+	@ManyToOne
+	@JoinColumn(name = "id_ubicacion")
+	@ToString.Exclude
+	private Ubicacion ubicacion;
 	
-	@OneToMany( fetch = FetchType.LAZY, 
-			cascade = CascadeType.ALL, 
-			mappedBy = "ubicacion")
-	private Set<Cateringubicacionevento> listaCateringubicacioneventos;
+	@ManyToOne
+	@JoinColumn(name = "id_evento")
+	@ToString.Exclude
+	private Evento evento;
 	
-	
-	
-	//Hash id object equals
-	
+	//HashCode && Equals
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -58,16 +52,21 @@ public class Ubicacion {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Ubicacion other = (Ubicacion) obj;
+		Cateringubicacionevento other = (Cateringubicacionevento) obj;
 		return Objects.equals(id, other.id);
 	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
 	}
 	
-	public Ubicacion() {
-		this.direccion = new Direccion();
-		this.listaCateringubicacioneventos = new HashSet<Cateringubicacionevento>();
+	//Constructor
+	public Cateringubicacionevento() {
+		this.catering = new Catering();
+		this.evento = new Evento();
+		this.ubicacion = new Ubicacion();
 	}
+	
+	
 }
