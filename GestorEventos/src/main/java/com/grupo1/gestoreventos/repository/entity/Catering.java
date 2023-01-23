@@ -1,10 +1,8 @@
 package com.grupo1.gestoreventos.repository.entity;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -42,7 +40,7 @@ public class Catering {
 	@OneToMany( fetch = FetchType.LAZY, 
 			cascade = CascadeType.ALL, 
 			mappedBy = "empresa")
-	private Set<Cateringubicacionevento> listasCateringubicacionevento;
+	private Set<CateringUbicacionEvento> listasCateringUbicacionEvento;
 	
 
 	// HashCode && Equals
@@ -66,7 +64,7 @@ public class Catering {
 	//Constructor
 	public Catering() {
 		this.empresa = new Empresa();
-		this.listasCateringubicacionevento = new HashSet<Cateringubicacionevento>();
+		this.listasCateringUbicacionEvento = new HashSet<CateringUbicacionEvento>();
 	}
 	
 }

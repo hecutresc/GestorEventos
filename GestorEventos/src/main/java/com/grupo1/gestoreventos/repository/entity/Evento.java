@@ -57,7 +57,7 @@ public class Evento {
 			fetch = FetchType.LAZY,
 			cascade = CascadeType.ALL,
 			mappedBy = "evento")
-	private Set<Cateringubicacionevento> listaCateringubicacionevento;
+	private Set<CateringUbicacionEvento> listaCateringubicacionevento;
 
 
 	@Override
@@ -82,7 +82,7 @@ public class Evento {
 	public Evento() {
 		super();
 		this.listaInvitados = new HashSet<Invitado>();
-		this.listaCateringubicacionevento = new HashSet<Cateringubicacionevento>();
+		this.listaCateringubicacionevento = new HashSet<CateringUbicacionEvento>();
 	}
 	
 	

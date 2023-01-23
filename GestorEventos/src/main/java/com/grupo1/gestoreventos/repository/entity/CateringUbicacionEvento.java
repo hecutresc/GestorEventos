@@ -16,7 +16,7 @@ import lombok.ToString;
 @Data
 @Entity
 @Table(name="cateringubicacionevento")
-public class Cateringubicacionevento {
+public class CateringUbicacionEvento {
 
 	//Atributos
 	@Id
@@ -29,6 +29,7 @@ public class Cateringubicacionevento {
 	@JoinColumn(name = "id_catering")
 	@ToString.Exclude
 	private Catering catering;
+	
 	@ManyToOne
 	@JoinColumn(name = "id_ubicacion")
 	@ToString.Exclude
@@ -48,7 +49,7 @@ public class Cateringubicacionevento {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Cateringubicacionevento other = (Cateringubicacionevento) obj;
+		CateringUbicacionEvento other = (CateringUbicacionEvento) obj;
 		return Objects.equals(id, other.id);
 	}
 
@@ -58,7 +59,7 @@ public class Cateringubicacionevento {
 	}
 	
 	//Constructor
-	public Cateringubicacionevento() {
+	public CateringUbicacionEvento() {
 		this.catering = new Catering();
 		this.evento = new Evento();
 		this.ubicacion = new Ubicacion();
