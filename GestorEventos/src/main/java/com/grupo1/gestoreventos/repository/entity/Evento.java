@@ -28,37 +28,29 @@ public class Evento {
 
 	@Column(name = "fecha_inicio")
 	private Date fechaInicio;
-	
+
 	@Column(name = "fecha_fin")
 	private Date fechaFin;
-	
+
 	@Column(name = "nombre")
 	private String nombre;
-	
+
 	@Column(name = "creacion")
 	private Date creacion;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "id_ubicacion")
 	private Ubicacion ubicacion;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
-	
-	@OneToMany(
-			fetch = FetchType.LAZY,
-			cascade = CascadeType.ALL,
-			mappedBy = "evento")
-	private Set<Invitado> listaInvitados;
-	
-	
-	@OneToMany(
-			fetch = FetchType.LAZY,
-			cascade = CascadeType.ALL,
-			mappedBy = "evento")
-	private Set<CateringUbicacionEvento> listaCateringubicacionevento;
 
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "evento")
+	private Set<Invitado> listaInvitados;
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "evento")
+	private Set<Cateringubicacionevento> listaCateringubicacionevento;
 
 	@Override
 	public boolean equals(Object obj) {
@@ -72,18 +64,15 @@ public class Evento {
 		return Objects.equals(id, other.id);
 	}
 
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
 	}
 
-
 	public Evento() {
 		super();
 		this.listaInvitados = new HashSet<Invitado>();
-		this.listaCateringubicacionevento = new HashSet<CateringUbicacionEvento>();
+		this.listaCateringubicacionevento = new HashSet<Cateringubicacionevento>();
 	}
-	
-	
+
 }

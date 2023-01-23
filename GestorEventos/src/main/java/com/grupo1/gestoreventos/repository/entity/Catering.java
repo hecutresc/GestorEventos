@@ -19,32 +19,29 @@ import lombok.ToString;
 
 @Data
 @Entity
-@Table(name="caterings")
+@Table(name = "caterings")
 public class Catering {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "menu")
 	private String menu;
-	
+
 	@Column(name = "precio")
 	private Float precio;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "id_empresa")
 	@ToString.Exclude
 	private Empresa empresa;
-	
-	@OneToMany( fetch = FetchType.LAZY, 
-			cascade = CascadeType.ALL, 
-			mappedBy = "empresa")
-	private Set<CateringUbicacionEvento> listasCateringUbicacionEvento;
-	
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "empresa")
+	private Set<Cateringubicacionevento> listasCateringUbicacionEvento;
 
 	// HashCode && Equals
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -61,10 +58,11 @@ public class Catering {
 	public int hashCode() {
 		return Objects.hash(id);
 	}
-	//Constructor
+
+	// Constructor
 	public Catering() {
 		this.empresa = new Empresa();
-		this.listasCateringUbicacionEvento = new HashSet<CateringUbicacionEvento>();
+		this.listasCateringUbicacionEvento = new HashSet<Cateringubicacionevento>();
+
 	}
-	
 }
