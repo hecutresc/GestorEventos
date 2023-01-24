@@ -22,6 +22,7 @@ import lombok.ToString;
 @Table(name = "caterings")
 public class Catering {
 
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
