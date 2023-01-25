@@ -7,6 +7,7 @@ import com.grupo1.gestoreventos.repository.entity.Direccion;
 import jakarta.transaction.Transactional;
 
 @Transactional
+@Repository
 public interface DireccionRepository extends JpaRepository<Direccion, Long>{
 	
 }

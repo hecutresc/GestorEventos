@@ -50,8 +50,8 @@ public class DireccionServiceImpl implements DireccionService{
 	public void save(DireccionDTO direccionDTO) {
 		log.info("DireccionServiceImpl - save: Salvamos la Direccion: " + direccionDTO.toString());
 		
-		Direccion Direccion = DireccionDTO.convertToEntity(direccionDTO);
-		direccionRepository.save(Direccion);
+		Direccion direccion = DireccionDTO.convertToEntity(direccionDTO);
+		direccionRepository.save(direccion);
 	}
 
 	@Override

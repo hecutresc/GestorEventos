@@ -6,9 +6,9 @@ import com.grupo1.gestoreventos.model.dto.DireccionDTO;
 
 public interface DireccionService {
 
-    List<DireccionDTO> findAll();
-    DireccionDTO findById(DireccionDTO direccionDTO);
-    void save(DireccionDTO direccionDTO);
-    void delete(DireccionDTO direccionDTO);
+    public List<DireccionDTO> findAll();
+    public DireccionDTO findById(DireccionDTO direccionDTO);
+    public void save(DireccionDTO direccionDTO);
+    public void delete(DireccionDTO direccionDTO);
 
 }
