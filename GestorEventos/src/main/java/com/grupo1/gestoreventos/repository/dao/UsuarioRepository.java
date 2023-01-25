@@ -7,6 +7,7 @@ import com.grupo1.gestoreventos.repository.entity.Usuario;
 import jakarta.transaction.Transactional;
 
 @Transactional
+@Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
 	
 }

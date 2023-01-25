@@ -6,9 +6,9 @@ import com.grupo1.gestoreventos.model.dto.UsuarioDTO;
 
 public interface UsuarioService {
 
-	List<UsuarioDTO> findAll();
-	UsuarioDTO findById(UsuarioDTO UsuarioDTO);
-	void save(UsuarioDTO UsuarioDTO);
-	void delete(UsuarioDTO UsuarioDTO);
+	public List<UsuarioDTO> findAll();
+	public UsuarioDTO findById(UsuarioDTO UsuarioDTO);
+	public void save(UsuarioDTO UsuarioDTO);
+	public void delete(UsuarioDTO UsuarioDTO);
 
 }
