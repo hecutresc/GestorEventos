@@ -36,7 +36,7 @@ public class UsuarioDTO implements Serializable{
 		usuarioDTO.setEmail(usuario.getEmail());
 		usuarioDTO.setNombreUsuario(usuario.getNombreUsuario());
 		usuarioDTO.setClaveAcceso(usuario.getClaveAcceso());
-		usuarioDTO.setDireccion(usuario.getDireccion());
+		usuarioDTO.setDireccionDTO(DireccionDTO.convertToDTO(usuario.getDireccion()));
 	
 		return usuarioDTO;
 	}
@@ -51,7 +51,7 @@ public class UsuarioDTO implements Serializable{
 		usuario.setEmail(usuarioDTO.getEmail());
 		usuario.setNombreUsuario(usuarioDTO.getNombreUsuario());
 		usuario.setClaveAcceso(usuarioDTO.getClaveAcceso());
-		usuario.setDireccion(usuarioDTO.getDireccion());
+		usuario.setDireccion(DireccionDTO.convertToEntity(usuarioDTO.getDireccionDTO()));
 		
 		return usuario;
 	}
