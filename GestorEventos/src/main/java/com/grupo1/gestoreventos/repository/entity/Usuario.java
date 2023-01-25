@@ -40,8 +40,8 @@ public class Usuario {
 	@Column(name = "nombre_usuario")
 	private String nombreUsuario;
 	
-	@Column(name = "contrasena")
-	private String contrasena;
+	@Column(name = "clave_acceso")
+	private String claveAcceso;
 
 	@Column(name = "activo")
 	private int activo;

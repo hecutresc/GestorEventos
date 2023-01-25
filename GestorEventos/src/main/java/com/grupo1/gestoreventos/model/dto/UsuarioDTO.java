@@ -21,7 +21,7 @@ public class UsuarioDTO implements Serializable{
 	private String telefono;
 	private String email;
 	private String nombreUsuario;
-	private String contrasena;
+	private String claveAcceso;
 	
 	@ToString.Exclude
 	private Direccion direccion;
@@ -35,7 +35,7 @@ public class UsuarioDTO implements Serializable{
 		usuarioDTO.setTelefono(usuario.getTelefono());
 		usuarioDTO.setEmail(usuario.getEmail());
 		usuarioDTO.setNombreUsuario(usuario.getNombreUsuario());
-		usuarioDTO.setContrasena(usuario.getContrasena());
+		usuarioDTO.setClaveAcceso(usuario.getClaveAcceso());
 		usuarioDTO.setDireccion(usuario.getDireccion());
 	
 		return usuarioDTO;
@@ -50,7 +50,7 @@ public class UsuarioDTO implements Serializable{
 		usuario.setTelefono(usuarioDTO.getTelefono());
 		usuario.setEmail(usuarioDTO.getEmail());
 		usuario.setNombreUsuario(usuarioDTO.getNombreUsuario());
-		usuario.setContrasena(usuarioDTO.getContrasena());
+		usuario.setClaveAcceso(usuarioDTO.getClaveAcceso());
 		usuario.setDireccion(usuarioDTO.getDireccion());
 		
 		return usuario;
