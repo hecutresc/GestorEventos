@@ -24,7 +24,7 @@ public class UsuarioDTO implements Serializable{
 	private String claveAcceso;
 	
 	@ToString.Exclude
-	private Direccion direccion;
+	private DireccionDTO direccionDTO;
 	
 	public static UsuarioDTO convertToDTO(Usuario usuario) {
 		UsuarioDTO usuarioDTO = new UsuarioDTO();
