@@ -41,7 +41,7 @@ public class Ubicacion {
 	@OneToMany( fetch = FetchType.LAZY, 
 			cascade = CascadeType.ALL, 
 			mappedBy = "ubicacion")
-	private Set<Cateringubicacionevento> listaCateringubicacioneventos;
+	private Set<CateringUbicacionEvento> listaCateringUbicacionEventos;
 	
 	
 	
@@ -65,6 +65,6 @@ public class Ubicacion {
 	
 	public Ubicacion() {
 		this.direccion = new Direccion();
-		this.listaCateringubicacioneventos = new HashSet<Cateringubicacionevento>();
+		this.listaCateringUbicacionEventos = new HashSet<CateringUbicacionEvento>();
 	}
 }

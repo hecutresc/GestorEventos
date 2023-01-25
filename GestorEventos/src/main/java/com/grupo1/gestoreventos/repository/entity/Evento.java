@@ -50,7 +50,7 @@ public class Evento {
 	private Set<Invitado> listaInvitados;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "evento")
-	private Set<Cateringubicacionevento> listaCateringubicacionevento;
+	private Set<CateringUbicacionEvento> listaCateringUbicacionEvento;
 
 	@Override
 	public boolean equals(Object obj) {
@@ -72,7 +72,7 @@ public class Evento {
 	public Evento() {
 		super();
 		this.listaInvitados = new HashSet<Invitado>();
-		this.listaCateringubicacionevento = new HashSet<Cateringubicacionevento>();
+		this.listaCateringUbicacionEvento = new HashSet<CateringUbicacionEvento>();
 	}
 
 }

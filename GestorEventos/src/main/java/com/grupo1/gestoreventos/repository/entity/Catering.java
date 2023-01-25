@@ -39,7 +39,7 @@ public class Catering {
 	private Empresa empresa;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "empresa")
-	private Set<Cateringubicacionevento> listasCateringUbicacionEvento;
+	private Set<CateringUbicacionEvento> listasCateringUbicacionEvento;
 
 	// HashCode && Equals
 
@@ -63,7 +63,7 @@ public class Catering {
 	// Constructor
 	public Catering() {
 		this.empresa = new Empresa();
-		this.listasCateringUbicacionEvento = new HashSet<Cateringubicacionevento>();
+		this.listasCateringUbicacionEvento = new HashSet<CateringUbicacionEvento>();
 
 	}
 }
