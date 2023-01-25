@@ -22,7 +22,7 @@ import lombok.ToString;
 @Table(name="ubicaciones")
 public class Ubicacion {
 
-	//Atributos
+	//Atributos de la clase
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
