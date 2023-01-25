@@ -39,6 +39,7 @@ public class Catering {
 	private Empresa empresa;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "empresa")
+	@ToString.Exclude
 	private Set<CateringUbicacionEvento> listasCateringUbicacionEvento;
 
 	// HashCode && Equals
