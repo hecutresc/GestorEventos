@@ -1,12 +1,16 @@
 package com.grupo1.gestoreventos.model.dto;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.grupo1.gestoreventos.repository.entity.Direccion;
+import com.grupo1.gestoreventos.repository.entity.Evento;
 import com.grupo1.gestoreventos.repository.entity.Usuario;
 
 import lombok.Data;
 import lombok.ToString;
+import lombok.experimental.Tolerate;
 
 @Data
 public class UsuarioDTO implements Serializable{
@@ -26,6 +30,9 @@ public class UsuarioDTO implements Serializable{
 	@ToString.Exclude
 	private DireccionDTO direccionDTO;
 	
+	@ToString.Exclude
+	private List<EventoDTO> listaEventosDTO;
+	
 	public static UsuarioDTO convertToDTO(Usuario usuario) {
 		UsuarioDTO usuarioDTO = new UsuarioDTO();
 		usuarioDTO.setTipo(usuario.getTipo());
@@ -38,6 +45,13 @@ public class UsuarioDTO implements Serializable{
 		usuarioDTO.setClaveAcceso(usuario.getClaveAcceso());
 		usuarioDTO.setDireccionDTO(DireccionDTO.convertToDTO(usuario.getDireccion()));
 	
+		List<EventoDTO> listaEventosDTO = usuario.getListaEventos()
+				.stream().map(p->EventoDTO.convertToDTO(p))
+				.collect(Collectors.toList());
+		
+		
+		usuarioDTO.setListaEventosDTO(listaEventosDTO);
+		
 		return usuarioDTO;
 	}
 	
@@ -53,6 +67,10 @@ public class UsuarioDTO implements Serializable{
 		usuario.setClaveAcceso(usuarioDTO.getClaveAcceso());
 		usuario.setDireccion(DireccionDTO.convertToEntity(usuarioDTO.getDireccionDTO()));
 		
+		for (EventoDTO objeto : usuarioDTO.getListaEventosDTO()) {
+			usuario.getListaEventos().add(EventoDTO.convertToEntity(objeto));
+		}
+
 		return usuario;
 	}
 
