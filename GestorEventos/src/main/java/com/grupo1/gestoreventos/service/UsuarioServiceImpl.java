@@ -58,8 +58,6 @@ public class UsuarioServiceImpl implements UsuarioService{
 	public void delete(UsuarioDTO usuarioDTO) {
 		log.info("UsuarioServiceImpl - delete: Borramos el Usuario: " + usuarioDTO.getId());
 		
-		Usuario usuario = new Usuario();
-		usuario.setId(usuarioDTO.getId());
-		usuarioRepository.delete(usuario);
+		usuarioRepository.deleteById(usuarioDTO.getId());
 	}
 }
