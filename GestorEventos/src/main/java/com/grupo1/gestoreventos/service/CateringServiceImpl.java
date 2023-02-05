@@ -62,10 +62,7 @@ public class CateringServiceImpl implements CateringService {
 		// TODO Auto-generated method stub
 
 		log.info("DireccionServiceImpl - delete: Borramos la Direccion: " + cateringDTO.getId());
-
-		Catering catering = new Catering();
-		catering.setId(cateringDTO.getId());
-		cateringRepository.delete(catering);
+		cateringRepository.deleteById(cateringDTO.getId());
 
 	}
 
