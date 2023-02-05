@@ -41,6 +41,11 @@ public class Ubicacion {
 	@OneToMany( fetch = FetchType.LAZY, 
 			cascade = CascadeType.ALL, 
 			mappedBy = "ubicacion")
+	private Set<Evento> listaEventos;
+	
+	@OneToMany( fetch = FetchType.LAZY, 
+			cascade = CascadeType.ALL, 
+			mappedBy = "ubicacion")
 	private Set<CateringUbicacionEvento> listaCateringUbicacionEventos;
 	
 	
