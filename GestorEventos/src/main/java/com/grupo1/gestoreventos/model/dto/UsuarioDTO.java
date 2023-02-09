@@ -1,6 +1,7 @@
 package com.grupo1.gestoreventos.model.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -73,7 +74,11 @@ public class UsuarioDTO implements Serializable{
 
 		return usuario;
 	}
-
+	
+	public UsuarioDTO(){
+		super();
+		this.listaEventosDTO = new ArrayList<EventoDTO>();
+	}
 
 	
 }

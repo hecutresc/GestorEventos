@@ -79,7 +79,7 @@ public class Usuario {
 
 	public Usuario(){
 		super();
-		this.listaEventos = new HashSet<>();
+		this.listaEventos = new HashSet<Evento>();
 	}
 	
 }
