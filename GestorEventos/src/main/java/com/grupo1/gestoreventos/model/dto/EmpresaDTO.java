@@ -38,8 +38,6 @@ public class EmpresaDTO {
 	public static Empresa convertToEntity(EmpresaDTO empresaDTO) {
 		//Creando los objetos y listas necesarios
 		Empresa empresa = new Empresa();
-		Catering catering = new Catering();
-		
 		//Set de los atributos
 		empresa.setId(empresaDTO.getId());
 		empresa.setCif(empresaDTO.getCif());

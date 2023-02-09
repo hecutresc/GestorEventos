@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import com.grupo1.gestoreventos.repository.entity.Evento;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 public class EventoDTO implements Serializable {
@@ -19,7 +20,9 @@ public class EventoDTO implements Serializable {
 	private Date creacion;
 	private UbicacionDTO ubicacionDTO;
 	private UsuarioDTO usuarioDTO;
+	@ToString.Exclude
 	private List<InvitadoDTO> listaInvitadosDTO;
+	@ToString.Exclude
 	private List<CateringUbicacionEventoDTO> listaCateringubicacioneventoDTO;
 
 	public static EventoDTO convertToDTO(Evento evento) {
