@@ -2,7 +2,6 @@ package com.grupo1.gestoreventos.model.dto;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.grupo1.gestoreventos.repository.entity.Catering;
 import com.grupo1.gestoreventos.repository.entity.Empresa;
 import lombok.Data;
 import lombok.ToString;
