@@ -37,7 +37,7 @@ public class EventoDTO implements Serializable {
 
 	@ToString.Exclude
 	private List<InvitadoDTO> listaInvitadosDTO;
-	
+
 	@ToString.Exclude
 	private List<CateringUbicacionEventoDTO> listaCateringubicacioneventoDTO;
 
