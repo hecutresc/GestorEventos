@@ -20,26 +20,22 @@ public class InvitadoDTO implements Serializable {
 	@ToString.Exclude
 	private EventoDTO eventoDTO;
 
-	public static InvitadoDTO convertToDTO(Invitado invitado, EventoDTO eventoDTO) {
+	public static InvitadoDTO convertToDTO(Invitado invitado) {
 		InvitadoDTO invitadoDTO = new InvitadoDTO();
 		invitadoDTO.setId(invitado.getId());
 		invitadoDTO.setEmail(invitado.getEmail());
 		invitadoDTO.setToken(invitado.getToken());
 		invitadoDTO.setAsistencia(invitado.getAsistencia());
 
-		invitadoDTO.setEventoDTO(eventoDTO);
-
 		return invitadoDTO;
 	}
 
-	public static Invitado convertToEntity(InvitadoDTO invitadoDTO, Evento evento) {
+	public static Invitado convertToEntity(InvitadoDTO invitadoDTO) {
 		Invitado invitado = new Invitado();
 		invitado.setId(invitadoDTO.getId());
 		invitado.setEmail(invitadoDTO.getEmail());
 		invitado.setToken(invitadoDTO.getToken());
 		invitado.setAsistencia(invitadoDTO.getAsistencia());
-
-		invitado.setEvento(evento);
 
 		return invitado;
 	}

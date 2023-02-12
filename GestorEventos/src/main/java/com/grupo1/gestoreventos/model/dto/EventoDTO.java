@@ -4,16 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.grupo1.gestoreventos.repository.entity.Evento;
-import com.grupo1.gestoreventos.repository.entity.Invitado;
-
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import lombok.Data;
 import lombok.ToString;
 
@@ -71,6 +65,13 @@ public class EventoDTO implements Serializable {
 
 	public EventoDTO() {
 		super();
+		this.listaInvitadosDTO = new ArrayList<InvitadoDTO>();
+		this.listaCateringubicacioneventoDTO = new ArrayList<CateringUbicacionEventoDTO>();
+	}
+
+	public EventoDTO(Long id) {
+		super();
+		this.id = id;
 		this.listaInvitadosDTO = new ArrayList<InvitadoDTO>();
 		this.listaCateringubicacioneventoDTO = new ArrayList<CateringUbicacionEventoDTO>();
 	}

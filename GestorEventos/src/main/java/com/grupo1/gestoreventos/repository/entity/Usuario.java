@@ -32,7 +32,7 @@ public class Usuario {
 	@Column(name = "nombre")
 	private String nombre;
 	
-	@Column(name = "apeliidos")
+	@Column(name = "apellidos")
 	private String apellidos;
 	
 	@Column(name = "nif")

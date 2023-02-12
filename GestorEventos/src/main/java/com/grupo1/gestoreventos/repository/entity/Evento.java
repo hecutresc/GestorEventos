@@ -29,6 +29,13 @@ public class Evento {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(name = "creacion")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date creacion;
+
+	@Column(name = "nombre")
+	private String nombre;
+
 	@Column(name = "fecha_inicio")
 	@Temporal(TemporalType.DATE)
 	private Date fechaInicio;
@@ -36,13 +43,6 @@ public class Evento {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "fecha_fin")
 	private Date fechaFin;
-
-	@Column(name = "nombre")
-	private String nombre;
-
-	@Column(name = "creacion")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date creacion;
 
 	@ManyToOne
 	@JoinColumn(name = "id_ubicacion")
