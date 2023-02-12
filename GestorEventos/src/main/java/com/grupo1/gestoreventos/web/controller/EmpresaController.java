@@ -46,19 +46,18 @@ public class EmpresaController {
 	@GetMapping()
 	public ModelAndView delete(@PathVariable Long idEmpresa) {
 		// Mostramos todos los caterings
-		log.info("EmpresasController - delete: Elimina la empresa "+idEmpresa);
+		log.info("EmpresasController - delete: Elimina la empresa " + idEmpresa);
 		EmpresaDTO empresaDTO = new EmpresaDTO();
 		empresaDTO.setId(idEmpresa);
-		
-		//Llamamnos al service
+
+		// Llamamnos al service
 		empresaService.delete(empresaDTO);
-		
-		//Volvemos a la vista principal
+
+		// Volvemos a la vista principal
 		ModelAndView mav = new ModelAndView("redirect:/admin/empresas");
-		
+
 		return null;
-		
-		
+
 	}
 
 }
