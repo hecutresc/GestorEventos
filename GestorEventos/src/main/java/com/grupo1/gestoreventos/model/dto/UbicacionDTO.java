@@ -41,13 +41,6 @@ public class UbicacionDTO {
 		ubicacionDTO.setNombre(ubicacion.getNombre());
 		ubicacionDTO.setAforo(ubicacion.getAforo());
 		ubicacionDTO.setDireccionDTO(DireccionDTO.convertToDTO(ubicacion.getDireccion()));
-		//Recorrer la lista
-		List<Evento> listaEventos = new ArrayList<Evento>(ubicacion.getListaEventos());
-		for(int i= 0; i<listaEventos.size();i++) {
-			EventoDTO eventoDTO = EventoDTO.convertToDTO(listaEventos.get(i));
-			ubicacionDTO.getListaEventosDTO().add(eventoDTO);
-		}
-		
 		return ubicacionDTO;
 	}
 	
@@ -61,9 +54,6 @@ public class UbicacionDTO {
 		ubicacion.setNombre(ubicacionDTO.getNombre());
 		ubicacion.setAforo(ubicacionDTO.getAforo());
 		ubicacion.setDireccion(DireccionDTO.convertToEntity(ubicacionDTO.getDireccionDTO()));
-		
-		
-		
 		return ubicacion;
 	}
 	

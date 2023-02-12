@@ -34,8 +34,6 @@ public class CateringDTO {
 		cateringDTO.setId(catering.getId());
 		cateringDTO.setMenu(catering.getMenu());
 		cateringDTO.setPrecio(catering.getPrecio());
-		cateringDTO.setEmpresaDTO(EmpresaDTO.convertToDTO(catering.getEmpresa()));
-
 		return cateringDTO;
 	}
 
@@ -48,8 +46,6 @@ public class CateringDTO {
 		catering.setId(cateringDTO.getId());
 		catering.setMenu(cateringDTO.getMenu());
 		catering.setPrecio(cateringDTO.getPrecio());
-		catering.setEmpresa(EmpresaDTO.convertToEntity(cateringDTO.getEmpresaDTO()));
-
 		return catering;
 	}
 	
