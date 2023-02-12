@@ -1,5 +1,6 @@
 package com.grupo1.gestoreventos.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,8 +28,15 @@ public class CateringServiceImpl implements CateringService {
 	public List<CateringDTO> findAll() {
 		// TODO Auto-generated method stub
 		log.info("CateringServiceImpl - findAll: Mostramos todos los caterings");
-		List<CateringDTO> listaCateringsDTO = cateringRepository.findAll().stream()
-				.map(p -> CateringDTO.convertToDTO(p)).collect(Collectors.toList());
+		List<Catering> listaCaterings = cateringRepository.findAll();
+		List<CateringDTO> listaCateringsDTO = new ArrayList<>();
+		
+		//Recorremos la lista que nos ha traido la bd convirtiendola en dto y poniendole el nombre de la empresa que es lo que nos interesa ver por pantalla
+		for (Catering catering : listaCaterings) {
+			CateringDTO cateringDTO = CateringDTO.convertToDTO(catering);
+			cateringDTO.getEmpresaDTO().setNombre(catering.getEmpresa().getNombre());
+			listaCateringsDTO.add(cateringDTO);			
+		}
 
 		return listaCateringsDTO;
 	}
