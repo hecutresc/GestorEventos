@@ -27,12 +27,12 @@ DROP TABLE IF EXISTS `caterings`;
 CREATE TABLE `caterings` (
   `id` int NOT NULL AUTO_INCREMENT,
   `id_empresa` int NOT NULL,
-  `id_salon` int NOT NULL,
+  `id_ubicacion` int NOT NULL,
   `menu` text COLLATE latin1_spanish_ci NOT NULL,
   `precio` float NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_catering_salon_idx` (`id_salon`),
-  CONSTRAINT `FK_catering_salon` FOREIGN KEY (`id_salon`) REFERENCES `salon` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `FK_catering_ubicacion_idx` (`id_ubicacion`),
+  CONSTRAINT `FK_catering_ubicacion` FOREIGN KEY (`id_ubicacion`) REFERENCES `ubicacion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -112,14 +112,14 @@ CREATE TABLE `eventos` (
   `fecha_fin` date NOT NULL,
   `nombre` varchar(100) COLLATE latin1_spanish_ci NOT NULL,
   `id_catering` int,
-  `id_salon` int NOT NULL,
+  `id_ubicacion` int NOT NULL,
   `id_usuario` int NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_evento_salon_idx` (`id_salon`),
+  KEY `FK_evento_ubicacion_idx` (`id_ubicacion`),
   KEY `FK_evento_catering_idx` (`id_catering`),
   KEY `FK_evento_usuario_idx` (`id_usuario`),
   CONSTRAINT `FK_evento_catering` FOREIGN KEY (`id_catering`) REFERENCES `catering` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_evento_salon` FOREIGN KEY (`id_salon`) REFERENCES `salon` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_evento_ubicacion` FOREIGN KEY (`id_ubicacion`) REFERENCES `ubicacion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_evento_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -162,33 +162,33 @@ LOCK TABLES `invitados` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `salon`
+-- Table structure for table `ubicacion`
 --
 
-DROP TABLE IF EXISTS `salones`;
+DROP TABLE IF EXISTS `ubicaciones`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `salones` (
+CREATE TABLE `ubicaciones` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) COLLATE latin1_spanish_ci DEFAULT NULL,
   `aforo` varchar(7) COLLATE latin1_spanish_ci DEFAULT NULL,
   `id_direccion` int NOT NULL,
   `id_catering` int,
   PRIMARY KEY (`id`),
-  KEY `FK_salon_direccion_idx` (`id_direccion`),
-  KEY `FK_salon_catering_idx` (`id_catering`),
-  CONSTRAINT `FK_salon_catering` FOREIGN KEY (`id_catering`) REFERENCES `catering` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_salon_direccion` FOREIGN KEY (`id_direccion`) REFERENCES `direccion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `FK_ubicacion_direccion_idx` (`id_direccion`),
+  KEY `FK_ubicacion_catering_idx` (`id_catering`),
+  CONSTRAINT `FK_ubicacion_catering` FOREIGN KEY (`id_catering`) REFERENCES `catering` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ubicacion_direccion` FOREIGN KEY (`id_direccion`) REFERENCES `direccion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `salon`
+-- Dumping data for table `ubicacion`
 --
 
-LOCK TABLES `salones` WRITE;
-/*!40000 ALTER TABLE `salones` DISABLE KEYS */;
-/*!40000 ALTER TABLE `salones` ENABLE KEYS */;
+LOCK TABLES `ubicaciones` WRITE;
+/*!40000 ALTER TABLE `ubicaciones` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ubicaciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -232,7 +232,7 @@ UNLOCK TABLES;
 
 SET FOREIGN_KEY_CHECKS=0;
 
-INSERT INTO eventos (`fecha_inicio`,`fecha_fin`,`nombre`,`id_catering`,`id_salon`,`id_usuario`)
+INSERT INTO eventos (`fecha_inicio`,`fecha_fin`,`nombre`,`id_catering`,`id_ubicacion`,`id_usuario`)
 VALUES
   ("2022/02/16","2022/02/18","Ponencia nueva temporada de League of Legends",1,1,8),
   ("2022/02/20","2022/02/22","Congreso acerca del desarrollo urbanistico del Puig",2,2,5);
@@ -280,12 +280,12 @@ VALUES
   ("N48227285","Eventos Paco S.L.",15),
   ("W19917333","Caterings El Puig",16);
   
-INSERT INTO caterings (`id_empresa`,`id_salon`,`menu`,`precio`)
+INSERT INTO caterings (`id_empresa`,`id_ubicacion`,`menu`,`precio`)
 VALUES
 (1,1,"arcu. Morbi sit amet massa. Quisque porttitor eros nec tellus. Nunc lectus pede, ultrices a, auctor non, feugiat nec, diam. Duis mi enim, condimentum eget, volutpat ornare, facilisis eget, ipsum. Donec sollicitudin adipiscing ligula. Aenean gravida nunc sed",26),
 (2,2,"nisi. Mauris nulla. Integer urna. Vivamus molestie dapibus ligula. Aliquam erat volutpat. Nulla dignissim. Maecenas ornare egestas ligula. Nullam feugiat placerat velit. Quisque varius. Nam porttitor scelerisque neque.",90);
 
-INSERT INTO salones (`nombre`,`aforo`,`id_direccion`,`id_catering`)
+INSERT INTO ubicaciones (`nombre`,`aforo`,`id_direccion`,`id_catering`)
 VALUES
   ("Lloret del Mar",30,17,1),
   ("Las Venturas",30,18,2);
