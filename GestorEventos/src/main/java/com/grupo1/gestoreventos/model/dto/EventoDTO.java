@@ -4,8 +4,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
 import com.grupo1.gestoreventos.repository.entity.Evento;
+import com.grupo1.gestoreventos.repository.entity.Invitado;
+
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 public class EventoDTO implements Serializable {
@@ -13,25 +23,50 @@ public class EventoDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
+
+	@DateTimeFormat(iso = ISO.DATE)
 	private Date fechaInicio;
+
+	@DateTimeFormat(iso = ISO.DATE)
 	private Date fechaFin;
+
 	private String nombre;
+
+	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	private Date creacion;
+
+	@ToString.Exclude
 	private UbicacionDTO ubicacionDTO;
+
+	@ToString.Exclude
 	private UsuarioDTO usuarioDTO;
+
+	@ToString.Exclude
 	private List<InvitadoDTO> listaInvitadosDTO;
+
+	@ToString.Exclude
 	private List<CateringUbicacionEventoDTO> listaCateringubicacioneventoDTO;
 
 	public static EventoDTO convertToDTO(Evento evento) {
-		// Implementar
+		EventoDTO eventoDTO = new EventoDTO();
+		eventoDTO.setId(evento.getId());
+		eventoDTO.setFechaInicio(evento.getFechaInicio());
+		eventoDTO.setFechaFin(evento.getFechaFin());
+		eventoDTO.setNombre(evento.getNombre());
+		eventoDTO.setCreacion(evento.getCreacion());
 
-		return null;
+		return eventoDTO;
 	}
 
 	public static Evento convertToEntity(EventoDTO eventoDTO) {
-		// Implementar
+		Evento evento = new Evento();
+		evento.setId(eventoDTO.getId());
+		evento.setFechaInicio(eventoDTO.getFechaInicio());
+		evento.setFechaFin(eventoDTO.getFechaFin());
+		evento.setNombre(eventoDTO.getNombre());
+		evento.setCreacion(eventoDTO.getCreacion());
 
-		return null;
+		return evento;
 	}
 
 	public EventoDTO() {
