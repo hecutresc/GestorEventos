@@ -58,8 +58,6 @@ public class DireccionServiceImpl implements DireccionService{
 	public void delete(DireccionDTO direccionDTO) {
 		log.info("DireccionServiceImpl - delete: Borramos la Direccion: " + direccionDTO.getId());
 		
-		Direccion direccion = new Direccion();
-		direccion.setId(direccionDTO.getId());
-		direccionRepository.delete(direccion);
+		direccionRepository.deleteById(direccionDTO.getId());
 	}
 }

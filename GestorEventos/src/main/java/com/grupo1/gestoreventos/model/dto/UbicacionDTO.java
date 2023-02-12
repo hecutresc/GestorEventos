@@ -2,6 +2,8 @@ package com.grupo1.gestoreventos.model.dto;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.grupo1.gestoreventos.repository.entity.Evento;
 import com.grupo1.gestoreventos.repository.entity.Ubicacion;
 
 import lombok.Data;
@@ -19,7 +21,10 @@ public class UbicacionDTO {
 
 	@ToString.Exclude
 	private DireccionDTO direccionDTO;
-
+	
+	@ToString.Exclude
+	private List<EventoDTO> listaEventosDTO;
+	
 	@ToString.Exclude
 	private List<CateringUbicacionEventoDTO> listaCateringUbicacionEventosDTO;
 	
@@ -36,8 +41,6 @@ public class UbicacionDTO {
 		ubicacionDTO.setNombre(ubicacion.getNombre());
 		ubicacionDTO.setAforo(ubicacion.getAforo());
 		ubicacionDTO.setDireccionDTO(DireccionDTO.convertToDTO(ubicacion.getDireccion()));
-		
-		
 		return ubicacionDTO;
 	}
 	
@@ -51,7 +54,6 @@ public class UbicacionDTO {
 		ubicacion.setNombre(ubicacionDTO.getNombre());
 		ubicacion.setAforo(ubicacionDTO.getAforo());
 		ubicacion.setDireccion(DireccionDTO.convertToEntity(ubicacionDTO.getDireccionDTO()));
-		
 		return ubicacion;
 	}
 	
@@ -59,6 +61,7 @@ public class UbicacionDTO {
 	//Constructor
 	public UbicacionDTO() {
 		this.direccionDTO = new DireccionDTO();
+		this.listaEventosDTO = new ArrayList<EventoDTO>();
 		this.listaCateringUbicacionEventosDTO = new ArrayList<CateringUbicacionEventoDTO>();
 	}
 	
