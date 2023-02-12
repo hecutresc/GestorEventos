@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `gestioneventos` /*!40100 DEFAULT CHARACTER SET latin1 COLLATE latin1_spanish_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `gestioneventos`;
 -- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
 --
 -- Host: localhost    Database: gestioneventos
@@ -24,24 +26,22 @@ DROP TABLE IF EXISTS `caterings`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `caterings` (
   `id` int NOT NULL AUTO_INCREMENT,
+  `id_empresa` int NOT NULL,
   `menu` text CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
   `precio` float NOT NULL,
-  `id_empresa` int NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_catering_empresa_idx` (`id_empresa`),
-  CONSTRAINT `FK_catering_empresa` FOREIGN KEY (`id_empresa`) REFERENCES `empresas` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+  CONSTRAINT `FK_catering_empresa` FOREIGN KEY (`id_empresa`) REFERENCES `empresas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `caterings`
 --
 
-LOCK TABLES `caterings` WRITE;
-/*!40000 ALTER TABLE `caterings` DISABLE KEYS */;
-INSERT INTO `caterings` VALUES (1,'arcu. Morbi sit amet massa. Quisque porttitor eros nec tellus. Nunc lectus pede, ultrices a, auctor non, feugiat nec, diam. Duis mi enim, condimentum eget, volutpat ornare, facilisis eget, ipsum. Donec sollicitudin adipiscing ligula. Aenean gravida nunc sed',26,1),(2,'nisi. Mauris nulla. Integer urna. Vivamus molestie dapibus ligula. Aliquam erat volutpat. Nulla dignissim. Maecenas ornare egestas ligula. Nullam feugiat placerat velit. Quisque varius. Nam porttitor scelerisque neque.',90,2);
-/*!40000 ALTER TABLE `caterings` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO caterings (`id_empresa`,`menu`,`precio`)
+VALUES
+(1,"arcu. Morbi sit amet massa. Quisque porttitor eros nec tellus. Nunc lectus pede, ultrices a, auctor non, feugiat nec, diam. Duis mi enim, condimentum eget, volutpat ornare, facilisis eget, ipsum. Donec sollicitudin adipiscing ligula. Aenean gravida nunc sed",26),
+(2,"nisi. Mauris nulla. Integer urna. Vivamus molestie dapibus ligula. Aliquam erat volutpat. Nulla dignissim. Maecenas ornare egestas ligula. Nullam feugiat placerat velit. Quisque varius. Nam porttitor scelerisque neque.",90);
 
 --
 -- Table structure for table `cateringubicacionevento`
@@ -54,27 +54,24 @@ CREATE TABLE `cateringubicacionevento` (
   `id` int NOT NULL AUTO_INCREMENT,
   `fechahora` datetime NOT NULL,
   `id_catering` int NOT NULL,
-  `id_ubicacion` int NOT NULL,
   `id_evento` int NOT NULL,
+  `id_ubicacion` int NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_cateringsalon_idx` (`id_ubicacion`),
-  KEY `FK_catering_idx` (`id_catering`),
-  KEY `FK_evento_idx` (`id_evento`),
-  CONSTRAINT `FK_catering` FOREIGN KEY (`id_catering`) REFERENCES `caterings` (`id`),
-  CONSTRAINT `FK_evento` FOREIGN KEY (`id_evento`) REFERENCES `eventos` (`id`),
-  CONSTRAINT `FK_salon` FOREIGN KEY (`id_ubicacion`) REFERENCES `ubicaciones` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+  CONSTRAINT `FK_cue_catering` FOREIGN KEY (`id_catering`) REFERENCES `caterings` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_cue_evento` FOREIGN KEY (`id_evento`) REFERENCES `eventos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_cue_ubicacion` FOREIGN KEY (`id_ubicacion`) REFERENCES `ubicaciones` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cateringubicacionevento`
 --
 
-LOCK TABLES `cateringubicacionevento` WRITE;
-/*!40000 ALTER TABLE `cateringubicacionevento` DISABLE KEYS */;
-INSERT INTO `cateringubicacionevento` VALUES (1,'2022-02-20 00:00:00',2,1,2);
-/*!40000 ALTER TABLE `cateringubicacionevento` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `cateringubicacionevento`
+(`id`,`fechahora`,`id_catering`,`id_evento`,`id_ubicacion`)
+VALUES
+(1,now(),1,1,1),
+(2,now(),1,2,2);
 
 --
 -- Table structure for table `direcciones`
@@ -85,12 +82,12 @@ DROP TABLE IF EXISTS `direcciones`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `direcciones` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `calle` varchar(100) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
-  `numero` varchar(5) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
-  `ciudad` varchar(100) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
-  `cp` varchar(5) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
+  `calle` varchar(100) CHARACTER SET latin1 COLLATE latin1_spanish_ci DEFAULT NULL,
+  `numero` varchar(5) CHARACTER SET latin1 COLLATE latin1_spanish_ci DEFAULT NULL,
+  `ciudad` varchar(100) CHARACTER SET latin1 COLLATE latin1_spanish_ci DEFAULT NULL,
+  `cp` varchar(5) CHARACTER SET latin1 COLLATE latin1_spanish_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -117,9 +114,8 @@ CREATE TABLE `empresas` (
   `id_direccion` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `cif_UNIQUE` (`cif`),
-  KEY `FK_empresa_direccion_idx` (`id_direccion`),
-  CONSTRAINT `FK_empresa_direccion` FOREIGN KEY (`id_direccion`) REFERENCES `direcciones` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+  FOREIGN KEY (`id_direccion`) REFERENCES `direcciones` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,29 +137,26 @@ DROP TABLE IF EXISTS `eventos`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `eventos` (
   `id` int NOT NULL AUTO_INCREMENT,
+  `creacion` datetime DEFAULT NULL,
+  `nombre` varchar(100) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
   `fecha_inicio` date NOT NULL,
   `fecha_fin` date NOT NULL,
-  `nombre` varchar(100) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
-  `creacion` datetime NOT NULL,
   `id_ubicacion` int NOT NULL,
   `id_usuario` int NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_evento_salon_idx` (`id_ubicacion`),
-  KEY `FK_evento_usuario_idx` (`id_usuario`),
-  CONSTRAINT `FK_evento_salon` FOREIGN KEY (`id_ubicacion`) REFERENCES `ubicaciones` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_evento_ubicacion` FOREIGN KEY (`id_ubicacion`) REFERENCES `ubicaciones` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_evento_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `eventos`
 --
 
-LOCK TABLES `eventos` WRITE;
-/*!40000 ALTER TABLE `eventos` DISABLE KEYS */;
-INSERT INTO `eventos` VALUES (1,'2022-02-16','2022-02-18','Ponencia nueva temporada de League of Legends','2022-01-22 00:00:00',1,8),(2,'2022-02-20','2022-02-22','Congreso acerca del desarrollo urbanistico del Puig','2022-01-15 00:00:00',2,5);
-/*!40000 ALTER TABLE `eventos` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO eventos (`creacion`,`nombre`,`fecha_inicio`,`fecha_fin`,`id_ubicacion`,`id_usuario`)
+VALUES
+  (now(),"Ponencia nueva temporada de League of Legends","2022/02/16","2022/02/18",1,8),
+  (now(),"Congreso acerca del desarrollo urbanistico del Puig","2022/02/20","2022/02/22",2,5);
 
 --
 -- Table structure for table `invitados`
@@ -176,12 +169,11 @@ CREATE TABLE `invitados` (
   `id` int NOT NULL AUTO_INCREMENT,
   `email` varchar(100) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
   `token` varchar(100) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
-  `asistencia` tinyint(1) NOT NULL DEFAULT '0',
+  `asistencia` tinyint(1) DEFAULT '0',
   `id_evento` int NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_invitado_evento_idx` (`id_evento`),
   CONSTRAINT `FK_invitado_evento` FOREIGN KEY (`id_evento`) REFERENCES `eventos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -203,13 +195,14 @@ DROP TABLE IF EXISTS `ubicaciones`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ubicaciones` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(100) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
-  `aforo` varchar(7) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
+  `nombre` varchar(100) CHARACTER SET latin1 COLLATE latin1_spanish_ci DEFAULT NULL,
+  `aforo` varchar(7) CHARACTER SET latin1 COLLATE latin1_spanish_ci DEFAULT NULL,
   `id_direccion` int NOT NULL,
+  `id_catering` int DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_salon_direccion_idx` (`id_direccion`),
-  CONSTRAINT `FK_salon_direccion` FOREIGN KEY (`id_direccion`) REFERENCES `direcciones` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+  CONSTRAINT `FK_ubicacion_catering` FOREIGN KEY (`id_catering`) REFERENCES `caterings` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ubicacion_direccion` FOREIGN KEY (`id_direccion`) REFERENCES `direcciones` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -218,7 +211,7 @@ CREATE TABLE `ubicaciones` (
 
 LOCK TABLES `ubicaciones` WRITE;
 /*!40000 ALTER TABLE `ubicaciones` DISABLE KEYS */;
-INSERT INTO `ubicaciones` VALUES (1,'Lloret del Mar','30',17),(2,'Las Venturas','30',18);
+INSERT INTO `ubicaciones` VALUES (1,'Lloret del Mar','30',17,1),(2,'Las Venturas','30',18,2);
 /*!40000 ALTER TABLE `ubicaciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -231,33 +224,51 @@ DROP TABLE IF EXISTS `usuarios`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `usuarios` (
   `id` int NOT NULL AUTO_INCREMENT,
+  `tipo` int DEFAULT 0,
+  `nombre` varchar(20) CHARACTER SET latin1 COLLATE latin1_spanish_ci DEFAULT NULL,
+  `apellidos` varchar(100) CHARACTER SET latin1 COLLATE latin1_spanish_ci DEFAULT NULL,
   `nif` varchar(9) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
-  `nombre_usuario` varchar(100) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
-  `clave_acceso` varchar(100) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
-  `nombre` varchar(20) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
-  `apellidos` varchar(100) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
-  `telefono` varchar(9) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
+  `telefono` varchar(9) CHARACTER SET latin1 COLLATE latin1_spanish_ci DEFAULT NULL,
   `email` varchar(100) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
-  `id_direccion` int NOT NULL,
+  `nombre_usuario` varchar(100) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
+  `clave_acceso` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
   `activo` tinyint NOT NULL DEFAULT '1',
-  `tipo_usuario` int NOT NULL,
+  `id_direccion` int NOT NULL,
+ 
   PRIMARY KEY (`id`),
   UNIQUE KEY `nif` (`nif`),
-  UNIQUE KEY `nombre_usuario_UNIQUE` (`nombre_usuario`),
   KEY `FK_usuario_direccion_idx` (`id_direccion`),
   CONSTRAINT `FK_usuario_direccion` FOREIGN KEY (`id_direccion`) REFERENCES `direcciones` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `usuarios`
 --
 
-LOCK TABLES `usuarios` WRITE;
-/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'01959765K','flopez','WKG93LDR4JH','Fredericka','Lopez','856205866','arcu.ac@google.couk',1,1,1),(2,'52463682M','darsan','OUJ63DIU8XB','Darius','Santos','532340203','hendrerit@outlook.net',2,1,0),(3,'43533439R','stunez','XKD48ITX3WT','Stone','Nunez','381469718','gravida.sit.amet@aol.net',3,0,0),(4,'49373488I','hanape','FRR45JQW7TM','Hanae','Perez','029347188','ut.eros@aol.com',4,0,0),(5,'72240283M','chamoli','VBI86VHH1YR','Chase','Molina','412359654','vel.arcu@yahoo.edu',5,1,0),(6,'44384325D','benpe','GOI62YGR3MK','Benjamin','Perez','224817740','mollis.non@hotmail.edu',6,1,0),(7,'54783176J','sarias','QDD64KSR1CI','Sheila','Arias','565636863','aliquam.nisl@aol.couk',7,0,0),(8,'76038033K','hleon123','DMG39YNJ4XT','Hammett','Leon','553353537','quis@yahoo.com',8,0,0),(9,'22784382H','gilma34','PNJ53GGI9WK','Zia','Gil','311661274','lacus.quisque.imperdiet@icloud.ca',9,1,0),(10,'44167866O','reyes89','QLB37UHW3QH','Lillian','Reyes','162009741','duis.cursus@hotmail.edu',10,1,0),(11,'33717423H','wserrano','JBS83TWH3YV','Wyatt','Serrano','330288805','sem.consequat.nec@icloud.ca',12,0,0),(12,'62850703G','agomez','DUU58XRM9CK','Alexandra','Gomez','292163198','posuere.at.velit@hotmail.net',13,0,0),(13,'64149657Q','jrubio32','NXC46OJX0VO','Jael','Rubio','210298777','aliquet.nec@google.couk',14,1,0);
-/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO usuarios (`tipo`,`nombre`,`apellidos`,`nif`,`telefono`,`email`,`nombre_usuario`,`clave_acceso`,`activo`,`id_direccion`)
+VALUES
+  (1,"Fredericka","Lopez","01959765K","856205866","arcu.ac@google.couk","Forrest S. Tillman","WKG93LDR4JH",1,1),
+  (0,"Darius","Santos","52463682M","532340203","hendrerit@outlook.net","Carly W. Robinson","OUJ63DIU8XB",1,2),
+  (0,"Stone","Nunez","43533439R","381469718","gravida.sit.amet@aol.net","Sarah W. Wood","XKD48ITX3WT",0,3),
+  (0,"Hanae","Perez","49373488I","029347188","ut.eros@aol.com","Remedios V. Gibbs","FRR45JQW7TM",0,4),
+  (0,"Chase","Molina","72240283M","412359654","vel.arcu@yahoo.edu","Joan B. Hines","VBI86VHH1YR",1,5),
+  (0,"Benjamin","Perez","44384325D","224817740","mollis.non@hotmail.edu","Linus V. Burns","GOI62YGR3MK",1,6),
+  (0,"Sheila","Arias","54783176J","565636863","aliquam.nisl@aol.couk","Selma O. Marks","QDD64KSR1CI",0,7),
+  (0,"Hammett","Leon","76038033K","553353537","quis@yahoo.com","Shellie Q. Langley","DMG39YNJ4XT",0,8),
+  (0,"Zia","Gil","22784382H","311661274","lacus.quisque.imperdiet@icloud.ca","Eagan E. Leblanc","PNJ53GGI9WK",1,9),
+  (0,"Lillian","Reyes","44167866O","162009741","duis.cursus@hotmail.edu","Hilary R. Bernard","QLB37UHW3QH",1,10),
+  (0,"Wyatt","Serrano","33717423H","330288805","sem.consequat.nec@icloud.ca","Herrod C. Oneil","JBS83TWH3YV",0,12),
+  (0,"Alexandra","Gomez","62850703G","292163198","posuere.at.velit@hotmail.net","Avram E. Brooks","DUU58XRM9CK",0,13),
+  (0,"Jael","Rubio","64149657Q","210298777","aliquet.nec@google.couk","Macaulay I. Blake","NXC46OJX0VO",1,14);
+
+--
+-- Dumping events for database 'gestioneventos'
+--
+
+--
+-- Dumping routines for database 'gestioneventos'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -268,4 +279,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-02-08  9:27:10
+-- Dump completed on 2023-02-12 19:21:23
