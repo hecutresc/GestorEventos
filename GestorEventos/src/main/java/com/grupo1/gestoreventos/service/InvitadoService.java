@@ -11,4 +11,8 @@ public interface InvitadoService {
 
 	public void save(InvitadoDTO invitadoDTO);
 
+	public InvitadoDTO findById(InvitadoDTO invitadoDTO);
+
+	public void deleteById(InvitadoDTO invitadoDTO);
+
 }
