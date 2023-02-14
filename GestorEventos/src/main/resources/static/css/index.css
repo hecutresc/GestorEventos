@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Passion+One&display=swap');
+
+@keyframes mostrarElemento {
+  100% {
+    opacity: 1;
+  }
+}
+
+header {
+  height: 140px;
+  width: 100vw;
+
+  opacity: 0;
+  animation: mostrarElemento 1s forwards 0.3s;
+}
+
+header > h1{
+  margin-top: 50px;
+  font-size: 2rem;
+  text-align: center;
+}
+
+header > nav > div:last-child > p {
+  font-size: 2em !important;
+}
+
+nav{
+  padding: 30px;
+
+  display: flex;
+
+  font-size: 1.5rem;
+
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 5px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+}
+
+nav > div + div {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+
+  position: relative;
+  left: 100px;
+
+  width: 85%;  
+}
+
+nav > div:first-child {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}
+
+nav > div > img {
+  width: 4rem;
+}
+
+nav > div > img:hover {
+  cursor: pointer;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+body {
+
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+
+  flex-direction: column;
+
+  height: 100vh;
+
+  background-color: aliceblue;
+  font-family: 'Passion One', cursive;
+
+}
+
+main{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  width: 100%;
+
+  opacity: 0;
+
+  animation: mostrarElemento 1s forwards 0.8s;
+
+}
+
+main > div{
+
+  margin-top: 200px;
+
+  width: 100%;
+
+}
+
+main > div > a{
+
+  padding: 10px;
+
+  font-size: 2rem;
+
+  color: #261831;
+
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 15px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+
+}
+
+footer{
+  position: absolute !important;
+  bottom: 0;
+}
+
+header > div:last-of-type{
+  position: absolute;
+
+  left: 0;
+  top: 0;
+  z-index: -1;
+}
+
+@media (min-width: 800px) {
+  
+  .sidenav > a{
+    color: #261831 !important;
+    text-shadow: none;
+  }
+
+  .sidenav > a:hover{
+    color: white !important;
+    text-shadow: 0 0 5px #f8a826;
+    transition: 0.2s;
+  }
+  
+  footer{
+    position: absolute !important;
+    bottom: 0;
+  }
+
+}

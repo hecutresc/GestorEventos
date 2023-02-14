@@ -15,7 +15,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -26,30 +29,37 @@ public class Evento {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "fecha_inicio")
-	private Date fechaInicio;
-
-	@Column(name = "fecha_fin")
-	private Date fechaFin;
+	@Column(name = "creacion")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date creacion;
 
 	@Column(name = "nombre")
 	private String nombre;
 
-	@Column(name = "creacion")
-	private Date creacion;
+	@Column(name = "fecha_inicio")
+	@Temporal(TemporalType.DATE)
+	private Date fechaInicio;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "fecha_fin")
+	private Date fechaFin;
 
 	@ManyToOne
 	@JoinColumn(name = "id_ubicacion")
+	@ToString.Exclude
 	private Ubicacion ubicacion;
 
 	@ManyToOne
 	@JoinColumn(name = "id_usuario")
+	@ToString.Exclude
 	private Usuario usuario;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "evento")
+	@ToString.Exclude
 	private Set<Invitado> listaInvitados;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "evento")
+	@ToString.Exclude
 	private Set<CateringUbicacionEvento> listaCateringUbicacionEvento;
 
 	@Override

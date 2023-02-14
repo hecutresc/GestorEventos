@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Registro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link th:href="@{/css/general.css}" rel="stylesheet">
+  <link th:href="@{/css/register.css}" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <header>
+
+    <nav>
+     <div class="sidenav">
+        <a class="closebtn">&times;</a>
+        <a th:href="@{/login}">Iniciar Sesión</a>
+        <a th:href="@{/register}">Registrarse</a>
+        <a th:href="@{/}">Inicio</a>
+      </div>
+      
+      <div>
+        <img th:src="@{/media/img/menu.png}" alt="menu">
+        <p>
+          <strong>Event</strong><strong>App</strong>
+        </p>
+      </div>
+  
+    </nav>
+
+
+  </header>
+   
+  <form action="" method="post">
+   
+    <div>
+      <h2>Rellena tus datos</h2>
+    </div>
+      <div>
+        <input type="text" name="first_name" placeholder="Nombre">
+      </div>
+      <div>
+        <input type="text" name="last_name" placeholder="Apellidos">
+      </div>
+      <div>
+        <input type="text" name="nif" placeholder="NIF/NIE">
+      </div>
+      <div>
+        <input type="text" name="telephone" placeholder="Teléfono">
+      </div>
+      <div>
+        <input type="text" name="street" placeholder="Calle">
+      </div>
+      <div>
+        <input type="text" name="number" placeholder="Nº">
+      </div>
+      <div>
+        <input type="text" name="city" placeholder="Ciudad">
+      </div>
+      <div>
+        <input type="text" name="postal_code" placeholder="Código postal">
+      </div>
+      <div>
+        <input type="email" name="email" placeholder="Email">
+      </div>
+      <div>
+        <input type="email" name="email" placeholder="Confirmar Email">
+      </div>
+      
+      <div>
+        <input type="text" name="username" placeholder="Nombre de usuario">
+      </div>
+      <div>
+        <input type="password" name="password" placeholder="Contraseña">
+      </div>
+      <div>
+        <input type="password" name="password" placeholder="Confirmar contraseña">
+      </div>
+      <div>
+        <button type="submit">Registrarse</button>
+        <label>¿Ya tienes cuenta? <a th:href="@{/login}">Inicia Sesión</a></label>
+      </div>
+    </form>
+
+    <footer>
+      <p>Copyright <strong>Event</strong><strong>App</strong> , todos los derechos reservados.</p>
+    </footer>
+
+
+  <script th:src="@{/js/jquery-3.6.3.js}" ></script>
+  <script th:src="@{/js/script.js}" ></script>
+</body>
+
+</html>
