@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Bootstrap-Icons -->
+    <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+    <!-- General CSS -->
+    <link rel="stylesheet" href="assets/css/app.css">
+
+</head>
+
+<body>
+    <header>
+        <h1>Panel de Administración</h1>
+        <nav>
+            <div class="sidenav">
+              <a class="closebtn">&times;</a>
+              <a th:href="@{/login}">Opción 1</a>
+              <a th:href="@{/register}">Opción 2</a>
+              <a th:href="@{/}">Opción 3</a>
+            </div>
+            
+            <div>
+              <img src="assets/img/menu.png" alt="menu">
+            </div>
+            
+          </nav>
+
+    </header>
+
+    <main>
+
+        <h2>Eventos</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Usuario Creador</th>
+                    <th>Fecha Creación</th>
+                    <th>Ubicación</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
+                    <th>Lista Invitados</th>
+                    <th>Catering</th>
+                    <th>Editar</th>
+                    <th>Borrar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aqui se pondrá el bucle de thymeleaf para ir construyendo la página-->
+                <tr>
+                    <td>1</td>
+                    <td>Cumpleaños Sara</td>
+                    <td>pepe24</td>
+                    <td>12/01/2023</td>
+                    <td><a href="">Ver Ubicación</a></td>
+                    <td>Fecha Inicio</td>
+                    <td>Fecha Fin</td>
+                    <td><a href="">Ver Invitados</a></td>
+                    <td><a href="">Catering</a></td>
+                    <td><a href="#"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
+                    <td><a href="#"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+
+    <footer>
+
+    </footer>
+
+    <script src="assets/vendor/jQuery/jquery-3.6.3.min.js"></script>
+    <script src="assets/js/script.js"></script>
+
+</body>
+
+</html>

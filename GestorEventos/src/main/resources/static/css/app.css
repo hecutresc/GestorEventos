@@ -1,0 +1,345 @@
+@import url('https://fonts.googleapis.com/css2?family=Passion+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap');
+
+/*--------------------------------------------------------------
+# Animaciones
+--------------------------------------------------------------*/
+@keyframes mostrarElemento {
+  100% {
+    opacity: 1;
+  }
+}
+
+/*--------------------------------------------------------------
+# General
+--------------------------------------------------------------*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+body {
+    min-width: 360px;
+    height: 100vh;
+
+    background: rgb(248,206,38);
+    background: linear-gradient(0deg, rgba(248,206,38,1) 0%, rgba(234,242,251,1) 100%); 
+}
+
+header, h2{
+    font-family: 'Passion One', cursive;
+}
+
+th{
+  font-weight: bold;
+}
+
+td{
+    background-color: white;
+}
+
+/* ===================================== */
+/* =========== OffCanvas =============== */
+
+ /* The side navigation menu */
+ .sidenav {
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0;
+    left: 0;
+    margin: 2px;
+    border-radius: 15px;
+    box-shadow: 1px 1px 10px black;
+    background-color: #f8ce26; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 50px; /* Place content 60px from the top */
+    padding-bottom: 50px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+  }
+  
+  /* The navigation menu links */
+  .sidenav a {
+    padding: 18px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: white;
+    text-shadow: 0px 0px 5px #a1a1a1;
+    display: block;
+    transition: 0.3s;
+  }
+  
+  /* When you mouse over the navigation links, change their color */
+  .sidenav a:hover {
+    color: #261831;
+  }
+  
+  /* Position and style the close button (top right corner) */
+  .sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+  
+  /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+  main {
+    transition: margin-left .5s;
+    padding: 20px;
+  }
+  
+  /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+  @media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+  } 
+  
+  
+  /* ===================================== */
+  /* ===================================== */
+  
+
+/*--------------------------------------------------------------
+# Header
+--------------------------------------------------------------*/
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row-reverse;
+
+    opacity: 0;
+    animation: mostrarElemento 1s forwards 0.3s;
+
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 5px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+}
+
+header h1 {
+    width: 100%;
+    font-size: 1.6rem;
+    text-align: center;
+}
+
+nav {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: .25rem;
+
+}
+
+
+nav>img {
+    height: 80%;
+}
+
+nav div img {
+    position: relative;
+
+    top: 0px;
+    left: calc(100% - 50px);
+}
+
+nav div ul {
+    list-style: none;
+}
+
+nav ul li {
+    margin: .5rem 0;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #000000;
+    margin-left: .75rem;
+    font-size: 1.2rem;
+}
+
+img:hover {
+    cursor: pointer;
+}
+
+a:hover {
+    color: #261831;
+}
+
+.bi-pencil-square:hover{
+    color: #261831;
+}
+
+/*--------------------------------------------------------------
+# Main
+--------------------------------------------------------------*/
+main {
+    min-height: 80vh;
+    padding: 2rem 0;
+
+    text-align: center;
+
+    opacity: 0;
+    animation: mostrarElemento 1s forwards 0.8s;
+}
+
+main h2 {
+    background-color: rgb(74, 72, 72);
+    padding: .25rem;
+
+    margin: auto;
+
+    color: #f8ce26;
+}
+
+table {
+    border-collapse: collapse;
+    margin: auto;
+    width: 100%;
+    text-align: center;
+    font-family: 'Raleway', sans-serif;
+}
+
+thead {
+    background-color: #f8ce26;
+}
+
+tr {
+    border-bottom: 1px solid #261831;
+}
+
+th,
+td {
+    padding: .25rem;
+}
+
+/*--------------------------------------------------------------
+# Footer
+--------------------------------------------------------------*/
+footer {
+
+    position: absolute;
+    bottom: 0;
+
+    width: 100%;
+
+    opacity: 0;
+    animation: mostrarElemento 1s forwards 1s;
+
+    height: 10vh;
+    max-height: 58px;
+    background-color: #212529;
+
+}
+
+/*--------------------------------------------------------------
+# Display Tablet
+--------------------------------------------------------------*/
+@media (min-width: 460px) {
+
+    header > nav > div + div{
+        left: 0;
+        width: 100%;
+    }
+
+    main > div > a{
+        border-radius: 20px;
+    }
+
+    .sidenav > a{
+      text-shadow: none;
+    }
+
+    .sidenav > a:hover{
+      text-shadow: 0 0 5px #f8ce26;
+    }
+    
+  }
+
+/*--------------------------------------------------------------
+# Display Desktop
+--------------------------------------------------------------*/
+  
+  @media (min-width: 800px) {
+
+    .sidenav{
+      position: initial !important;
+      box-shadow: none;
+    }
+
+    .sidenav > a{
+        color: #261831;
+    }
+
+    .sidenav > a:hover{
+        color: #f8ce26;
+    }
+
+
+    header > nav > div:first-child{
+      display: flex !important;
+      width: fit-content !important;
+      background-color: transparent;
+
+      padding: 0;
+
+      align-items: start !important;
+    }
+
+    header > nav > div:first-child > a:first-of-type{
+      display: none;
+    }
+
+    header > nav > div:first-child > a{
+      width: fit-content;
+      font-size: 1.2em;
+      height: 100%;
+    }
+
+    header > nav {
+      display: flex;
+      justify-content: space-between !important;
+      margin-top: 15px !important;
+      margin: 0 auto;
+      border-radius: 20px;
+      width: 60%;
+      font-size: 2vw;
+    }
+  
+    header > nav > div:first-child{
+      display: none;
+    }
+  
+    header > nav > div:last-child > img{
+      display: none;
+    }
+
+    header > nav > div:last-child{
+      font-size: 0.8em;
+      width: fit-content;
+      left: 0;
+      justify-content: space-evenly;
+    }
+
+    header > nav > {
+      width: fit-content;
+    }
+  
+    main{
+      height: 50vh;
+    }
+  
+    main > div > a{
+      border-radius: 20px;
+    }
+    
+    header > nav > div:last-child > p {
+      font-size: 2em;
+    }
+
+  }
