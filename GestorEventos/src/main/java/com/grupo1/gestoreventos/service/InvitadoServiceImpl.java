@@ -33,4 +33,13 @@ public class InvitadoServiceImpl implements InvitadoService {
 		return listaInvitadosDTO;
 	}
 
+	@Override
+	public void save(InvitadoDTO invitadoDTO) {
+		log.info("InvitadoServiceImpl - save: Guarda un invitado en el evento: " + invitadoDTO.getEventoDTO().getId());
+		
+		
+
+		
+	}
+
 }
