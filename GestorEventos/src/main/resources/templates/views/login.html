@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio de sesión</title>
+
+  <link th:href="@{/css/general.css}" rel="stylesheet">
+  <link th:href="@{/css/login.css}" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <header>
+
+    <nav>
+       <div class="sidenav">
+        <a class="closebtn">&times;</a>
+        <a th:href="@{/login}">Iniciar Sesión</a>
+        <a th:href="@{/register}">Registrarse</a>
+        <a th:href="@{/}">Inicio</a>
+      </div>
+      <div>
+    <img th:src="@{/media/img/menu.png}" alt="menu">
+        <p>
+          <strong>Event</strong><strong>App</strong>
+        </p>
+      </div>
+  
+    </nav>
+ 
+
+
+  </header>
+   
+  <form action="" method="post">
+   
+    <h2>Inicia sesión</h2>
+
+      <div>
+        <input type="text" name="username" placeholder="Nombre de usuario">
+      </div>
+      <div>
+        <input type="password" name="password" placeholder="Contraseña">
+      </div>
+      <div>
+        <button type="submit">Iniciar sesión</button>
+        <label>¿No tienes cuenta? <a th:href="@{/register}">Registrate</a></label>
+      </div>
+    </form>
+
+    <footer>
+      <p>Copyright <strong>Event</strong><strong>App</strong>, todos los derechos reservados.</p>
+    </footer>
+
+
+  <script th:src="@{/js/jquery-3.6.3.js}" ></script>
+  <script th:src="@{/js/script.js}" ></script>
+</body>
+
+</html>
