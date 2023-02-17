@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="es">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!-- Bootstrap-Icons -->
-    <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
     <!-- General CSS -->
   <link th:href="@{/css/app.css}" rel="stylesheet">
 </head>
@@ -33,7 +33,10 @@
     <main>
 
         <h2>Lista de Invitados del Evento </h2>
-        <table>
+
+		<h4 th:if="${listaInvitadosDTO.isEmpty()}" class="mt-4 text-muted h4">No hay invitados</h4>
+		        
+        <table th:if="${!listaInvitadosDTO.isEmpty()}">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -46,13 +49,13 @@
             </thead>
             <tbody>
                 <!-- Aqui se pondrá el bucle de thymeleaf para ir construyendo la página-->
-                <tr>
-                    <td>1</td>
-                    <td>manolo@gmail.com</td>
-                    <td>13421351235</td>
-                    <td>Confirmada</td>
-                    <td><a href="#"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
-                    <td><a href="#"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
+                <tr th:each="invitado : ${listaInvitadosDTO}">
+                    <td th:text="${invitado.id}"></td>
+                    <td th:text="${invitado.email}"></td>
+                    <td th:text="${invitado.token}"></td>
+                    <td th:text="${invitado.asistencia}"></td>
+                    <td><a th:href="@{#}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
+                    <td><a th:href="@{#}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
                 </tr>
             </tbody>
         </table>

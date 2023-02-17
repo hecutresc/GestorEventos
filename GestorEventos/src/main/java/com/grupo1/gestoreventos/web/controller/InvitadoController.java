@@ -31,16 +31,12 @@ public class InvitadoController {
 
 		List<InvitadoDTO> listaInvitadosDTO = invitadoService.findAllByEvento(eventoDTO);
 
-		for (InvitadoDTO invitadoDTO : listaInvitadosDTO) {
-			System.out.println(invitadoDTO);
-		}
-
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("invitados");
+		mv.setViewName("app/invitados");
 		mv.addObject("eventoDTO", eventoDTO);
 		mv.addObject("listaInvitadosDTO", listaInvitadosDTO);
 
-		return null;
+		return mv;
 	}
 
 	@GetMapping("/admin/eventos/{idevento}/invitados/add")
