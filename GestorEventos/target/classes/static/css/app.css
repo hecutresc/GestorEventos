@@ -184,6 +184,9 @@ main {
 
     text-align: center;
 
+    z-index: -1;
+    position: relative;
+
     opacity: 0;
     animation: mostrarElemento 1s forwards 0.8s;
 }

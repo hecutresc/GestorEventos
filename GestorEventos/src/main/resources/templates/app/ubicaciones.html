@@ -8,8 +8,7 @@
     <!-- Bootstrap-Icons -->
     <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
     <!-- General CSS -->
-    <link rel="stylesheet" href="assets/css/app.css">
-
+  <link th:href="@{/css/app.css}" rel="stylesheet">
 </head>
 
 <body>
@@ -24,7 +23,7 @@
             </div>
             
             <div>
-              <img src="assets/img/menu.png" alt="menu">
+               <img th:src="@{/media/img/menu.png}" alt="menu">
             </div>
             
           </nav>
@@ -116,8 +115,8 @@
 
     </footer>
 
-    <script src="assets/vendor/jQuery/jquery-3.6.3.min.js"></script>
-    <script src="assets/js/script.js"></script>
+    <script th:src="@{/js/jquery-3.6.3.js}" ></script>
+  <script th:src="@{/js/script.js}" ></script>
 
 </body>
 
