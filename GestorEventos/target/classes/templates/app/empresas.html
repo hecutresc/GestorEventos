@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!-- Bootstrap-Icons -->
-    <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
     <!-- General CSS -->
   <link th:href="@{/css/app.css}" rel="stylesheet">
 </head>
@@ -51,7 +51,7 @@
                     <td th:utext="${empresaDTO.id}">...</td>
                     <td th:utext="${empresaDTO.cif}">...</td>
                     <td th:utext="${empresaDTO.nombre}">...</td>
-                    <td><a th:href="">Ver Dirección</a></td>
+                    <td><a>Ver Dirección</a></td>
                     <td><a th:href="@{/admin/empresas/{idEmpresa}/caterings (idEmpresa=${empresaDTO.id})}">Ver Caterings</a></td>
                     <td><a th:href="@{/admin/empresas/update/{idEmpresa} (idEmpresa=${empresaDTO.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
                     <td><a th:href="@{/admin/empresas/delete/{idEmpresa} (idEmpresa=${empresaDTO.id})}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>

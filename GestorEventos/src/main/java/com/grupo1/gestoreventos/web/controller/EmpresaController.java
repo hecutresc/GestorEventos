@@ -32,7 +32,7 @@ public class EmpresaController {
 		List<EmpresaDTO> listaEmpresasDTO = empresaService.findAll();
 
 		// Mostramos la lista a la vista
-		ModelAndView mav = new ModelAndView("app/empresas");
+		ModelAndView mav = new ModelAndView("/app/empresas");
 		mav.addObject("listaEmpresasDTO", listaEmpresasDTO);
 		return mav;
 

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!-- Bootstrap-Icons -->
-    <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
     <!-- General CSS -->
     <link th:href="@{/css/app.css}" rel="stylesheet">
 
@@ -53,8 +53,8 @@
                     <td th:utext="${cateringDTO.empresa.nombre}">...</td>
                     <td th:utext="${cateringDTO.menu}">...</td>
                     <td th:utext="${cateringDTO.precio}">...</td>
-                    <td><a href="#"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
-                    <td><a href="#"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
+                    <td><a th:href="#"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
+                    <td><a th:href="#"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
                 </tr>
             </tbody>
         </table>
