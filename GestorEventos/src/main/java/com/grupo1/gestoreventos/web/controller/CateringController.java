@@ -36,6 +36,7 @@ public class CateringController {
 
 		// Mostramos la lista a la vista
 		ModelAndView mav = new ModelAndView("app/caterings");
+		mav.addObject("empresaDTO", empresaDTO);
 		mav.addObject("listaCateringsDTO", listaCateringsDTO);
 
 		return mav;

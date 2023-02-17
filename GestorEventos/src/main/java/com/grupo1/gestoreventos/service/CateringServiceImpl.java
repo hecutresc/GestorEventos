@@ -14,6 +14,7 @@ import com.grupo1.gestoreventos.model.dto.CateringDTO;
 import com.grupo1.gestoreventos.model.dto.DireccionDTO;
 import com.grupo1.gestoreventos.model.dto.EmpresaDTO;
 import com.grupo1.gestoreventos.repository.dao.CateringRepository;
+import com.grupo1.gestoreventos.repository.dao.EmpresaRepository;
 import com.grupo1.gestoreventos.repository.entity.Catering;
 import com.grupo1.gestoreventos.repository.entity.Direccion;
 import com.grupo1.gestoreventos.repository.entity.Empresa;
@@ -25,6 +26,9 @@ public class CateringServiceImpl implements CateringService {
 
 	@Autowired
 	private CateringRepository cateringRepository;
+	
+	@Autowired
+	private EmpresaRepository empresaRepository;
 
 	@Override
 	public List<CateringDTO> findAll() {
@@ -85,9 +89,15 @@ public class CateringServiceImpl implements CateringService {
 	public List<CateringDTO> findAllByEmpresa(EmpresaDTO empresaDTO) {
 		// TODO Auto-generated method stub
 		log.info("CateringServiceImpl - findAllByEmpresa: Recogemos todos los caterings de la empresa : " + empresaDTO.getId());
-		List<CateringDTO> listaCateringsDTO = cateringRepository.findAllByEmpresa(empresaDTO.getId()).stream()
-				.map(p->CateringDTO.convertToDTO(p))
-				.collect(Collectors.toList());;
+		Optional empresa = empresaRepository.findById(empresaDTO.getId());
+		List<Catering> listaCaterings = cateringRepository.findAllByEmpresa(empresaDTO.getId());
+		List<CateringDTO> listaCateringsDTO = new ArrayList<CateringDTO>();
+		for (Catering catering : listaCaterings) {
+			CateringDTO cateringDTO = CateringDTO.convertToDTO(catering);
+			cateringDTO.setEmpresaDTO(EmpresaDTO.convertToDTO((Empresa)empresa.get()));
+			listaCateringsDTO.add(cateringDTO);
+			
+		}
 		return listaCateringsDTO;
 	}
 

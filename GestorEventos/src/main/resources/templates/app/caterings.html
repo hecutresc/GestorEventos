@@ -48,17 +48,22 @@
             </thead>
             <tbody>
                 <!-- Aqui se pondrá el bucle de thymeleaf para ir construyendo la página-->
-                <tr>
-                    <td>1</td>
-                    <td>Arroces Manolo</td>
-                    <td>Menu de Sabores del Mediterraneo</td>
-                    <td>12,38</td>
+                <tr th:each="cateringDTO : ${listaCateringsDTO}">
+                    <td th:utext="${cateringDTO.id}">...</td>
+                    <td th:utext="${cateringDTO.empresa.nombre}">...</td>
+                    <td th:utext="${cateringDTO.menu}">...</td>
+                    <td th:utext="${cateringDTO.precio}">...</td>
                     <td><a href="#"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
                     <td><a href="#"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
                 </tr>
             </tbody>
         </table>
 
+		<div class="d-flex justify-content-evenly mb-2">
+			<a th:href="@{/admin/empresas/{idEmpresa}/caterings/add (idEmpresa=${empresaDTO.id})}">Añadir Catering</a>
+			<br>
+			<a th:href="@{/admin/empresas}">Volver a las Empresas</a>
+		</div>
     </main>
 
     <footer>
