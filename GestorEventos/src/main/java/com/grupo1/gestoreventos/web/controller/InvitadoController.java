@@ -12,19 +12,18 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.grupo1.gestoreventos.model.dto.EventoDTO;
 import com.grupo1.gestoreventos.model.dto.InvitadoDTO;
-import com.grupo1.gestoreventos.repository.dao.InvitadoRepository;
 import com.grupo1.gestoreventos.service.InvitadoService;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Controller
 @Slf4j
+@Controller
 public class InvitadoController {
 
 	@Autowired
 	private InvitadoService invitadoService;
 
-	@GetMapping("/admin/evento/{idEvento}/invitados")
+	@GetMapping("/admin/eventos/{idEvento}/invitados")
 	public ModelAndView findAllByEvento(@PathVariable("idEvento") Long idEvento) {
 		log.info("InvitadoController - findAllByEvento: Muestra la lista de invitados del Evento: " + idEvento);
 
@@ -36,15 +35,15 @@ public class InvitadoController {
 			System.out.println(invitadoDTO);
 		}
 
-		// ModelAndView mv = new ModelAndView();
-		// mv.setViewName("invitados");
-		// mv.addObject("eventoDTO", eventoDTO);
-		// mv.addObject("listaInvitadosDTO", listaInvitadosDTO);
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("invitados");
+		mv.addObject("eventoDTO", eventoDTO);
+		mv.addObject("listaInvitadosDTO", listaInvitadosDTO);
 
 		return null;
 	}
 
-	@GetMapping("/admin/evento/{idevento}/invitados/add")
+	@GetMapping("/admin/eventos/{idevento}/invitados/add")
 	public ModelAndView add(@PathVariable("idEvento") Long idEvento) {
 		log.info("InvitadoController - add: Muestra el formulario para nuevo invitado");
 
@@ -59,12 +58,12 @@ public class InvitadoController {
 		return null;
 	}
 
-	@GetMapping("/admin/evento/{idEvento}/invitados/{idInvitado}/update")
+	@GetMapping("/admin/eventos/{idEvento}/invitados/{idInvitado}/update")
 	public ModelAndView update(@PathVariable("idEvento") Long idEvento, @PathVariable("idInvitado") Long idInvitado) {
 		log.info("InvitadoController - update: Muesta form actualizar para el invitado: " + idInvitado);
 
 		EventoDTO eventoDTO = new EventoDTO(idEvento);
-		
+
 		InvitadoDTO invitadoDTO = new InvitadoDTO(idInvitado);
 		invitadoDTO = invitadoService.findById(invitadoDTO);
 
@@ -77,42 +76,40 @@ public class InvitadoController {
 		System.out.println(invitadoDTO.toString());
 		return null;
 	}
-	
-	@PostMapping("/admin/evento/{idEvento}/invitados/save")
+
+	@PostMapping("/admin/eventos/{idEvento}/invitados/save")
 	public ModelAndView save(@ModelAttribute("invitadoDTO") InvitadoDTO invitadoDTO,
 			@PathVariable("idEvento") Long idEvento) {
 		log.info("InvitadoController - save: Guarda el invitado en el evento:" + idEvento);
 
 		/**
-		 *    VALIDACIÓN
+		 * VALIDACIÓN
 		 */
-		
+
 		EventoDTO eventoDTO = new EventoDTO(idEvento);
 		invitadoDTO.setEventoDTO(eventoDTO);
-		
+
 		invitadoService.save(invitadoDTO);
-		
+
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("redirect:/admin/evento/{idevento}/invitados");
 
 		return mv;
 	}
-	
-	@GetMapping("/admin/evento/{idEvento}/invitados/{idInvitado}/delete")
-	public ModelAndView delete(@PathVariable("idEvento") Long idEvento, @PathVariable("idInvitado") Long idInvitado) {
-		log.info("InvitadoController - delete: Muesta form actualizar para el invitado: " + idInvitado);
 
-		
+	@GetMapping("/admin/eventos/{idEvento}/invitados/{idInvitado}/delete")
+	public ModelAndView delete(@PathVariable("idEvento") Long idEvento, @PathVariable("idInvitado") Long idInvitado) {
+		log.info("InvitadoController - delete: Boora el usuario con ID: " + idInvitado);
+
 		InvitadoDTO invitadoDTO = new InvitadoDTO(idInvitado);
 
+		// invitadoService.deleteById(invitadoDTO);
+
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("invitadoDTO", invitadoDTO);
-		
-		//invitadoService.deleteById(invitadoDTO);
-		
+		mv.setViewName("redirect:/admin/evento/{idevento}/invitados");
+
 		System.out.println(invitadoDTO.toString());
-		
-		
+
 		return null;
 	}
 }

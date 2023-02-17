@@ -1,6 +1,5 @@
 package com.grupo1.gestoreventos.repository.entity;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -15,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -37,12 +37,15 @@ public class Direccion {
 	@Column(name = "cp")
 	private String cp;
 	
+	@ToString.Exclude
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "direccion")
 	private Set<Empresa> listaEmpresas;
 	
+	@ToString.Exclude
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "direccion")
 	private Set<Ubicacion> listaUbicaciones;
 	
+	@ToString.Exclude
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "direccion")
 	private Set<Usuario> listaUsuarios;
 
