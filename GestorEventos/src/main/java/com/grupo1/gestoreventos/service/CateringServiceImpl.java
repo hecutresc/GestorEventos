@@ -12,9 +12,11 @@ import org.springframework.stereotype.Service;
 
 import com.grupo1.gestoreventos.model.dto.CateringDTO;
 import com.grupo1.gestoreventos.model.dto.DireccionDTO;
+import com.grupo1.gestoreventos.model.dto.EmpresaDTO;
 import com.grupo1.gestoreventos.repository.dao.CateringRepository;
 import com.grupo1.gestoreventos.repository.entity.Catering;
 import com.grupo1.gestoreventos.repository.entity.Direccion;
+import com.grupo1.gestoreventos.repository.entity.Empresa;
 
 @Service
 public class CateringServiceImpl implements CateringService {
@@ -59,8 +61,13 @@ public class CateringServiceImpl implements CateringService {
 	public void save(CateringDTO cateringDTO) {
 		// TODO Auto-generated method stub
 		log.info("CateringServiceImpl - save: Salvamos el Catering: " + cateringDTO.toString());
-
+		
+		//Convertimos el cateringDTO a entidad
 		Catering catering = CateringDTO.convertToEntity(cateringDTO);
+		//Le seteamos la empresa al catering
+		Empresa empresa = new Empresa();
+		empresa.setId(cateringDTO.getEmpresaDTO().getId());
+		catering.setEmpresa(empresa);
 		cateringRepository.save(catering);
 
 	}
@@ -69,9 +76,19 @@ public class CateringServiceImpl implements CateringService {
 	public void delete(CateringDTO cateringDTO) {
 		// TODO Auto-generated method stub
 
-		log.info("DireccionServiceImpl - delete: Borramos la Direccion: " + cateringDTO.getId());
+		log.info("CateringServiceImpl - delete: Borramos la Direccion: " + cateringDTO.getId());
 		cateringRepository.deleteById(cateringDTO.getId());
 
+	}
+
+	@Override
+	public List<CateringDTO> findAllByEmpresa(EmpresaDTO empresaDTO) {
+		// TODO Auto-generated method stub
+		log.info("CateringServiceImpl - findAllByEmpresa: Recogemos todos los caterings de la empresa : " + empresaDTO.getId());
+		List<CateringDTO> listaCateringsDTO = cateringRepository.findAllByEmpresa(empresaDTO.getId()).stream()
+				.map(p->CateringDTO.convertToDTO(p))
+				.collect(Collectors.toList());;
+		return listaCateringsDTO;
 	}
 
 }

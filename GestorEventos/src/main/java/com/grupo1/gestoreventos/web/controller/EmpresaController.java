@@ -7,9 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.grupo1.gestoreventos.model.dto.EmpresaDTO;
 import com.grupo1.gestoreventos.service.EmpresaService;
 
@@ -30,21 +31,57 @@ public class EmpresaController {
 		log.info("EmpresasController - findAll: Recoge todas las empresas");
 		List<EmpresaDTO> listaEmpresasDTO = empresaService.findAll();
 
-		// Mostramos los valores
-		for (EmpresaDTO empresaDTO : listaEmpresasDTO) {
-			System.out.println(empresaDTO.toString());
-		}
-
 		// Mostramos la lista a la vista
-		ModelAndView mav = new ModelAndView();
+		ModelAndView mav = new ModelAndView("app/empresas");
 		mav.addObject("listaEmpresasDTO", listaEmpresasDTO);
-
-		return null;
+		return mav;
 
 	}
 
-	@GetMapping()
-	public ModelAndView delete(@PathVariable Long idEmpresa) {
+	// Alta de clientes
+	@GetMapping("/admin/empresas/add")
+	public ModelAndView add() {
+		log.info("EmpresaController - add: Anyadimos una nueva empresa");
+		ModelAndView mav = new ModelAndView("app/empresaform");
+		mav.addObject("empresaDTO", new EmpresaDTO());
+		mav.addObject("add", true);
+		return mav;
+	}
+
+	// Actualizar la informacion de un cliente
+	@GetMapping("/admin/empresas/update/{idEmpresa}")
+	public ModelAndView update(@PathVariable("idEmpresa") Long idEmpresa) {
+
+		log.info("ClienteController - update: Modificamos la empresa: " + idEmpresa);
+
+		// Obtenemos el cliente y lo pasamos al modelo para ser actualizado
+		EmpresaDTO empresaDTO = new EmpresaDTO();
+		empresaDTO.setId(idEmpresa);
+		empresaDTO = empresaService.findById(empresaDTO);
+		ModelAndView mav = new ModelAndView("app/empresaform");
+		mav.addObject("empresaDTO", empresaDTO);
+		mav.addObject("add", false);
+		return mav;
+	}
+
+	// Salvar clientes
+	@PostMapping("/admin/empresas/save")
+	public ModelAndView save(@ModelAttribute("empresaDTO") EmpresaDTO empresaDTO) {
+
+		log.info("EmpresasController - save: Salvamos los datos de la empresa:" + empresaDTO.toString());
+		
+		
+		// Invocamos a la capa de servicios para que almacene los datos del cliente
+		empresaService.save(empresaDTO);
+
+		// Redireccionamos para volver a invocar el metodo que escucha /clientes
+		ModelAndView mav = new ModelAndView("redirect:/admin/empresas");
+		return mav;
+
+	}
+
+	@GetMapping("/admin/empresas/delete/{idEmpresa}")
+	public ModelAndView delete(@PathVariable("idEmpresa") Long idEmpresa) {
 		// Mostramos todos los caterings
 		log.info("EmpresasController - delete: Elimina la empresa " + idEmpresa);
 		EmpresaDTO empresaDTO = new EmpresaDTO();
@@ -55,8 +92,7 @@ public class EmpresaController {
 
 		// Volvemos a la vista principal
 		ModelAndView mav = new ModelAndView("redirect:/admin/empresas");
-
-		return null;
+		return mav;
 
 	}
 
