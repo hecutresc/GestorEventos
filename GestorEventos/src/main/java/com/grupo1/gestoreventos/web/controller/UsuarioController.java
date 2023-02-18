@@ -28,15 +28,11 @@ public class UsuarioController {
 
 		List<UsuarioDTO> usuariosDTO = usuarioService.findAll();
 
-		for (UsuarioDTO usuarioDTO : usuariosDTO) {
-			System.out.println(usuarioDTO);
-		}
-
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("app/usuarios");
 		mv.addObject("usuariosDTO", usuariosDTO);
 
-		return null;
+		return mv;
 	}
 
 	@GetMapping("/admin/usuarios/add")
