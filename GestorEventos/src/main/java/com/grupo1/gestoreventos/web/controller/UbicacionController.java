@@ -7,57 +7,98 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.grupo1.gestoreventos.model.dto.CateringDTO;
+import com.grupo1.gestoreventos.model.dto.EmpresaDTO;
 import com.grupo1.gestoreventos.model.dto.UbicacionDTO;
 import com.grupo1.gestoreventos.service.UbicacionService;
-
-
 
 @Controller
 public class UbicacionController {
 
 	// Log
 	private static final Logger log = LoggerFactory.getLogger(UbicacionController.class);
-	
-	//Objetos Autowired
+
+	// Objetos Autowired
 	@Autowired
 	private UbicacionService ubicacionService;
-	
-	//Métodos
+
+	// Métodos
 	@GetMapping("/admin/ubicaciones")
 	public ModelAndView findAll() {
-		//Mostramos todas las Ubicaciones
+		// Mostramos todas las Ubicaciones
 		log.info("UbicacionController - findAll: Recoge todas las ubicaciones");
 		List<UbicacionDTO> listaUbicacionesDTO = ubicacionService.findAll();
-		
-		//Mostramos los valores
-		for (UbicacionDTO u : listaUbicacionesDTO) {
-			System.out.println(u.toString());
-		}
-		
+
 		// Mostramos la lista
-		ModelAndView mav = new ModelAndView();
+		ModelAndView mav = new ModelAndView("/app/ubicaciones");
 		mav.addObject("listaUbicacionesDTO", listaUbicacionesDTO);
-		return null;
-		
+		return mav;
+
 	}
-	
-	@GetMapping("/admin/ubicaciones/delete/{idUbicacion}")
-	public ModelAndView delete(@PathVariable Long idUbicacion) {
-		//Eliminamos la ubicación
-		log.info("UbicacionController - delete: Elimina la ubicación "+idUbicacion);
+
+	// Alta de clientes
+	@GetMapping("/admin/ubicaciones/add")
+	public ModelAndView add() {
+
+		log.info("UbicacionesController - add: Anyadimos una nueva ubicacion ");
+
+		ModelAndView mav = new ModelAndView("app/ubicacionform");
+		mav.addObject("ubicacionDTO", new UbicacionDTO());
+		mav.addObject("add", true);
+		return mav;
+	}
+
+	// Actualizar la informacion de un cliente
+	@GetMapping("/admin/ubicaciones/update/{idUbicacion}")
+	public ModelAndView update(@PathVariable("idUbicacion") Long idUbicacion) {
+
+		log.info("UbicacionController - update: Modificamos la ubicación: " + idUbicacion);
+		// Obtenemos el cliente y lo pasamos al modelo para ser actualizado
 		UbicacionDTO ubicacionDTO = new UbicacionDTO();
 		ubicacionDTO.setId(idUbicacion);
-		
-		//Llamamos al service
-		ubicacionService.delete(ubicacionDTO);
-		
-		//Volvemos a la lista
+		ubicacionDTO = ubicacionService.findById(ubicacionDTO);
+
+		ModelAndView mav = new ModelAndView("ubicacionform");
+		mav.addObject("ubicacionDTO", ubicacionDTO);
+		mav.addObject("add", false);
+
+		return mav;
+	}
+
+	// Salvar clientes
+	@PostMapping("/admin/ubicaciones/save")
+	public ModelAndView save(@ModelAttribute("ubicacionDTO") UbicacionDTO ubicacionDTO) {
+
+		log.info("UbicacionController - save: Salvamos los datos de la ubicaion:" + ubicacionDTO.toString());
+
+		// Invocamos a la capa de servicios para que almacene los datos del cliente
+		ubicacionService.save(ubicacionDTO);
+
+		// Redireccionamos para volver a invocar el metodo que escucha /clientes
 		ModelAndView mav = new ModelAndView("redirect:/admin/ubicaciones");
-		
-		return null;
-		
+		return mav;
+
+	}
+
+	@GetMapping("/admin/ubicaciones/delete/{idUbicacion}")
+	public ModelAndView delete(@PathVariable Long idUbicacion) {
+		// Eliminamos la ubicación
+		log.info("UbicacionController - delete: Elimina la ubicación " + idUbicacion);
+		UbicacionDTO ubicacionDTO = new UbicacionDTO();
+		ubicacionDTO.setId(idUbicacion);
+
+		// Llamamos al service
+		ubicacionService.delete(ubicacionDTO);
+
+		// Volvemos a la lista
+		ModelAndView mav = new ModelAndView("redirect:/admin/ubicaciones");
+
+		return mav;
+
 	}
 }
