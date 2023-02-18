@@ -48,10 +48,10 @@
             <tbody>
                 <!-- Aqui se pondrá el bucle de thymeleaf para ir construyendo la página-->
                 <tr th:each="cateringDTO : ${listaCateringsDTO}">
-                    <td th:utext="${cateringDTO.id}">...</td>
-                    <td th:utext="${cateringDTO.empresaDTO.nombre}">...</td>
-                    <td th:utext="${cateringDTO.menu}">...</td>
-                    <td th:utext="${cateringDTO.precio}">...</td>
+                    <td th:text="${cateringDTO.id}">...</td>
+                    <td th:text="${cateringDTO.empresaDTO.nombre}">...</td>
+                    <td th:text="${cateringDTO.menu}">...</td>
+                    <td th:text="${cateringDTO.precio}">...</td>
                     <td><a th:href="@{/admin/empresas/{idEmpresa}/caterings/update/{idCatering} (idEmpresa=${empresaDTO.id}, idCatering=${cateringDTO.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
                     <td><a th:href="@{/admin/empresas/{idEmpresa}/caterings/delete/{idCatering} (idEmpresa=${empresaDTO.id}, idCatering=${cateringDTO.id})}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
                 </tr>
