@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Panel de Administración</title>
     <!-- Bootstrap-Icons -->
-    <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
     <!-- General CSS -->
   <link th:href="@{/css/app.css}" rel="stylesheet">
 </head>
@@ -17,9 +17,8 @@
         <nav>
             <div class="sidenav">
               <a class="closebtn">&times;</a>
-              <a th:href="@{/login}">Opción 1</a>
-              <a th:href="@{/register}">Opción 2</a>
-              <a th:href="@{/}">Opción 3</a>
+              <a th:href="@{/admin}">Volver</a>
+              <a th:href="@{/admin/empresas/add }">Añadir Empresa</a>
             </div>
             
             <div>
@@ -39,25 +38,26 @@
                     <th>ID</th>
                     <th>CIF</th>
                     <th>Nombre</th>
-                    <th>Dirección</th>
                     <th>Caterings</th>
+                    <th>Dirección</th>
                     <th>Editar</th>
                     <th>Borrar</th>
                 </tr>
             </thead>
             <tbody>
                 <!-- Aqui se pondrá el bucle de thymeleaf para ir construyendo la página-->
-                <tr>
-                    <td>1</td>
-                    <td>123456789</td>
-                    <td>Arroces Manolo</td>
-                    <td><a href="">Ver Direccion</a></td>
-                    <td><a href="">Ver Caterings</a></td>
-                    <td><a href="#"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
-                    <td><a href="#"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
+                <tr th:each="empresaDTO : ${listaEmpresasDTO}">
+                    <td th:text="${empresaDTO.id}">...</td>
+                    <td th:text="${empresaDTO.cif}">...</td>
+                    <td th:text="${empresaDTO.nombre}">...</td>
+                    <td><a th:href="@{/admin/empresas/{idEmpresa}/caterings (idEmpresa=${empresaDTO.id})}">Ver Caterings</a></td>
+                    <td><a th:href="@{/admin/empresas/{idEmpresa}/direccion (idEmpresa=${empresaDTO.id})}"><span class="bi bi-geo-alt-fill" role="img" title="Dirección"></span></a></td>
+                    <td><a th:href="@{/admin/empresas/update/{idEmpresa} (idEmpresa=${empresaDTO.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
+                    <td><a th:href="@{/admin/empresas/delete/{idEmpresa} (idEmpresa=${empresaDTO.id})}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
                 </tr>
             </tbody>
         </table>
+
 
     </main>
 

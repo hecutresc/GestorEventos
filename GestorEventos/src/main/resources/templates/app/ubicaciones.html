@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Panel de Administración</title>
     <!-- Bootstrap-Icons -->
-    <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+     <link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
     <!-- General CSS -->
   <link th:href="@{/css/app.css}" rel="stylesheet">
 </head>
@@ -17,9 +17,8 @@
         <nav>
             <div class="sidenav">
               <a class="closebtn">&times;</a>
-              <a th:href="@{/login}">Opción 1</a>
-              <a th:href="@{/register}">Opción 2</a>
-              <a th:href="@{/}">Opción 3</a>
+              <a th:href="@{/admin}">Volver</a>
+              <a th:href="@{/admin/ubicaciones/add}">Añadir</a>
             </div>
             
             <div>
@@ -38,74 +37,22 @@
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
+                    <th>Aforo</th>
                     <th>Dirección</th>
-                    <th>Capacidad</th>
                     <th>Editar</th>
                     <th>Borrar</th>
                 </tr>
             </thead>
             <tbody>
 
-                <tr>
-                    <td>1</td>
-                    <td>Salón Esgarraet</td>
-                    <td>Avda. Mirador, 13 Valencia</td>
-                    <td>150</td>
-                    <td><a href="#"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
-                    <td><a href="#"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
+                <tr th:each="ubicacionDTO : ${listaUbicacionesDTO}">
+                    <td th:text="${ubicacionDTO.id}">...</td>
+                    <td th:text="${ubicacionDTO.nombre}">...</td>
+                    <td th:text="${ubicacionDTO.aforo}">...</td>
+                    <td><a th:href="@{/admin/ubicaciones/{idUbicacion}/direccion (idUbicacion=${ubicacionDTO.id})}"><span class="bi bi-geo-alt-fill" role="img" title="Dirección"></span></a></td>
+                    <td><a th:href="@{/admin/ubicaciones/update/{idUbicacion} (idUbicacion=${ubicacionDTO.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
+                    <td><a th:href="@{/admin/ubicaciones/delete/{idUbicacion} (idUbicacion=${ubicacionDTO.id})}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
                 </tr>
-
-                <tr>
-                    <td>1</td>
-                    <td>Salón Esgarraet</td>
-                    <td>Avda. Mirador, 13 Valencia</td>
-                    <td>150</td>
-                    <td><a href="#"><i class="bi bi-pencil-square"></i></a></td>
-                    <td><a href="#"><i class="bi bi-trash-fill"></i></a></td>
-                </tr>
-
-                <tr>
-                    <td>1</td>
-                    <td>Salón Esgarraet</td>
-                    <td>Avda. Mirador, 13 Valencia</td>
-                    <td>150</td>
-                    <td><a href="#"><i class="bi bi-pencil-square"></i></a></td>
-                    <td><a href="#"><i class="bi bi-trash-fill"></i></a></td>
-                </tr>
-
-                <tr>
-                    <td>1</td>
-                    <td>Salón Esgarraet</td>
-                    <td>Avda. Mirador, 13 Valencia</td>
-                    <td>150</td>
-                    <td><a href="#"><i class="bi bi-pencil-square"></i></a></td>
-                    <td><a href="#"><i class="bi bi-trash-fill"></i></a></td>
-                </tr>
-
-                <tr>
-                    <td>1</td>
-                    <td>Salón Esgarraet</td>
-                    <td>Avda. Mirador, 13 Valencia</td>
-                    <td>150</td>
-                    <td><a href="#"><i class="bi bi-pencil-square"></i></a></td>
-                    <td><a href="#"><i class="bi bi-trash-fill"></i></a></td>
-                </tr>
-
-                <tr>
-                    <td>1</td>
-                    <td>Salón Esgarraet</td>
-                    <td>Avda. Mirador, 13 Valencia</td>
-                    <td>150</td>
-                    <td><a href="#"><i class="bi bi-pencil-square"></i></a></td>
-                    <td><a href="#"><i class="bi bi-trash-fill"></i></a></td>
-                </tr>
-
-
-
-
-
-
-
             </tbody>
         </table>
 

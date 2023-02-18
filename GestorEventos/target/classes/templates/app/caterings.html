@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Panel de Administración</title>
     <!-- Bootstrap-Icons -->
-    <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
     <!-- General CSS -->
     <link th:href="@{/css/app.css}" rel="stylesheet">
 
@@ -18,9 +18,8 @@
         <nav>
             <div class="sidenav">
                 <a class="closebtn">&times;</a>
-                <a th:href="@{/login}">Opción 1</a>
-                <a th:href="@{/register}">Opción 2</a>
-                <a th:href="@{/}">Opción 3</a>
+                <a th:href="@{/admin/empresas}">Volver</a>
+                <a th:href="@{/admin/empresas/{idEmpresa}/caterings/add (idEmpresa=${empresaDTO.id})}">Añadir Catering</a>
             </div>
 
             <div>
@@ -34,7 +33,7 @@
 
     <main>
 
-        <h2>Caterings de la Empresa </h2>
+        <h2>Caterings de la Empresa</h2>
         <table>
             <thead>
                 <tr>
@@ -48,17 +47,16 @@
             </thead>
             <tbody>
                 <!-- Aqui se pondrá el bucle de thymeleaf para ir construyendo la página-->
-                <tr>
-                    <td>1</td>
-                    <td>Arroces Manolo</td>
-                    <td>Menu de Sabores del Mediterraneo</td>
-                    <td>12,38</td>
-                    <td><a href="#"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
-                    <td><a href="#"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
+                <tr th:each="cateringDTO : ${listaCateringsDTO}">
+                    <td th:text="${cateringDTO.id}">...</td>
+                    <td th:text="${cateringDTO.empresaDTO.nombre}">...</td>
+                    <td th:text="${cateringDTO.menu}">...</td>
+                    <td th:text="${cateringDTO.precio}">...</td>
+                    <td><a th:href="@{/admin/empresas/{idEmpresa}/caterings/update/{idCatering} (idEmpresa=${empresaDTO.id}, idCatering=${cateringDTO.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
+                    <td><a th:href="@{/admin/empresas/{idEmpresa}/caterings/delete/{idCatering} (idEmpresa=${empresaDTO.id}, idCatering=${cateringDTO.id})}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
                 </tr>
             </tbody>
         </table>
-
     </main>
 
     <footer>
