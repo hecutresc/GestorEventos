@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!-- Bootstrap-Icons -->
-    <link rel="stylesheet" th:href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
     <!-- General CSS -->
     <link th:href="@{/css/app.css}" rel="stylesheet">
 
@@ -50,11 +50,11 @@
                 <!-- Aqui se pondrá el bucle de thymeleaf para ir construyendo la página-->
                 <tr th:each="cateringDTO : ${listaCateringsDTO}">
                     <td th:utext="${cateringDTO.id}">...</td>
-                    <td th:utext="${cateringDTO.empresa.nombre}">...</td>
+                    <td th:utext="${cateringDTO.empresaDTO.nombre}">...</td>
                     <td th:utext="${cateringDTO.menu}">...</td>
                     <td th:utext="${cateringDTO.precio}">...</td>
-                    <td><a th:href="#"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
-                    <td><a th:href="#"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
+                    <td><a th:href="@{/admin/empresas/{idEmpresa}/caterings/update/{idCatering} (idEmpresa=${empresaDTO.id}, idCatering=${cateringDTO.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
+                    <td><a th:href="@{/admin/empresas/{idEmpresa}/caterings/delete/{idCatering} (idEmpresa=${empresaDTO.id}, idCatering=${cateringDTO.id})}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
                 </tr>
             </tbody>
         </table>
