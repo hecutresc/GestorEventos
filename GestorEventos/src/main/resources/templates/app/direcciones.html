@@ -22,9 +22,6 @@
     		  <a th:if="${tipo.equals('empresa')}" th:href="@{/admin/empresas}">Volver</a>
     		  <a th:if="${tipo.equals('ubicacion')}" th:href="@{/admin/ubicaciones}">Volver</a>
               
-              <a th:href="@{/login}">Opción 1</a>
-              <a th:href="@{/register}">Opción 2</a>
-              
             </div>
             
             <div>
@@ -61,11 +58,11 @@
                     </td>
                     
                     <td th:if="${tipo.equals('empresa')}">
-                    	<a th:href="@{/admin/empresa/{idEmpresa}/direccion/{idDireccion}/update (idEmpresa=${empresaDTO.id}, idDireccion=${direccionDTO.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a>
+                    	<a th:href="@{/admin/empresas/{idEmpresa}/direccion/{idDireccion}/update (idEmpresa=${empresaDTO.id}, idDireccion=${direccionDTO.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a>
                     </td>
                     
                     <td th:if="${tipo.equals('ubicacion')}">
-                    	<a th:href="@{/admin/ubicacion/{idUbicacion}/direccion/{idDireccion}/update (idUbicacion=${ubicacionDTO.id}, idDireccion=${direccionDTO.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a>
+                    	<a th:href="@{/admin/ubicaciones/{idUbicacion}/direccion/{idDireccion}/update (idUbicacion=${ubicacionDTO.id}, idDireccion=${direccionDTO.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a>
                     </td>
                     
                 </tr>

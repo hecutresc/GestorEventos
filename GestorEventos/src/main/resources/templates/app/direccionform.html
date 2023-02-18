@@ -24,9 +24,6 @@
     		  <a th:if="${tipo.equals('empresa')}" th:href="@{/admin/empresas/{idEmpresa}/direccion (idEmpresa=${empresaDTO.id})}">Volver</a>
     		  <a th:if="${tipo.equals('ubicacion')}" th:href="@{/admin/ubicaciones/{idUbicacion}/direccion (idUbicacion=${ubicacionDTO.id})}">Volver</a>
               
-              <a th:href="@{/login}">Opción 1</a>
-              <a th:href="@{/register}">Opción 2</a>
-              
             </div>
             
             <div>
@@ -38,7 +35,7 @@
 
     <main>
         
-    	<div class="container col-lg-8 p-4 rounded shadow bg-body">
+    	<div class="container col-lg-6 p-4 rounded shadow bg-body mt-3 text-start">
         
         	<form th:if="${tipo.equals('usuario')}" th:action="@{/admin/usuarios/{idUsuario}/direccion/save (idUsuario=${usuarioDTO.id})}" method="POST" th:object="${direccionDTO}">
         
@@ -76,7 +73,7 @@
       	 	 
 			</form>
 			
-			<form th:if="${tipo.equals('empresa')}" th:action="@{/admin/empresas/direccion/save (idEmpresa=${empresaDTO.id})}" method="POST" th:object="${direccionDTO}">
+			<form th:if="${tipo.equals('empresa')}" th:action="@{/admin/empresas/{idEmpresa}/direccion/save (idEmpresa=${empresaDTO.id})}" method="POST" th:object="${direccionDTO}">
         
         		<div class="mt-1 text-center">
           			<h2 class="h2">Editar Direccion</h2>
@@ -124,17 +121,17 @@
       	 	
       	 		<div class="mt-3">
           			<label for="calle" class="form-label">Calle</label>
-         			<input th:type="text" name="calle" class="form-control" id="calle" th:field="*{calle}" th:maxlength="255"/>
+         			<input th:type="text" name="calle" class="form-control" id="calle" th:field="*{calle}" th:maxlength="100"/>
       	 		</div>
       	 	
       	 		<div class="mt-3">
           			<label for="numero" class="form-label">Numero</label>
-         			<input th:type="number" name="numero" class="form-control" id="numero" th:field="*{numero}" th:min="0"/>
+         			<input th:type="number" name="numero" class="form-control" id="numero" th:field="*{numero}" th:min="0" th:max="99999"/>
       	 		</div>
 		
 				<div class="mt-3">
           			<label for="ciudad" class="form-label">Ciudad</label>
-         			<input th:type="text" name="ciudad" class="form-control" id="ciudad" th:field="*{ciudad}"/>
+         			<input th:type="text" name="ciudad" class="form-control" id="ciudad" th:field="*{ciudad}" th:maxlength="100"/>
       	 		</div>
       	 	
       	 		<div class="mt-3">

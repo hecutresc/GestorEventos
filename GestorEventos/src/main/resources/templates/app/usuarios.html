@@ -17,9 +17,8 @@
         <nav>
             <div class="sidenav">
               <a class="closebtn">&times;</a>
-              <a th:href="@{/login}">Opción 1</a>
-              <a th:href="@{/register}">Opción 2</a>
-              <a th:href="@{/}">Opción 3</a>
+              <a th:href="@{/admin}">Volver</a>
+              <a th:href="@{/admin/usuarios/add }">Añadir Usuario</a>
             </div>
             
             <div>
@@ -55,8 +54,8 @@
                     <td th:text="${usuario.email}"></td>
                     <td><a th:href="@{#}">Eventos</a></td>
                     <td><a th:href="@{/admin/usuarios/{idUsuario}/direccion (idUsuario=${usuario.id})}"><span class="bi bi-geo-alt-fill" role="img" title="Modificar"></span></a></td>
-                    <td><a th:href="@{#}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
-                    <td><a th:href="@{#}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
+                    <td><a th:href="@{/admin/usuarios/{idUsuario}/update (idUsuario=${usuario.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
+                    <td><a th:href="@{/admin/usuarios/{idUsuario}/delete (idUsuario=${usuario.id})}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
                 </tr>
             </tbody>
         </table>

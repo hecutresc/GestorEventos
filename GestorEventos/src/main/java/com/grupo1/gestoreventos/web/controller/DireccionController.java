@@ -106,16 +106,16 @@ public class DireccionController {
 
 		DireccionDTO direccionDTO = direccionService.findByEmpresa(empresaDTO);
 
-		direccionService.delete(direccionDTO);
-
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("app/direccionform");
 		mv.addObject("empresaDTO", empresaDTO);
+		mv.addObject("direccionDTO", direccionDTO);
+		mv.addObject("tipo", "empresa");
 
 		return mv;
 	}
 
-	@GetMapping("/admin/ubicacion/{idUbicacion}/direccion/{idDireccion}/update")
+	@GetMapping("/admin/ubicaciones/{idUbicacion}/direccion/{idDireccion}/update")
 	public ModelAndView updateByUbicacion(@PathVariable("idUbicacion") Long idUbicacion,
 			@PathVariable("idDireccion") Long idDireccion) {
 		log.info("DireccionController - deleteByUsuario: Borra la direccion: " + idDireccion + " de la Ubicacion: "
@@ -124,14 +124,13 @@ public class DireccionController {
 		UbicacionDTO ubicacionDTO = new UbicacionDTO();
 		ubicacionDTO.setId(idUbicacion);
 
-		DireccionDTO direccionDTO = new DireccionDTO();
-		direccionDTO.setId(idDireccion);
-
-		direccionService.delete(direccionDTO);
+		DireccionDTO direccionDTO = direccionService.findByUbicacion(ubicacionDTO);
 
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("app/direccionform");
 		mv.addObject("ubicacionDTO", ubicacionDTO);
+		mv.addObject("direccionDTO", direccionDTO);
+		mv.addObject("tipo", "ubicacion");
 
 		return mv;
 	}
