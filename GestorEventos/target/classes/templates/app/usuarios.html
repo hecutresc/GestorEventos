@@ -34,8 +34,8 @@
         
         <h4 th:if="${usuariosDTO.isEmpty()}" class="mt-4 text-muted h4">No hay usuarios</h4>
         
-        <table>
-            <thead th:if="${!usuariosDTO.isEmpty()}">
+        <table th:if="${!usuariosDTO.isEmpty()}">
+            <thead>
                 <tr>
                     <th>ID</th>
                     <th>Nombre de Usuario</th>
@@ -47,12 +47,11 @@
                 </tr>
             </thead>
             <tbody>
- 
                 <tr th:each="usuario : ${usuariosDTO}">
                     <td><a th:href="@{#}" th:text="${usuario.id}"></a></td>
                     <td th:text="${usuario.nombreUsuario}"></td>
                     <td th:text="${usuario.email}"></td>
-                    <td><a th:href="@{#}">Eventos</a></td>
+                    <td><a th:href="@{/admin/usuarios/{idUsuario}/eventos (idUsuario=${usuario.id})}">Eventos</a></td>
                     <td><a th:href="@{/admin/usuarios/{idUsuario}/direccion (idUsuario=${usuario.id})}"><span class="bi bi-geo-alt-fill" role="img" title="Modificar"></span></a></td>
                     <td><a th:href="@{/admin/usuarios/{idUsuario}/update (idUsuario=${usuario.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
                     <td><a th:href="@{/admin/usuarios/{idUsuario}/delete (idUsuario=${usuario.id})}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>

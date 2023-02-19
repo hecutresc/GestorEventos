@@ -43,12 +43,12 @@ public class UsuarioDTO implements Serializable {
 		usuarioDTO.setNombreUsuario(usuario.getNombreUsuario());
 		usuarioDTO.setClaveAcceso(usuario.getClaveAcceso());
 		usuarioDTO.setDireccionDTO(DireccionDTO.convertToDTO(usuario.getDireccion()));
-
+/*
 		List<EventoDTO> listaEventosDTO = usuario.getListaEventos().stream().map(p -> EventoDTO.convertToDTO(p))
 				.collect(Collectors.toList());
 
 		usuarioDTO.setListaEventosDTO(listaEventosDTO);
-
+*/
 		return usuarioDTO;
 	}
 
