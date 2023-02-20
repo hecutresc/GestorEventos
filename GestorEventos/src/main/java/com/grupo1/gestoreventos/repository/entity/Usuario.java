@@ -16,6 +16,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -25,28 +26,28 @@ public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "tipo")
 	private int tipo;
-	
+
 	@Column(name = "nombre")
 	private String nombre;
-	
+
 	@Column(name = "apellidos")
 	private String apellidos;
-	
+
 	@Column(name = "nif")
 	private String nif;
-	
+
 	@Column(name = "telefono")
 	private String telefono;
-	
+
 	@Column(name = "email")
 	private String email;
-	
+
 	@Column(name = "nombre_usuario")
 	private String nombreUsuario;
-	
+
 	@Column(name = "clave_acceso")
 	private String claveAcceso;
 
@@ -55,8 +56,9 @@ public class Usuario {
 
 	@ManyToOne
 	@JoinColumn(name = "id_direccion")
+	@ToString.Exclude
 	private Direccion direccion;
-	
+
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "usuario")
 	private Set<Evento> listaEventos;
 
@@ -77,9 +79,10 @@ public class Usuario {
 		return Objects.hash(id);
 	}
 
-	public Usuario(){
+	public Usuario() {
 		super();
+		this.direccion = new Direccion();
 		this.listaEventos = new HashSet<Evento>();
 	}
-	
+
 }

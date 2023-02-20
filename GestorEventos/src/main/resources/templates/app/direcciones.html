@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Direccion</title>
+    <!-- Bootstrap-Icons -->
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
+    <!-- General CSS -->
+  <link th:href="@{/css/app.css}" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <h1>Panel de Administración</h1>
+        <nav>
+            <div class="sidenav">
+              <a class="closebtn">&times;</a>
+              
+              <a th:if="${tipo.equals('usuario')}" th:href="@{/admin/usuarios}">Volver</a>
+    		  <a th:if="${tipo.equals('empresa')}" th:href="@{/admin/empresas}">Volver</a>
+    		  <a th:if="${tipo.equals('ubicacion')}" th:href="@{/admin/ubicaciones}">Volver</a>
+              
+            </div>
+            
+            <div>
+         		<img th:src="@{/media/img/menu.png}" alt="menu">
+            </div>
+            
+          </nav>
+    </header>
+
+    <main>
+        <h2>Direcciones</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Calle</th>
+                    <th>Número</th>
+                    <th>Ciudad</th>
+                    <th>CP</th>
+                    <th>Editar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td th:text="${direccionDTO.id}"></td>
+                    <td th:text="${direccionDTO.calle}"></td>
+                    <td th:text="${direccionDTO.numero}"></td>
+                    <td th:text="${direccionDTO.ciudad}"></td>
+                    <td th:text="${direccionDTO.cp}"></td>
+                    
+                    <td th:if="${tipo.equals('usuario')}">
+                    	<a th:href="@{/admin/usuarios/{idUsuario}/direccion/{idDireccion}/update (idUsuario=${usuarioDTO.id}, idDireccion=${direccionDTO.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a>
+                    </td>
+                    
+                    <td th:if="${tipo.equals('empresa')}">
+                    	<a th:href="@{/admin/empresas/{idEmpresa}/direccion/{idDireccion}/update (idEmpresa=${empresaDTO.id}, idDireccion=${direccionDTO.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a>
+                    </td>
+                    
+                    <td th:if="${tipo.equals('ubicacion')}">
+                    	<a th:href="@{/admin/ubicaciones/{idUbicacion}/direccion/{idDireccion}/update (idUbicacion=${ubicacionDTO.id}, idDireccion=${direccionDTO.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a>
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+
+    <footer>
+
+    </footer>
+
+  <script th:src="@{/js/jquery-3.6.3.js}" ></script>
+  <script th:src="@{/js/script.js}" ></script>
+
+</body>
+
+</html>

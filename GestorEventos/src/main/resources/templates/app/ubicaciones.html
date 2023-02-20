@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración</title>
+    <!-- Bootstrap-Icons -->
+     <link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
+    <!-- General CSS -->
+  <link th:href="@{/css/app.css}" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <h1>Panel de Administración</h1>
+        <nav>
+            <div class="sidenav">
+              <a class="closebtn">&times;</a>
+              <a th:href="@{/admin}">Volver</a>
+              <a th:href="@{/admin/ubicaciones/add}">Añadir</a>
+            </div>
+            
+            <div>
+               <img th:src="@{/media/img/menu.png}" alt="menu">
+            </div>
+            
+          </nav>
+
+    </header>
+
+    <main>
+
+        <h2>Ubicaciones</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Aforo</th>
+                    <th>Dirección</th>
+                    <th>Editar</th>
+                    <th>Borrar</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr th:each="ubicacionDTO : ${listaUbicacionesDTO}">
+                    <td th:text="${ubicacionDTO.id}">...</td>
+                    <td th:text="${ubicacionDTO.nombre}">...</td>
+                    <td th:text="${ubicacionDTO.aforo}">...</td>
+                    <td><a th:href="@{/admin/ubicaciones/{idUbicacion}/direccion (idUbicacion=${ubicacionDTO.id})}"><span class="bi bi-geo-alt-fill" role="img" title="Dirección"></span></a></td>
+                    <td><a th:href="@{/admin/ubicaciones/update/{idUbicacion} (idUbicacion=${ubicacionDTO.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
+                    <td><a th:href="@{/admin/ubicaciones/delete/{idUbicacion} (idUbicacion=${ubicacionDTO.id})}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+
+    <footer>
+
+    </footer>
+
+    <script th:src="@{/js/jquery-3.6.3.js}" ></script>
+  <script th:src="@{/js/script.js}" ></script>
+
+</body>
+
+</html>

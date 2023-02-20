@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios</title>
+    <!-- Bootstrap-Icons -->
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
+    <!-- General CSS -->
+  <link th:href="@{/css/app.css}" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <h1>Panel de Administración</h1>
+        <nav>
+            <div class="sidenav">
+              <a class="closebtn">&times;</a>
+              <a th:href="@{/admin}">Volver</a>
+              <a th:href="@{/admin/usuarios/add }">Añadir Usuario</a>
+            </div>
+            
+            <div>
+              <img th:src="@{/media/img/menu.png}" alt="menu">
+            </div>
+            
+          </nav>
+    </header>
+
+    <main>
+
+        <h2>Usuarios</h2>
+        
+        <h4 th:if="${usuariosDTO.isEmpty()}" class="mt-4 text-muted h4">No hay usuarios</h4>
+        
+        <table>
+            <thead th:if="${!usuariosDTO.isEmpty()}">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre de Usuario</th>
+                    <th>Email</th>
+                    <th>Eventos</th>
+                    <th>Direccion</th>
+                    <th>Editar</th>
+                    <th>Borrar</th>
+                </tr>
+            </thead>
+            <tbody>
+ 
+                <tr th:each="usuario : ${usuariosDTO}">
+                    <td><a th:href="@{#}" th:text="${usuario.id}"></a></td>
+                    <td th:text="${usuario.nombreUsuario}"></td>
+                    <td th:text="${usuario.email}"></td>
+                    <td><a th:href="@{#}">Eventos</a></td>
+                    <td><a th:href="@{/admin/usuarios/{idUsuario}/direccion (idUsuario=${usuario.id})}"><span class="bi bi-geo-alt-fill" role="img" title="Modificar"></span></a></td>
+                    <td><a th:href="@{/admin/usuarios/{idUsuario}/update (idUsuario=${usuario.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
+                    <td><a th:href="@{/admin/usuarios/{idUsuario}/delete (idUsuario=${usuario.id})}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+
+    <footer>
+
+    </footer>
+
+  <script th:src="@{/js/jquery-3.6.3.js}" ></script>
+  <script th:src="@{/js/script.js}" ></script>
+
+</body>
+
+</html>

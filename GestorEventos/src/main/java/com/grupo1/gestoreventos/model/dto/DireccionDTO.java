@@ -3,15 +3,13 @@ package com.grupo1.gestoreventos.model.dto;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import com.grupo1.gestoreventos.repository.entity.Direccion;
 
 import lombok.Data;
 import lombok.ToString;
 
 @Data
-public class DireccionDTO implements Serializable{
+public class DireccionDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -20,28 +18,29 @@ public class DireccionDTO implements Serializable{
 	private String numero;
 	private String ciudad;
 	private String cp;
-	
+
 	@ToString.Exclude
 	private List<UsuarioDTO> listaUsuariosDTO;
-	
+
 	@ToString.Exclude
 	private List<EmpresaDTO> listaEmpresasDTO;
-	
+
 	@ToString.Exclude
 	private List<UbicacionDTO> listaUbicacionesDTO;
-	
-	
+
 	public static DireccionDTO convertToDTO(Direccion direccion) {
 		DireccionDTO direccionDTO = new DireccionDTO();
+		direccionDTO.setId(direccion.getId());
 		direccionDTO.setCalle(direccion.getCalle());
 		direccionDTO.setNumero(direccion.getNumero());
 		direccionDTO.setCiudad(direccion.getCiudad());
 		direccionDTO.setCp(direccion.getCp());
 		return direccionDTO;
 	}
-	
+
 	public static Direccion convertToEntity(DireccionDTO direccionDTO) {
 		Direccion direccion = new Direccion();
+		direccion.setId(direccionDTO.getId());
 		direccion.setCalle(direccionDTO.getCalle());
 		direccion.setNumero(direccionDTO.getNumero());
 		direccion.setCiudad(direccionDTO.getCiudad());
