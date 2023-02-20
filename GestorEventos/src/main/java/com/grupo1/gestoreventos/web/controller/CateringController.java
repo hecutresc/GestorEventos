@@ -14,6 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.grupo1.gestoreventos.model.dto.CateringDTO;
 import com.grupo1.gestoreventos.model.dto.EmpresaDTO;
+import com.grupo1.gestoreventos.model.dto.EventoDTO;
+import com.grupo1.gestoreventos.repository.entity.Empresa;
 import com.grupo1.gestoreventos.service.CateringService;
 
 @Controller
