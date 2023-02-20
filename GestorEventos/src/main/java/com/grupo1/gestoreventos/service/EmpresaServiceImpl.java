@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.grupo1.gestoreventos.model.dto.EmpresaDTO;
+import com.grupo1.gestoreventos.repository.dao.DireccionRepository;
 import com.grupo1.gestoreventos.repository.dao.EmpresaRepository;
+import com.grupo1.gestoreventos.repository.entity.Direccion;
 import com.grupo1.gestoreventos.repository.entity.Empresa;
 
 @Service
@@ -22,6 +24,8 @@ public class EmpresaServiceImpl implements EmpresaService{
 	@Autowired
 	private EmpresaRepository empresaRepository;
 	
+	@Autowired
+	private DireccionRepository direccionRepository;
 	
 	@Override
 	public List<EmpresaDTO> findAll() {
@@ -50,8 +54,15 @@ public class EmpresaServiceImpl implements EmpresaService{
 		// TODO Auto-generated method stub
 		log.info("EmpresaServiceImpl - save: Salvamos la Empresa: " + empresaDTO.toString());
 		
-		Empresa empresa = EmpresaDTO.convertToEntity(empresaDTO);
-		empresaRepository.save(empresa);
+		if(empresaDTO.getId() == null) {
+			Empresa empresa = EmpresaDTO.convertToEntity(empresaDTO);
+			empresaRepository.save(empresa);
+		}else {
+			Empresa empresa = EmpresaDTO.convertToEntity(empresaDTO);
+			Optional direccion = direccionRepository.findByEmpresa(empresa.getId());
+			empresa.setDireccion((Direccion) direccion.get());
+			empresaRepository.save(empresa);
+		}
 	}
 
 	@Override

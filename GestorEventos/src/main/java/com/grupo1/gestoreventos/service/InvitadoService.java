@@ -9,4 +9,10 @@ public interface InvitadoService {
 
 	public List<InvitadoDTO> findAllByEvento(EventoDTO eventoDTO);
 
+	public void save(InvitadoDTO invitadoDTO);
+
+	public InvitadoDTO findById(InvitadoDTO invitadoDTO);
+
+	public void deleteById(InvitadoDTO invitadoDTO);
+
 }

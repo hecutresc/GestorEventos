@@ -29,7 +29,7 @@ public class EmpresaDTO {
 		empresaDTO.setId(empresa.getId());
 		empresaDTO.setCif(empresa.getCif());
 		empresaDTO.setNombre(empresa.getNombre());
-		
+		empresaDTO.setDireccionDTO(DireccionDTO.convertToDTO(empresa.getDireccion()));
 		return empresaDTO;
 	}
 	
@@ -41,6 +41,7 @@ public class EmpresaDTO {
 		empresa.setId(empresaDTO.getId());
 		empresa.setCif(empresaDTO.getCif());
 		empresa.setNombre(empresaDTO.getNombre());
+		empresa.setDireccion(DireccionDTO.convertToEntity(empresaDTO.getDireccionDTO()));
 		return empresa;
 	}
 	
