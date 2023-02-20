@@ -50,18 +50,27 @@ public class EmpresaServiceImpl implements EmpresaService{
 	}
 
 	@Override
-	public void save(EmpresaDTO empresaDTO) {
+	public void save(EmpresaDTO empresaDTO){
 		// TODO Auto-generated method stub
 		log.info("EmpresaServiceImpl - save: Salvamos la Empresa: " + empresaDTO.toString());
 		
-		if(empresaDTO.getId() == null) {
-			Empresa empresa = EmpresaDTO.convertToEntity(empresaDTO);
-			empresaRepository.save(empresa);
-		}else {
-			Empresa empresa = EmpresaDTO.convertToEntity(empresaDTO);
-			Optional direccion = direccionRepository.findByEmpresa(empresa.getId());
-			empresa.setDireccion((Direccion) direccion.get());
-			empresaRepository.save(empresa);
+		try {
+			if(empresaDTO.getId() == null) {
+				Empresa empresa = EmpresaDTO.convertToEntity(empresaDTO);
+				//Tendremos que guardar primero la direccion, luego ponersela a la empresa y por último guardar la empresa
+				direccionRepository.save(empresa.getDireccion());
+				Direccion aux = empresa.getDireccion();
+				Optional<Direccion> direccion = direccionRepository.findByDatos(aux.getCalle(), aux.getNumero(), aux.getCiudad(), aux.getCp());
+				empresa.setDireccion(direccion.get());
+				empresaRepository.save(empresa);
+			}else {
+				Empresa empresa = EmpresaDTO.convertToEntity(empresaDTO);
+				Optional direccion = direccionRepository.findByEmpresa(empresa.getId());
+				empresa.setDireccion((Direccion) direccion.get());
+				empresaRepository.save(empresa);
+			}
+		} catch (Exception e) {
+			log.info("Error de guardado "+e);
 		}
 	}
 

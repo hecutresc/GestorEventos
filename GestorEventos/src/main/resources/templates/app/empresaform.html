@@ -33,7 +33,7 @@
 
 	<main>
 
-		<div class="container col-lg-8 p-4 rounded shadow bg-body">
+		<div class="container col-lg-8 p-4 rounded shadow bg-body text-start">
 
 			<form th:action="@{/admin/empresas/save}" method="POST"
 				th:object="${empresaDTO}">
@@ -46,56 +46,67 @@
 				<div class="mt-3" th:if="${errorMessage}" th:utext="${errorMessage}"></div>
 
 				<div th:if="${empresaDTO.id}" class="mt-3">
-					<label for="id" class="form-label">ID</label>
-					<input class="form-control" name="id" id="id" type="text"
-					th:field="*{id}" readonly />
-					
-				</div>
-				
-				<div class="mt-3">
-					<label for="calle" class="form-label">CIF</label> <input
-						th:type="text" name="calle" class="form-control" id="calle"
-						th:field="*{cif}" th:maxlength="10" />
+					<label for="id" class="form-label">ID</label> <input
+						class="form-control" name="id" id="id" type="text"
+						th:field="*{id}" readonly />
+
 				</div>
 
-				<div class="mt-3">
-					<label for="numero" class="form-label">Nombre</label> <input
-						th:type="text" name="numero" class="form-control" id="nombre"
-						th:field="*{nombre}" th:min="0" />
+				<div class="row mt-3">
+
+					<div class="col">
+						<label for="numero" class="form-label">Nombre</label> <input
+							th:type="text" name="numero" class="form-control" id="nombre"
+							th:field="*{nombre}" th:min="0" />
+					</div>
+					
+					<div class="col">
+						<label for="calle" class="form-label">CIF</label> <input
+							th:type="text" name="calle" class="form-control" id="calle"
+							th:field="*{cif}" th:maxlength="10" />
+					</div>
+
 				</div>
+
 
 				<div th:if="${empresaDTO.id == null}">
 					<!-- Ocultamos el campo id de la dirección -->
 					<input type="hidden" th:field="*{direccionDTO.id}">
 
-					<div class="mt-3">
-						<label for="dcalle" class="form-label">Calle</label> <input
-							th:type="text" name="dcalle" class="form-control" id="dcalle"
-							th:field="*{direccionDTO.calle}" />
+					<div class="row mt-3">
+						<div class="col">
+							<label for="dcalle" class="form-label">Calle</label> <input
+								th:type="text" name="dcalle" class="form-control" id="dcalle"
+								th:field="*{direccionDTO.calle}" />
+						</div>
+
+						<div class="col">
+							<label for="dnumero" class="form-label">Número</label> <input
+								th:type="number" name="dnumero" class="form-control"
+								id="dnumero" th:field="*{direccionDTO.numero}" th:min="0" />
+						</div>
 					</div>
 
-					<div class="mt-3">
-						<label for="dnumero" class="form-label">Número</label> <input
-							th:type="number" name="dnumero" class="form-control" id="dnumero"
-							th:field="*{direccionDTO.numero}" th:min="0" />
+					<div class="row mt-3">
+						<div class="col">
+							<label for="dciudad" class="form-label">Ciudad</label> <input
+								th:type="text" name="dciudad" class="form-control" id="dciudad"
+								th:field="*{direccionDTO.ciudad}" />
+						</div>
+
+						<div class="col">
+							<label for="dcp" class="form-label">CP</label> <input
+								th:type="number" name="dcp" class="form-control" id="dcp"
+								th:field="*{direccionDTO.cp}" th:min="0" th:max="99999" />
+						</div>
 					</div>
 
-					<div class="mt-3">
-						<label for="dciudad" class="form-label">Ciudad</label> <input
-							th:type="text" name="dciudad" class="form-control" id="dciudad"
-							th:field="*{direccionDTO.ciudad}" />
-					</div>
 
-					<div class="mt-3">
-						<label for="dcp" class="form-label">CP</label> <input
-							th:type="number" name="dcp" class="form-control" id="dcp"
-							th:field="*{direccionDTO.cp}" th:min="0" th:max="99999" />
-					</div>
 				</div>
 
 				<div class="mt-4">
 					<input type="submit" class="btn btn-outline-success w-100"
-						 th:value="${add} ? 'Añadir' : 'Actualizar'" />
+						th:value="${add} ? 'Añadir' : 'Actualizar'" />
 				</div>
 
 			</form>
@@ -103,8 +114,6 @@
 		</div>
 
 	</main>
-
-	<footer> </footer>
 
 	<script th:src="@{/vendor/bootstrap-5.2.3/js/bootstrap.bundle.min.js}"></script>
 	<script th:src="@{/js/jquery-3.6.3.js}"></script>
