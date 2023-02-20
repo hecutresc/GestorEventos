@@ -81,6 +81,7 @@ public class Usuario {
 
 	public Usuario() {
 		super();
+		this.direccion = new Direccion();
 		this.listaEventos = new HashSet<Evento>();
 	}
 

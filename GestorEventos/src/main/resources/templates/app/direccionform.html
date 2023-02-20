@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modificar Direccion</title>
+    <!-- Bootstrap-5.2.3 -->
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
+    <!-- Bootstrap-Icons -->
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap-5.2.3/css/bootstrap.min.css}">
+    <!-- General CSS -->
+  <link th:href="@{/css/app.css}" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <h1>Panel de Administración</h1>
+        <nav>
+            <div class="sidenav">
+              <a class="closebtn">&times;</a>
+              
+              <a th:if="${tipo.equals('usuario')}" th:href="@{/admin/usuarios/{idUsuario}/direccion (idUsuario=${usuarioDTO.id})}">Volver</a>
+    		  <a th:if="${tipo.equals('empresa')}" th:href="@{/admin/empresas/{idEmpresa}/direccion (idEmpresa=${empresaDTO.id})}">Volver</a>
+    		  <a th:if="${tipo.equals('ubicacion')}" th:href="@{/admin/ubicaciones/{idUbicacion}/direccion (idUbicacion=${ubicacionDTO.id})}">Volver</a>
+              
+            </div>
+            
+            <div>
+         		<img th:src="@{/media/img/menu.png}" alt="menu">
+            </div>
+            
+          </nav>
+    </header>
+
+    <main>
+        
+    	<div class="container col-lg-6 p-4 rounded shadow bg-body mt-3 text-start">
+        
+        	<form th:if="${tipo.equals('usuario')}" th:action="@{/admin/usuarios/{idUsuario}/direccion/save (idUsuario=${usuarioDTO.id})}" method="POST" th:object="${direccionDTO}">
+        
+        		<div class="mt-1 text-center">
+          			<h2 class="h2 rounded">Editar Direccion</h2>
+      	 		</div>
+		
+				<div class="mt-3" th:if="${errorMessage}" th:utext="${errorMessage}"></div>
+				
+				<input hidden="true" th:field="*{id}"/>
+      	 	
+      	 		<div class="mt-3">
+          			<label for="calle" class="form-label">Calle</label>
+         			<input th:type="text" name="calle" class="form-control" id="calle" th:field="*{calle}" th:maxlength="255"/>
+      	 		</div>
+      	 	
+      	 		<div class="mt-3">
+          			<label for="numero" class="form-label">Numero</label>
+         			<input th:type="number" name="numero" class="form-control" id="numero" th:field="*{numero}" th:min="0"/>
+      	 		</div>
+		
+				<div class="mt-3">
+          			<label for="ciudad" class="form-label">Ciudad</label>
+         			<input th:type="text" name="ciudad" class="form-control" id="ciudad" th:field="*{ciudad}"/>
+      	 		</div>
+      	 	
+      	 		<div class="mt-3">
+          			<label for="cp" class="form-label">Código Postal</label>
+         			<input th:type="number" name="cp" class="form-control" id="cp" th:field="*{cp}" th:min="0" th:max="99999"/>
+      	 		</div>
+      	 	
+      	 		<div class="mt-4">
+          			<input type="submit" class="btn btn-outline-success w-100" value="Modificar"/>
+      	 		</div>
+      	 	 
+			</form>
+			
+			<form th:if="${tipo.equals('empresa')}" th:action="@{/admin/empresas/{idEmpresa}/direccion/save (idEmpresa=${empresaDTO.id})}" method="POST" th:object="${direccionDTO}">
+        
+        		<div class="mt-1 text-center">
+          			<h2 class="h2">Editar Direccion</h2>
+      	 		</div>
+		
+				<div class="mt-3" th:if="${errorMessage}" th:utext="${errorMessage}"></div>
+				
+				<input hidden="true" th:field="*{id}"/>
+      	 	
+      	 		<div class="mt-3">
+          			<label for="calle" class="form-label">Calle</label>
+         			<input th:type="text" name="calle" class="form-control" id="calle" th:field="*{calle}" th:maxlength="255"/>
+      	 		</div>
+      	 	
+      	 		<div class="mt-3">
+          			<label for="numero" class="form-label">Numero</label>
+         			<input th:type="number" name="numero" class="form-control" id="numero" th:field="*{numero}" th:min="0"/>
+      	 		</div>
+		
+				<div class="mt-3">
+          			<label for="ciudad" class="form-label">Ciudad</label>
+         			<input th:type="text" name="ciudad" class="form-control" id="ciudad" th:field="*{ciudad}"/>
+      	 		</div>
+      	 	
+      	 		<div class="mt-3">
+          			<label for="cp" class="form-label">Código Postal</label>
+         			<input th:type="number" name="cp" class="form-control" id="cp" th:field="*{cp}" th:min="0" th:max="99999"/>
+      	 		</div>
+      	 	
+      	 		<div class="mt-4">
+          			<input type="submit" class="btn btn-outline-success w-100" value="Modificar"/>
+      	 		</div>
+      	 	 
+			</form>
+			
+			<form th:if="${tipo.equals('ubicacion')}" th:action="@{/admin/ubicaciones/{idUbicacion}/direccion/save (idUbicacion=${ubicacionDTO.id})}" method="POST" th:object="${direccionDTO}">
+        
+        		<div class="mt-1 text-center">
+          			<h2 class="h2">Editar Direccion</h2>
+      	 		</div>
+		
+				<div class="mt-3" th:if="${errorMessage}" th:utext="${errorMessage}"></div>
+				
+				<input hidden="true" th:field="*{id}"/>
+      	 	
+      	 		<div class="mt-3">
+          			<label for="calle" class="form-label">Calle</label>
+         			<input th:type="text" name="calle" class="form-control" id="calle" th:field="*{calle}" th:maxlength="100"/>
+      	 		</div>
+      	 	
+      	 		<div class="mt-3">
+          			<label for="numero" class="form-label">Numero</label>
+         			<input th:type="number" name="numero" class="form-control" id="numero" th:field="*{numero}" th:min="0" th:max="99999"/>
+      	 		</div>
+		
+				<div class="mt-3">
+          			<label for="ciudad" class="form-label">Ciudad</label>
+         			<input th:type="text" name="ciudad" class="form-control" id="ciudad" th:field="*{ciudad}" th:maxlength="100"/>
+      	 		</div>
+      	 	
+      	 		<div class="mt-3">
+          			<label for="cp" class="form-label">Código Postal</label>
+         			<input th:type="number" name="cp" class="form-control" id="cp" th:field="*{cp}" th:min="0" th:max="99999"/>
+      	 		</div>
+      	 	
+      	 		<div class="mt-4">
+          			<input type="submit" class="btn btn-outline-success w-100" value="Modificar"/>
+      	 		</div>
+      	 	 
+			</form>
+        	
+        </div>
+
+    </main>
+
+    <footer>
+
+    </footer>
+
+	<script th:src="@{/vendor/bootstrap-5.2.3/js/bootstrap.bundle.min.js}" ></script>
+  	<script th:src="@{/js/jquery-3.6.3.js}" ></script>
+  	<script th:src="@{/js/script.js}" ></script>
+
+</body>
+
+</html>

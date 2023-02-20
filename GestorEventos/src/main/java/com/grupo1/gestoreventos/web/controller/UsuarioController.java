@@ -28,15 +28,11 @@ public class UsuarioController {
 
 		List<UsuarioDTO> usuariosDTO = usuarioService.findAll();
 
-		for (UsuarioDTO usuarioDTO : usuariosDTO) {
-			System.out.println(usuarioDTO);
-		}
-
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("app/usuarios");
 		mv.addObject("usuariosDTO", usuariosDTO);
 
-		return null;
+		return mv;
 	}
 
 	@GetMapping("/admin/usuarios/add")
@@ -48,7 +44,7 @@ public class UsuarioController {
 		mv.addObject("usuarioDTO", new UsuarioDTO());
 		mv.addObject("add", true);
 
-		return null;
+		return mv;
 	}
 
 	@GetMapping("/admin/usuarios/{idUsuario}/update")
@@ -59,18 +55,15 @@ public class UsuarioController {
 		usuarioDTO = usuarioService.findById(usuarioDTO);
 
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("app/invitadoform");
+		mv.setViewName("app/usuarioform");
 		mv.addObject("usuarioDTO", usuarioDTO);
 		mv.addObject("add", false);
 
-		System.out.println(usuarioDTO.toString());
-
-		return null;
+		return mv;
 	}
 
 	@PostMapping("/admin/usuarios/save")
-	public ModelAndView save(@ModelAttribute("usuarioDTO") UsuarioDTO usuarioDTO,
-			@PathVariable("idEvento") Long idEvento) {
+	public ModelAndView save(@ModelAttribute("usuarioDTO") UsuarioDTO usuarioDTO) {
 		log.info("UsuarioController - save: Guarda el usuario: " + usuarioDTO.toString());
 
 		/**
@@ -82,8 +75,6 @@ public class UsuarioController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("redirect:/admin/usuarios");
 		
-		System.out.println(usuarioDTO.toString());
-
 		return mv;
 	}
 
@@ -93,14 +84,12 @@ public class UsuarioController {
 
 		UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
 
-		// invitadoService.deleteById(invitadoDTO);
+		usuarioService.delete(usuarioDTO);
 
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("redirect:/admin/usuarios");
 
-		System.out.println(usuarioDTO.toString());
-
-		return null;
+		return mv;
 	}
 
 }
