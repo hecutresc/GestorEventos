@@ -9,8 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.grupo1.gestoreventos.model.dto.EmpresaDTO;
 import com.grupo1.gestoreventos.model.dto.UbicacionDTO;
+import com.grupo1.gestoreventos.repository.dao.DireccionRepository;
 import com.grupo1.gestoreventos.repository.dao.UbicacionRepository;
+import com.grupo1.gestoreventos.repository.entity.Direccion;
+import com.grupo1.gestoreventos.repository.entity.Empresa;
 import com.grupo1.gestoreventos.repository.entity.Ubicacion;
 
 @Service
@@ -20,6 +24,9 @@ public class UbicacionServiceImpl implements UbicacionService{
 	
 	@Autowired
 	private UbicacionRepository ubicacionRepository;
+	
+	@Autowired
+	private DireccionRepository direccionRepository;
 	
 	@Override
 	public List<UbicacionDTO> findAll() {
@@ -47,9 +54,23 @@ public class UbicacionServiceImpl implements UbicacionService{
 	public void save(UbicacionDTO ubicacionDTO) {
 		// TODO Auto-generated method stub
 		log.info("UbicacionServiceImpl - save: Salvamos la Ubicacion: " + ubicacionDTO.toString());
-		
-		Ubicacion ubicacion = UbicacionDTO.convertToEntity(ubicacionDTO);
-		ubicacionRepository.save(ubicacion);
+		try {
+			if(ubicacionDTO.getId() == null) {
+				Ubicacion ubicacion = UbicacionDTO.convertToEntity(ubicacionDTO);
+				//Tendremos que guardar primero la direccion, luego ponersela a la empresa y por último guardar la empresa
+				Direccion direccion = direccionRepository.save(ubicacion.getDireccion());
+				ubicacion.setDireccion(direccion);
+				ubicacionRepository.save(ubicacion);
+			}else {
+				Ubicacion ubicacion = UbicacionDTO.convertToEntity(ubicacionDTO);
+				Optional<Direccion> direccion = direccionRepository.findByUbicacion(ubicacion.getId());
+				ubicacion.setDireccion(direccion.get());
+				ubicacionRepository.save(ubicacion);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.info("Error de guardado "+e);
+		}
 		
 	}
 

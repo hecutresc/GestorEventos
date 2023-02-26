@@ -58,10 +58,8 @@ public class EmpresaServiceImpl implements EmpresaService{
 			if(empresaDTO.getId() == null) {
 				Empresa empresa = EmpresaDTO.convertToEntity(empresaDTO);
 				//Tendremos que guardar primero la direccion, luego ponersela a la empresa y por último guardar la empresa
-				direccionRepository.save(empresa.getDireccion());
-				Direccion aux = empresa.getDireccion();
-				Optional<Direccion> direccion = direccionRepository.findByDatos(aux.getCalle(), aux.getNumero(), aux.getCiudad(), aux.getCp());
-				empresa.setDireccion(direccion.get());
+				Direccion direccion = direccionRepository.save(empresa.getDireccion());
+				empresa.setDireccion(direccion);
 				empresaRepository.save(empresa);
 			}else {
 				Empresa empresa = EmpresaDTO.convertToEntity(empresaDTO);
