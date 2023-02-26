@@ -63,7 +63,7 @@ public class UbicacionController {
 		ubicacionDTO.setId(idUbicacion);
 		ubicacionDTO = ubicacionService.findById(ubicacionDTO);
 
-		ModelAndView mav = new ModelAndView("ubicacionform");
+		ModelAndView mav = new ModelAndView("app/ubicacionform");
 		mav.addObject("ubicacionDTO", ubicacionDTO);
 		mav.addObject("add", false);
 
