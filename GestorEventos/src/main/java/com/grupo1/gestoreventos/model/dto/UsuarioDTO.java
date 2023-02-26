@@ -43,12 +43,12 @@ public class UsuarioDTO implements Serializable {
 		usuarioDTO.setNombreUsuario(usuario.getNombreUsuario());
 		usuarioDTO.setClaveAcceso(usuario.getClaveAcceso());
 		usuarioDTO.setDireccionDTO(DireccionDTO.convertToDTO(usuario.getDireccion()));
-/*
-		List<EventoDTO> listaEventosDTO = usuario.getListaEventos().stream().map(p -> EventoDTO.convertToDTO(p))
-				.collect(Collectors.toList());
-
-		usuarioDTO.setListaEventosDTO(listaEventosDTO);
-*/
+		/*
+		 * List<EventoDTO> listaEventosDTO = usuario.getListaEventos().stream().map(p ->
+		 * EventoDTO.convertToDTO(p)) .collect(Collectors.toList());
+		 * 
+		 * usuarioDTO.setListaEventosDTO(listaEventosDTO);
+		 */
 		return usuarioDTO;
 	}
 
@@ -63,11 +63,12 @@ public class UsuarioDTO implements Serializable {
 		usuario.setEmail(usuarioDTO.getEmail());
 		usuario.setNombreUsuario(usuarioDTO.getNombreUsuario());
 		usuario.setClaveAcceso(usuarioDTO.getClaveAcceso());
+		
 		usuario.setDireccion(DireccionDTO.convertToEntity(usuarioDTO.getDireccionDTO()));
 
-		for (EventoDTO objeto : usuarioDTO.getListaEventosDTO()) {
-			usuario.getListaEventos().add(EventoDTO.convertToEntity(objeto));
-		}
+		// for (EventoDTO objeto : usuarioDTO.getListaEventosDTO()) {
+		// usuario.getListaEventos().add(EventoDTO.convertToEntity(objeto));
+		// }
 
 		return usuario;
 	}

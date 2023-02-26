@@ -12,7 +12,7 @@ public interface DireccionService {
 
 	public DireccionDTO findById(DireccionDTO direccionDTO);
 
-	public void save(DireccionDTO direccionDTO);
+	public DireccionDTO save(DireccionDTO direccionDTO);
 
 	public void delete(DireccionDTO direccionDTO);
 

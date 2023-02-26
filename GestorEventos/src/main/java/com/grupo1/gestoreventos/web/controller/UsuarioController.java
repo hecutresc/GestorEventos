@@ -54,6 +54,8 @@ public class UsuarioController {
 		UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
 		usuarioDTO = usuarioService.findById(usuarioDTO);
 
+		System.out.println(usuarioDTO.getDireccionDTO().toString());
+		
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("app/usuarioform");
 		mv.addObject("usuarioDTO", usuarioDTO);
