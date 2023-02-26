@@ -3,6 +3,7 @@ package com.grupo1.gestoreventos.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Collection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,8 +92,36 @@ public class EventoServiceImpl implements EventoService{
 		
 		
 	}
+	
+	@Override
+	public List<EventoDTO> findAllByUser(UsuarioDTO usuarioDTO) {
+		log.info("EventoServiceImpl - findAllByUser: Busca la lista de Eventos del Usuario: " + usuarioDTO.getId());
+		/*
+		List<Evento> eventos = eventoRepository.findAllByUser(usuarioDTO.getId());
 
+		for (Evento evento : eventos) {
 
+			System.out.println("=====================================");
+			System.out.println(evento.toString());
+			System.out.println(evento.getUsuario().toString());
+			System.out.println(evento.getUbicacion().toString());
+			System.out.println("=====================================");
+		}
 
+		List<EventoDTO> eventosDTO = eventos.stream().map(EventoDTO::convertToDTO).collect(Collectors.toList());
+		
+		for (EventoDTO evento : eventosDTO) {
+
+			System.out.println("=====================================");
+			System.out.println(evento.toString());
+			System.out.println(evento.getUsuarioDTO().toString());
+		//	System.out.println(evento.getUbicacionDTO().toString());
+			System.out.println("=====================================");
+		}
+
+		return eventosDTO;
+		*/
+		return null;
+	}
 
 }

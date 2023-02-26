@@ -164,4 +164,21 @@ public class EventoController {
 
 	}
 
+
+	@GetMapping("/admin/usuarios/{idUsuario}/eventos")
+	public ModelAndView findAllByUsuario(@PathVariable("idUsuario") Long idUsuario) {
+		log.info("EventoController - findAllByUsuario: Muestra los eventos del usuario: "+idUsuario);
+
+		UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
+		
+		List<EventoDTO> eventosDTO = eventoService.findAllByUser(usuarioDTO);
+
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("app/eventos");
+		mv.addObject("usuarioDTO", usuarioDTO);
+		mv.addObject("eventosDTO", eventosDTO);
+
+		return mv;
+	}
+	
 }

@@ -6,7 +6,7 @@ import com.grupo1.gestoreventos.model.dto.EventoDTO;
 import com.grupo1.gestoreventos.model.dto.UsuarioDTO;
 
 public interface EventoService {
-
+	
 	public List<EventoDTO> findAll();
 	
 	public List<EventoDTO> findAllByUsuario(UsuarioDTO usuarioDTO);
@@ -18,5 +18,7 @@ public interface EventoService {
 	public void deleteById(EventoDTO eventoDTO);
 
 	public void delete(EventoDTO eventoDTO);
+
+	public List<EventoDTO> findAllByUser(UsuarioDTO usuarioDTO);
 
 }
