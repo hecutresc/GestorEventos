@@ -41,6 +41,7 @@ public class UbicacionController {
 
 	}
 
+
 	// Alta de clientes
 	@GetMapping("/admin/ubicaciones/add")
 	public ModelAndView add() {

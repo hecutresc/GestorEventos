@@ -8,8 +8,6 @@ import com.grupo1.gestoreventos.model.dto.UsuarioDTO;
 public interface EventoService {
 	
 	public List<EventoDTO> findAll();
-	
-	public List<EventoDTO> findAllByUsuario(UsuarioDTO usuarioDTO);
 
 	public void save(EventoDTO eventoDTO);
 
