@@ -95,7 +95,7 @@ public class InvitadoController {
 
 	@GetMapping("/admin/eventos/{idEvento}/invitados/{idInvitado}/delete")
 	public ModelAndView delete(@PathVariable("idEvento") Long idEvento, @PathVariable("idInvitado") Long idInvitado) {
-		log.info("InvitadoController - delete: Boora el usuario con ID: " + idInvitado);
+		log.info("InvitadoController - delete: Borra el invitado con ID: " + idInvitado);
 
 		InvitadoDTO invitadoDTO = new InvitadoDTO(idInvitado);
 

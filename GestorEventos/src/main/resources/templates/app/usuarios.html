@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="es">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Usuarios</title>
     <!-- Bootstrap-Icons -->
-    <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
     <!-- General CSS -->
   <link th:href="@{/css/app.css}" rel="stylesheet">
 </head>
@@ -17,9 +17,8 @@
         <nav>
             <div class="sidenav">
               <a class="closebtn">&times;</a>
-              <a th:href="@{/login}">Opción 1</a>
-              <a th:href="@{/register}">Opción 2</a>
-              <a th:href="@{/}">Opción 3</a>
+              <a th:href="@{/admin}">Volver</a>
+              <a th:href="@{/admin/usuarios/add }">Añadir Usuario</a>
             </div>
             
             <div>
@@ -32,28 +31,31 @@
     <main>
 
         <h2>Usuarios</h2>
+        
+        <h4 th:if="${usuariosDTO.isEmpty()}" class="mt-4 text-muted h4">No hay usuarios</h4>
+        
         <table>
-            <thead>
+            <thead th:if="${!usuariosDTO.isEmpty()}">
                 <tr>
                     <th>ID</th>
                     <th>Nombre de Usuario</th>
                     <th>Email</th>
                     <th>Eventos</th>
-                    <th>Direcciones</th>
+                    <th>Direccion</th>
                     <th>Editar</th>
                     <th>Borrar</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Aqui se pondrá el bucle de thymeleaf para ir construyendo la página-->
-                <tr>
-                    <td>1</td>
-                    <td>manolo123</td>
-                    <td>manolo@gmail.com</td>
-                    <td><a href="">Mis Eventos</a></td>
-                    <td><a href="">Mis Direcciones</a></td>
-                    <td><a href="#"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
-                    <td><a href="#"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
+ 
+                <tr th:each="usuario : ${usuariosDTO}">
+                    <td><a th:href="@{#}" th:text="${usuario.id}"></a></td>
+                    <td th:text="${usuario.nombreUsuario}"></td>
+                    <td th:text="${usuario.email}"></td>
+                    <td><a th:href="@{#}">Eventos</a></td>
+                    <td><a th:href="@{/admin/usuarios/{idUsuario}/direccion (idUsuario=${usuario.id})}"><span class="bi bi-geo-alt-fill" role="img" title="Modificar"></span></a></td>
+                    <td><a th:href="@{/admin/usuarios/{idUsuario}/update (idUsuario=${usuario.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
+                    <td><a th:href="@{/admin/usuarios/{idUsuario}/delete (idUsuario=${usuario.id})}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
                 </tr>
             </tbody>
         </table>

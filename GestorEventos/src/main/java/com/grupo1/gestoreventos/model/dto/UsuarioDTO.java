@@ -74,12 +74,14 @@ public class UsuarioDTO implements Serializable {
 
 	public UsuarioDTO() {
 		super();
+		this.direccionDTO = new DireccionDTO();
 		this.listaEventosDTO = new ArrayList<EventoDTO>();
 	}
 
 	public UsuarioDTO(Long idUsuarioDTO) {
 		super();
 		this.id = idUsuarioDTO;
+		this.direccionDTO = new DireccionDTO();
 		this.listaEventosDTO = new ArrayList<EventoDTO>();
 	}
 

@@ -41,6 +41,19 @@ td{
     background-color: white;
 }
 
+a{
+	text-decoration: none;
+}
+
+.bi-trash-fill:hover{
+	color:red;
+}
+
+.bi-pencil-square:hover,
+.bi-geo-alt-fill:hover{
+	color:green;
+}
+
 /* ===================================== */
 /* =========== OffCanvas =============== */
 
@@ -333,7 +346,7 @@ footer {
     }
   
     main{
-      height: 50vh;
+     min-height: 50vh;
     }
   
     main > div > a{
