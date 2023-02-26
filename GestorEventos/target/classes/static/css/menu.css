@@ -1,0 +1,164 @@
+.card {
+	height: 25vh;
+	width: 30vw;
+	border-radius: 20px;
+	background: #f5f5f5;
+	position: relative;
+	padding: 1.8rem;
+	border: 2px solid #c3c6ce;
+	transition: 0.5s ease-out;
+	overflow: visible;
+}
+
+.card-details {
+	color: black;
+	height: 100%;
+	gap: .5em;
+	display: grid;
+	place-content: center;
+}
+
+.card-button {
+	transform: translate(-50%, 125%);
+	width: 60%;
+	border-radius: 1rem;
+	border: none;
+	background-color: #f8a826;
+	color: #fff;
+	font-size: 1rem;
+	padding: .5rem 1rem;
+	position: absolute;
+	text-decoration: none;
+	cursor: pointer;
+	left: 50%;
+	bottom: 0;
+	opacity: 0;
+	transition: 0.3s ease-out;
+}
+
+.text-body {
+	color: rgb(134, 134, 134);
+}
+
+/*Text*/
+.text-title {
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
+/*Hover*/
+.card:hover {
+	border-color: #f8a826;
+	box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
+}
+
+.card:hover .card-button {
+	transform: translate(-50%, 50%);
+	opacity: 1;
+}
+
+.card-button:hover {
+	color: black;
+	background-color: white;
+}
+
+
+main>div {
+
+	display: flex;
+
+	flex-direction: column;
+
+	font-family: 'Passion One';
+
+	align-items: center;
+
+	gap: 40px;
+}
+
+header nav div:last-child {
+	display: none;
+}
+
+header>h1 {
+	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+	height: 60px;
+	display: flex;
+	align-content: center;
+	justify-content: center;
+	align-items: center;
+}
+
+main>h1 {
+	padding: 20px;
+	margin-bottom: 10px;
+}
+
+.card:last-of-type:hover {
+	background-color: red;
+}
+
+.card:last-of-type:hover .card-details,
+.card:last-of-type:hover .text-body {
+	color: white;
+}
+
+.card:last-of-type .card-button:hover {
+	color: black;
+	background-color: white;
+}
+
+@media (min-width: 460px) {
+
+	body{
+		background: linear-gradient(0deg, rgba(248,206,38,1) 0%, rgba(234,242,251,1) 100%);
+	}
+
+	main {
+		justify-content: center;
+		margin: 0 auto;
+		display: flex;
+		align-items: center;
+	}
+
+	main>div {
+
+		display: grid;
+
+		grid-template-columns: 1fr 1fr;
+
+	}
+
+
+}
+
+@media (min-width: 800px) {
+
+	body{
+		background: linear-gradient(0deg, rgba(248,206,38,1) 0%, rgba(234,242,251,1) 100%);
+	}
+
+	main {
+		justify-content: center;
+		margin: 0 auto;
+		display: flex;
+		align-items: center;
+	}
+
+	main>div {
+
+		display: grid;
+
+		grid-template-columns: 1fr 1fr 1fr;
+		grid-template-rows: 1fr 1fr;
+
+	}
+
+	header nav {
+		display: none;
+	}
+
+
+
+
+}
