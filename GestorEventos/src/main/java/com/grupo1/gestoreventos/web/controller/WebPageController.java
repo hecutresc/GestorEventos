@@ -6,6 +6,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class WebPageController {
 
+	@GetMapping("/admin")
+	public String admin() {
+		return "app/admin";
+	}
+	
+	@GetMapping("/user")
+	public String user() {
+		return "app/user";
+	}
+	
 	@GetMapping("/login")
 	public String login() {
 		return "views/login";

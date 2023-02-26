@@ -13,6 +13,8 @@ import jakarta.transaction.Transactional;
 @Transactional
 @Repository
 public interface EventoRepository extends JpaRepository<Evento, Long> {
+	@Query(value = "select * from eventos where id_usuario = :idu", nativeQuery = true)
+	List<Evento> findAllByUsuario(@Param("idu") Long idUsuario);
 
 	@Query(value= "SELECT e FROM Evento e WHERE e.usuario.id = :idUsuario")
 	public List<Evento> findAllByUser(@Param("idUsuario") Long idUsuario);
