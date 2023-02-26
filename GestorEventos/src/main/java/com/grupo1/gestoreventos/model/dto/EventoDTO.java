@@ -67,6 +67,7 @@ public class EventoDTO implements Serializable {
 		super();
 		this.listaInvitadosDTO = new ArrayList<InvitadoDTO>();
 		this.listaCateringubicacioneventoDTO = new ArrayList<CateringUbicacionEventoDTO>();
+		this.ubicacionDTO = new UbicacionDTO();
 	}
 
 	public EventoDTO(Long id) {
@@ -74,6 +75,7 @@ public class EventoDTO implements Serializable {
 		this.id = id;
 		this.listaInvitadosDTO = new ArrayList<InvitadoDTO>();
 		this.listaCateringubicacioneventoDTO = new ArrayList<CateringUbicacionEventoDTO>();
+		this.ubicacionDTO = new UbicacionDTO();
 	}
 
 }

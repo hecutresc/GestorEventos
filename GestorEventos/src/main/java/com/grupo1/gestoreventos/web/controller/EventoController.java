@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.grupo1.gestoreventos.model.dto.EventoDTO;
+import com.grupo1.gestoreventos.model.dto.UbicacionDTO;
 import com.grupo1.gestoreventos.model.dto.UsuarioDTO;
 import com.grupo1.gestoreventos.repository.dao.UbicacionRepository;
+import com.grupo1.gestoreventos.model.dto.CateringDTO;
 import com.grupo1.gestoreventos.model.dto.EmpresaDTO;
 import com.grupo1.gestoreventos.service.CateringService;
 import com.grupo1.gestoreventos.service.EventoService;
@@ -123,8 +125,21 @@ public class EventoController {
 		UsuarioDTO usuarioDTO = new UsuarioDTO();
 		usuarioDTO.setId(idUsuario);
 		
-		// Invocamos a la capa de servicios para que almacene los datos del evento
-		eventoService.save(eventoDTO);
+		CateringDTO cateringDTO = new CateringDTO();
+		cateringDTO = eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO();
+		
+		UbicacionDTO ubicacionDTO = new UbicacionDTO();
+		ubicacionDTO = eventoDTO.getUbicacionDTO();
+		
+		EmpresaDTO empresaDTO = cateringDTO.getEmpresaDTO();
+		empresaDTO = eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO().getEmpresaDTO();
+		
+		
+		System.out.println("======================================");
+		System.out.println("EventoDTO: " + eventoDTO.toString());
+		System.out.println("EventoDTO: " + eventoDTO.getUbicacionDTO().toString());
+		System.out.println("EventoDTO: " + eventoDTO.getListaCateringubicacioneventoDTO());
+		System.out.println("======================================");
 
 		// Redireccionamos para volver a invocar el metodo que escucha /eventos
 		ModelAndView mav = new ModelAndView("redirect:/admin/usuarios/{idUsuario}/eventos");
