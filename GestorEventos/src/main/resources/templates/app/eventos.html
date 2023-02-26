@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html lang="es">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Eventos</title>
+   <!-- Bootstrap-5.2.3 -->
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
     <!-- Bootstrap-Icons -->
-    <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap-5.2.3/css/bootstrap.min.css}">
     <!-- General CSS -->
-  <link th:href="@{/css/app.css}" rel="stylesheet">
+  	<link th:href="@{/css/app.css}" rel="stylesheet">
 </head>
 
 <body>
@@ -17,9 +19,8 @@
         <nav>
             <div class="sidenav">
               <a class="closebtn">&times;</a>
-              <a th:href="@{/login}">Opción 1</a>
-              <a th:href="@{/register}">Opción 2</a>
-              <a th:href="@{/}">Opción 3</a>
+              <a th:href="@{/admin/usuarios}">Volver</a>
+              <a th:href="@{/admin/usuarios}">Añadir Evento</a>
             </div>
             
             <div>
@@ -33,36 +34,39 @@
     <main>
 
         <h2>Eventos</h2>
-        <table>
+        
+        <h4 th:if="${eventosDTO.isEmpty()}" class="mt-4 text-muted h4">No hay eventos</h4>
+        
+        <table th:if="${!eventosDTO.isEmpty()}">
+        
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
-                    <th>Usuario Creador</th>
+                	<th>Usuario Creador</th> 
                     <th>Fecha Creación</th>
-                    <th>Ubicación</th>
+                 	<th>Ubicación</th>
                     <th>Fecha Inicio</th>
                     <th>Fecha Fin</th>
                     <th>Lista Invitados</th>
-                    <th>Catering</th>
+                  	<th>Catering</th>
                     <th>Editar</th>
                     <th>Borrar</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Aqui se pondrá el bucle de thymeleaf para ir construyendo la página-->
-                <tr>
-                    <td>1</td>
-                    <td>Cumpleaños Sara</td>
-                    <td>pepe24</td>
-                    <td>12/01/2023</td>
-                    <td><a href="">Ver Ubicación</a></td>
-                    <td>Fecha Inicio</td>
-                    <td>Fecha Fin</td>
-                    <td><a href="">Ver Invitados</a></td>
-                    <td><a href="">Catering</a></td>
-                    <td><a href="#"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
-                    <td><a href="#"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
+                <tr th:each="evento : ${eventosDTO}">
+                    <td th:text="${evento.id}"></td>
+                    <td th:text="${evento.nombre}"></td>
+                    <td th:text="${evento.usuarioDTO.nombreUsuario}"></td>
+                    <td th:text="${#dates.format(evento.creacion, 'dd/MM/yyyy HH:mm')}"></td>
+                    <td><a th:href="@{#}">Ver Ubicación</a></td>
+                    <td th:text="${#dates.format(evento.fechaInicio, 'dd/MM/yyyy')}"></td>
+                    <td th:text="${#dates.format(evento.fechaFin, 'dd/MM/yyyy')}"></td>
+                    <td><a th:href="@{/admin/usuarios/{idUsuario}/eventos/{idEvento}/invitados (idUsuario=${usuarioDTO.id}, idEvento=${evento.id})}">Ver Invitados</a></td>
+                    <td><a th:href="@{#}">Catering</a></td>
+                    <td><a th:href="@{#}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
+                    <td><a th:href="@{#}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
                 </tr>
             </tbody>
         </table>
@@ -73,8 +77,9 @@
 
     </footer>
 
-     <script th:src="@{/js/jquery-3.6.3.js}" ></script>
-  <script th:src="@{/js/script.js}" ></script>
+	<script th:src="@{/vendor/bootstrap-5.2.3/js/bootstrap.bundle.min.js}" ></script>
+    <script th:src="@{/js/jquery-3.6.3.js}" ></script>
+  	<script th:src="@{/js/script.js}" ></script>
 </body>
 
 </html>
