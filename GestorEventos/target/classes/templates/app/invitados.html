@@ -17,9 +17,8 @@
         <nav>
             <div class="sidenav">
               <a class="closebtn">&times;</a>
-              <a th:href="@{/login}">Opción 1</a>
-              <a th:href="@{/register}">Opción 2</a>
-              <a th:href="@{/admin/eventos}">Volver</a>
+              <a th:href="@{/admin/usuarios/{idUsuario}/eventos (idUsuario=${usuarioDTO.id})}">Volver</a>
+              <a th:href="@{/admin/usuarios/{idUsuario}/eventos/{idEvento}/invitados/add (idUsuario=${usuarioDTO.id}, idEvento=${eventoDTO.id})}">Añadir Invitado</a>
             </div>
             
             <div>
@@ -48,14 +47,13 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Aqui se pondrá el bucle de thymeleaf para ir construyendo la página-->
                 <tr th:each="invitado : ${listaInvitadosDTO}">
                     <td th:text="${invitado.id}"></td>
                     <td th:text="${invitado.email}"></td>
                     <td th:text="${invitado.token}"></td>
                     <td th:text="${invitado.asistencia}"></td>
-                    <td><a th:href="@{#}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
-                    <td><a th:href="@{#}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
+                    <td><a th:href="@{/admin/usuarios/{idUsuario}/eventos/{idEvento}/invitados/{idInvitado}/update (idUsuario=${usuarioDTO.id}, idEvento=${eventoDTO.id}, idInvitado=${invitado.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
+                    <td><a th:href="@{/admin/usuarios/{idUsuario}/eventos/{idEvento}/invitados/{idInvitado}/delete (idUsuario=${usuarioDTO.id}, idEvento=${eventoDTO.id}, idInvitado=${invitado.id})}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
                 </tr>
             </tbody>
         </table>
