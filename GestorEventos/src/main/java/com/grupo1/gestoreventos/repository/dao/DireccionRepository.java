@@ -22,5 +22,8 @@ public interface DireccionRepository extends JpaRepository<Direccion, Long> {
 
 	@Query(value = "SELECT d FROM Direccion d WHERE id = (SELECT u.direccion.id FROM Ubicacion u WHERE id = :idUbicacion)")
 	public Optional<Direccion> findByUbicacion(@Param("idUbicacion") Long idUbicacion);
+	
+	@Query(value = "SELECT d FROM Direccion d WHERE calle = :ca and numero = :n and ciudad = :ci and cp = :cpaux")
+	public Optional<Direccion> findByDatos(@Param("ca") String ca, @Param("n") String n, @Param("ci") String ci, @Param("cpaux") String cpaux);
 
 }

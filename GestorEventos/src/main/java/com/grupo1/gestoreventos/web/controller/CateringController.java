@@ -48,8 +48,11 @@ public class CateringController {
 	public ModelAndView add(@PathVariable("idEmpresa") Long idEmpresa) {
 
 		log.info("CateringController - add: Anyadimos un nuevo cliente " + idEmpresa);
+		EmpresaDTO empresaDTO = new EmpresaDTO();
+		empresaDTO.setId(idEmpresa);
 
 		ModelAndView mav = new ModelAndView("app/cateringform");
+		mav.addObject("empresaDTO", empresaDTO);
 		mav.addObject("cateringDTO", new CateringDTO());
 		mav.addObject("add", true);
 
@@ -71,8 +74,8 @@ public class CateringController {
 		cateringDTO.setId(idCatering);
 		cateringDTO = cateringService.findById(cateringDTO);
 
-		ModelAndView mav = new ModelAndView("clienteform");
-		mav.addObject("empresa", empresaDTO);
+		ModelAndView mav = new ModelAndView("app/cateringform");
+		mav.addObject("empresaDTO", empresaDTO);
 		mav.addObject("cateringDTO", cateringDTO);
 		mav.addObject("add", false);
 
