@@ -38,7 +38,6 @@ public class EmpresaController {
 
 	}
 
-	// Alta de clientes
 	@GetMapping("/admin/empresas/add")
 	public ModelAndView add() {
 		log.info("EmpresaController - add: Anyadimos una nueva empresa");
@@ -48,7 +47,6 @@ public class EmpresaController {
 		return mav;
 	}
 
-	// Actualizar la informacion de un cliente
 	@GetMapping("/admin/empresas/update/{idEmpresa}")
 	public ModelAndView update(@PathVariable("idEmpresa") Long idEmpresa) {
 
@@ -64,7 +62,6 @@ public class EmpresaController {
 		return mav;
 	}
 
-	// Salvar clientes
 	@PostMapping("/admin/empresas/save")
 	public ModelAndView save(@ModelAttribute("empresaDTO") EmpresaDTO empresaDTO) {
 
