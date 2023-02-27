@@ -35,15 +35,15 @@
 
   </header>
    
-  <form action="" method="post">
+  <form th:action="@{/login/check}" th:object="${usuarioDTO}" method="post">
    
     <h2>Inicia sesión</h2>
 
       <div>
-        <input type="text" name="username" placeholder="Nombre de usuario">
+        <input type="text" name="username" th:field="*{nombreUsuario}" placeholder="Nombre de usuario">
       </div>
       <div>
-        <input type="password" name="password" placeholder="Contraseña">
+        <input type="password" name="password" th:field="*{claveAcceso}" placeholder="Contraseña">
       </div>
       <div>
         <button type="submit">Iniciar sesión</button>

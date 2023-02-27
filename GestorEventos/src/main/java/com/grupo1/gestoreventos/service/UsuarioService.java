@@ -4,11 +4,12 @@ import java.util.List;
 
 import com.grupo1.gestoreventos.model.dto.UsuarioDTO;
 
-public interface UsuarioService {
+public interface UsuarioService{
 
 	public List<UsuarioDTO> findAll();
 	public UsuarioDTO findById(UsuarioDTO UsuarioDTO);
 	public void save(UsuarioDTO UsuarioDTO);
 	public void delete(UsuarioDTO UsuarioDTO);
+	public UsuarioDTO findByUsernameAndPassword(UsuarioDTO usuarioDTO);
 
 }

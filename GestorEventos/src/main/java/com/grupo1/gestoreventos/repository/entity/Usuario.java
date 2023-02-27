@@ -1,6 +1,8 @@
 package com.grupo1.gestoreventos.repository.entity;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -26,9 +28,6 @@ public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	@Column(name = "tipo")
-	private int tipo;
 
 	@Column(name = "nombre")
 	private String nombre;
@@ -61,6 +60,10 @@ public class Usuario {
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "usuario")
 	private Set<Evento> listaEventos;
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "usuario")
+	@ToString.Exclude
+	private List<Rol> listaRoles;
 
 	@Override
 	public boolean equals(Object obj) {
@@ -83,6 +86,7 @@ public class Usuario {
 		super();
 		this.direccion = new Direccion();
 		this.listaEventos = new HashSet<Evento>();
+		this.listaRoles = new ArrayList<Rol>();
 	}
 
 }

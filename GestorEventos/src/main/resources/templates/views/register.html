@@ -34,50 +34,50 @@
 
   </header>
    
-  <form action="" method="post">
+  <form th:action="@{/register/save}" th:object=${usuarioDTO} method="post">
    
     <div>
       <h2>Rellena tus datos</h2>
     </div>
       <div>
-        <input type="text" name="first_name" placeholder="Nombre">
+        <input type="text" name="first_name" th:field="*{nombre}" placeholder="Nombre">
       </div>
       <div>
-        <input type="text" name="last_name" placeholder="Apellidos">
+        <input type="text" name="last_name" th:field="*{apellidos}" placeholder="Apellidos">
       </div>
       <div>
-        <input type="text" name="nif" placeholder="NIF/NIE">
+        <input type="text" name="nif" th:field="*{nif}" placeholder="NIF/NIE">
       </div>
       <div>
-        <input type="text" name="telephone" placeholder="Teléfono">
+        <input type="text" name="telephone" th:field="*{telefono}" placeholder="Teléfono">
       </div>
       <div>
-        <input type="text" name="street" placeholder="Calle">
+        <input type="text" name="street" th:field="*{direccionDTO.calle}" placeholder="Calle">
       </div>
       <div>
-        <input type="text" name="number" placeholder="Nº">
+        <input type="text" name="number" th:field="*{direccionDTO.numero}" placeholder="Nº">
       </div>
       <div>
-        <input type="text" name="city" placeholder="Ciudad">
+        <input type="text" name="city" th:field="*{direccionDTO.ciudad}" placeholder="Ciudad">
       </div>
       <div>
-        <input type="text" name="postal_code" placeholder="Código postal">
+        <input type="text" name="postal_code" th:field="*{direccionDTO.cp}" placeholder="Código postal">
       </div>
       <div>
-        <input type="email" name="email" placeholder="Email">
+        <input type="email" name="email" th:field="*{email}" placeholder="Email">
       </div>
       <div>
-        <input type="email" name="email" placeholder="Confirmar Email">
+        <input type="email" name="email2" placeholder="Confirmar Email">
       </div>
       
       <div>
-        <input type="text" name="username" placeholder="Nombre de usuario">
+        <input type="text" name="username" th:field="*{nombreUsuario}" placeholder="Nombre de usuario">
       </div>
       <div>
-        <input type="password" name="password" placeholder="Contraseña">
+        <input type="password" name="password" th:field="*{claveAcceso}" placeholder="Contraseña">
       </div>
       <div>
-        <input type="password" name="password" placeholder="Confirmar contraseña">
+        <input type="password" name="password2" placeholder="Confirmar contraseña">
       </div>
       <div>
         <button type="submit">Registrarse</button>
