@@ -48,7 +48,7 @@
             </thead>
             <tbody>
                 <tr th:each="usuario : ${usuariosDTO}">
-                    <td><a th:href="@{#}" th:text="${usuario.id}"></a></td>
+                    <td><a th:href="@{/admin/usuarios/{idUsuario} (idUsuario=${usuario.id})}" th:text="${usuario.id}"></a></td>
                     <td th:text="${usuario.nombreUsuario}"></td>
                     <td th:text="${usuario.email}"></td>
                     <td><a th:href="@{/admin/usuarios/{idUsuario}/eventos (idUsuario=${usuario.id})}">Eventos</a></td>

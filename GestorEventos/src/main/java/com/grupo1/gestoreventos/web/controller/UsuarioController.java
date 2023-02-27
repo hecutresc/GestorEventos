@@ -55,7 +55,7 @@ public class UsuarioController {
 		usuarioDTO = usuarioService.findById(usuarioDTO);
 
 		System.out.println(usuarioDTO.getDireccionDTO().toString());
-		
+
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("app/usuarioform");
 		mv.addObject("usuarioDTO", usuarioDTO);
@@ -76,7 +76,7 @@ public class UsuarioController {
 
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("redirect:/admin/usuarios");
-		
+
 		return mv;
 	}
 
@@ -90,6 +90,20 @@ public class UsuarioController {
 
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("redirect:/admin/usuarios");
+
+		return mv;
+	}
+
+	@GetMapping("/admin/usuarios/{idUsuario}")
+	public ModelAndView findById(@PathVariable("idUsuario") Long idUsuario) {
+		log.info("UsuarioController - findById: Muestra el usuario: " + idUsuario);
+
+		UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
+		usuarioDTO = usuarioService.findById(usuarioDTO);
+
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("app/usuarioshow");
+		mv.addObject("usuarioDTO", usuarioDTO);
 
 		return mv;
 	}
