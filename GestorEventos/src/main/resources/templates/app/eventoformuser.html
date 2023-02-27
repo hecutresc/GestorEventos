@@ -20,7 +20,7 @@
 			<div class="sidenav">
 				<a class="closebtn">&times;</a>
 
-				<a th:href="@{/admin/usuarios/{idUsuario}/eventos (idUsuario=${usuarioDTO.id})}">Volver</a>
+				<a th:href="@{/user}">Volver</a>
 
 			</div>
 
@@ -35,7 +35,7 @@
 
 		<div class="container col-lg-8 p-4 rounded shadow bg-body mt-3 text-start">
 
-			<form th:action="@{/admin/usuarios/{idUsuario}/eventos/save (idUsuario = ${usuarioDTO.id})}" method="POST" th:object="${eventoDTO}">
+			<form th:action="@{/user/usuarios/{idUsuario}/eventos/save (idUsuario = ${usuarioDTO.id})}" method="POST" th:object="${eventoDTO}">
 
 				<div class="mt-1 text-center">
 					<h2 class="h2 rounded" th:text="${add} ? 'Nuevo evento' : 'Actualizar evento'"></h2>
@@ -89,7 +89,8 @@
 				<div class="row mt-3">
 					<div class="col">
 						<label for="catering" class="form-label">Catering</label>
-						<select name="catering" th:field="*{listaCateringubicacioneventoDTO}"  class="form-select">
+						<select name="catering" th:field="*{cateringDTO.id}"  class="form-select">
+							<option selected hidden="true" value="0">Selecciona un catering</option>
 							<option th:each="cateringDTO : ${listaCateringsDTO}" th:value="${cateringDTO.id}"
 								th:text="${cateringDTO.menu}">
 							</option>

@@ -61,7 +61,7 @@ public class EventoServiceImpl implements EventoService {
 						.map(CateringUbicacionEventoDTO::convertToDTO).collect(Collectors.toList()));
 			}
 		}
-
+		
 		Usuario usuario = new Usuario();
 		usuario.setId(eventoDTO.getUsuarioDTO().getId());
 
@@ -75,22 +75,23 @@ public class EventoServiceImpl implements EventoService {
 		evento.setCreacion(new Date());
 		evento.setUsuario(usuario);
 		evento.setUbicacion(ubicacion);
-
+		
 		evento = eventoRepository.save(evento);
 
 		CateringUbicacionEvento cue = new CateringUbicacionEvento();
 		cue.setEvento(evento);
 		cue.setUbicacion(ubicacion);
 		cue.setCatering(catering);
-
-		if (as.size() != 0) {
+		
+		if (!as.isEmpty()) {
 			Optional<CateringUbicacionEvento> cueA = cateringUbicacionEventoRepository.findById(as.get(0).getId());
 			cue.setId(cueA.get().getId());
 			cue.setFechahora(cueA.get().getFechahora());
 		} else {
 			cue.setFechahora(new Date());
-		}
 
+		}
+		
 		cateringUbicacionEventoRepository.save(cue);
 
 	}

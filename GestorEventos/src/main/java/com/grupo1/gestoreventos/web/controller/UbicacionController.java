@@ -108,6 +108,27 @@ public class UbicacionController {
 
 	}
 
+	@GetMapping("/user/usuarios/{idUsuario}/eventos/{idEvento}/ubicacion")
+	public ModelAndView findByEventoUser(@PathVariable("idUsuario") Long idUsuario,
+			@PathVariable("idEvento") Long idEvento) {
+		log.info("UbicacionController - findByEvento: Muestra la Ubicacion del Evento: " + idEvento);
+
+		UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
+		EventoDTO eventoDTO = new EventoDTO(idEvento);
+		eventoDTO = eventoService.findById(eventoDTO);
+
+		UbicacionDTO ubicacionDTO = ubicacionService.findById(eventoDTO.getUbicacionDTO());
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("app/ubicacionshowuser");
+		mv.addObject("usuarioDTO", usuarioDTO);
+		mv.addObject("eventoDTO", eventoDTO);
+		mv.addObject("ubicacionDTO", ubicacionDTO);
+
+		return mv;
+
+	}
+	
 	@GetMapping("/admin/usuarios/{idUsuario}/eventos/{idEvento}/ubicacion")
 	public ModelAndView findByEvento(@PathVariable("idUsuario") Long idUsuario,
 			@PathVariable("idEvento") Long idEvento) {

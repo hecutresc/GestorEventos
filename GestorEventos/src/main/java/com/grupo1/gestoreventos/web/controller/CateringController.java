@@ -146,4 +146,25 @@ public class CateringController {
 
 	}
 	
+	@GetMapping("/user/usuarios/{idUsuario}/eventos/{idEvento}/catering")
+	public ModelAndView findByEventoUser(@PathVariable("idUsuario") Long idUsuario,
+			@PathVariable("idEvento") Long idEvento) {
+		log.info("CateringController - findByEvento: Muestra el Catering del Evento: " + idEvento);
+
+		UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
+		EventoDTO eventoDTO = new EventoDTO(idEvento);
+		eventoDTO = eventoService.findById(eventoDTO);
+
+		CateringDTO cateringDTO = eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO();
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("app/cateringshowuser");
+		mv.addObject("usuarioDTO", usuarioDTO);
+		mv.addObject("eventoDTO", eventoDTO);
+		mv.addObject("cateringDTO", cateringDTO);
+
+		return mv;
+
+	}
+	
 }

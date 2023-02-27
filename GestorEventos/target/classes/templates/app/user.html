@@ -40,21 +40,21 @@
                   <p class="text-title">Nuevo evento</p>
                   <p class="text-body">¿Qué nueva experiencia tienes en mente?</p>
                 </div>
-                <a class="card-button" th:href="@{/eventoform}">Acceder</a>
+                <a class="card-button" th:href="@{/user/usuarios/{idUsuario}/eventos/add (idUsuario=${usuarioDTO.id})}">Acceder</a>
             </div>
             <div class="card">
                 <div class="card-details">
                   <p class="text-title">Eventos pendientes</p>
                   <p class="text-body">¡Lleva un seguimiento de los eventos en curso!</p>
                 </div>
-                <a class="card-button" th:href="@{/eventos}">Acceder</a>
+                <a class="card-button" th:href="@{/user/usuarios/{idUsuario}/eventos (idUsuario=${usuarioDTO.id})}">Acceder</a>
             </div>
             <div class="card">
                 <div class="card-details">
                   <p class="text-title">Desconexión</p>
                   <p class="text-body">Salir de la aplicación</p>
                 </div>
-                <a class="card-button" th:href="@{/index}">Salir</a>
+                <a class="card-button" th:href="@{/}">Salir</a>
             </div>
         </div>
 

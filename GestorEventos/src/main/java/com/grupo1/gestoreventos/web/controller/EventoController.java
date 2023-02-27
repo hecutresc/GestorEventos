@@ -169,7 +169,7 @@ public class EventoController {
 		return mav;
 	}
 
-	// Actualizar la informacion de un evento desde admin
+	// Actualizar la informacion de un evento desde usuarios
 	@GetMapping("/user/usuarios/{idUsuario}/eventos/update/{idEvento}")
 	public ModelAndView updateUser(@PathVariable("idUsuario") Long idUsuario, @PathVariable("idEvento") Long idEvento) {
 
@@ -210,6 +210,7 @@ public class EventoController {
 
 		eventoDTO.setUsuarioDTO(usuarioDTO);
 
+
 		eventoService.save(eventoDTO);
 
 		ModelAndView mav = new ModelAndView("redirect:/admin/usuarios/{idUsuario}/eventos");
@@ -238,7 +239,7 @@ public class EventoController {
 		return mav;
 
 	}
-
+	
 	@GetMapping("/user/usuarios/{idUsuario}/eventos/delete/{idEvento}")
 	public ModelAndView deleteUser(@PathVariable("idUsuario") Long idUsuario, @PathVariable Long idEvento) {
 		// Eliminamos el evento
@@ -255,7 +256,8 @@ public class EventoController {
 		return mav;
 
 	}
-
+	
+	
 	@GetMapping("/admin/usuarios/{idUsuario}/eventos/delete/{idEvento}")
 	public ModelAndView delete(@PathVariable("idUsuario") Long idUsuario, @PathVariable Long idEvento) {
 		// Eliminamos el evento

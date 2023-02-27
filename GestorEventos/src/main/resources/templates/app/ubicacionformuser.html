@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title th:text="${add} ? 'Nueva Ubicacion' : 'Actualizar Ubicacion'"></title>
+<!-- Bootstrap-5.2.3 -->
+<link rel="stylesheet"
+	th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
+<!-- Bootstrap-Icons -->
+<link rel="stylesheet"
+	th:href="@{/vendor/bootstrap-5.2.3/css/bootstrap.min.css}">
+<!-- General CSS -->
+<link th:href="@{/css/app.css}" rel="stylesheet">
+</head>
+
+<body>
+	<header>
+		<h1>Panel de Administración</h1>
+		<nav>
+			<div class="sidenav">
+				<a class="closebtn">&times;</a> <a th:href="@{/admin/empresas}">Volver</a>
+
+			</div>
+
+			<div>
+				<img th:src="@{/media/img/menu.png}" alt="menu">
+			</div>
+
+		</nav>
+	</header>
+
+	<main>
+
+		<div class="container col-lg-8 p-4 rounded shadow bg-body text-start">
+
+			<form th:action="@{/admin/ubicaciones/save}" method="POST"
+				th:object="${ubicacionDTO}">
+
+				<div class="mt-1 text-center">
+					<h2 class="h2 rounded"
+						th:text="${add} ? 'Añadir Ubicacion' : 'Actualizar Ubicacion'"></h2>
+				</div>
+
+				<div class="mt-3" th:if="${errorMessage}" th:utext="${errorMessage}"></div>
+
+				<div th:if="${ubicacionDTO.id}" class="mt-3">
+					<label for="id" class="form-label">ID</label> <input
+						class="form-control" name="id" id="id" type="text"
+						th:field="*{id}" readonly />
+
+				</div>
+
+				<div class="row mt-3">
+
+					<div class="col">
+						<label for="numero" class="form-label">Nombre</label> <input
+							th:type="text" name="numero" class="form-control" id="nombre"
+							th:field="*{nombre}" th:min="0" />
+					</div>
+					
+					<div class="col">
+						<label for="calle" class="form-label">Aforo</label> <input
+							th:type="text" name="calle" class="form-control" id="calle"
+							th:field="*{aforo}" th:maxlength="7" />
+					</div>
+
+				</div>
+
+
+				<div th:if="${ubicacionDTO.id == null}">
+					<!-- Ocultamos el campo id de la dirección -->
+					<input type="hidden" th:field="*{direccionDTO.id}">
+
+					<div class="row mt-3">
+						<div class="col">
+							<label for="dcalle" class="form-label">Calle</label> <input
+								th:type="text" name="dcalle" class="form-control" id="dcalle"
+								th:field="*{direccionDTO.calle}" />
+						</div>
+
+						<div class="col">
+							<label for="dnumero" class="form-label">Número</label> <input
+								th:type="number" name="dnumero" class="form-control"
+								id="dnumero" th:field="*{direccionDTO.numero}" th:min="0" />
+						</div>
+					</div>
+
+					<div class="row mt-3">
+						<div class="col">
+							<label for="dciudad" class="form-label">Ciudad</label> <input
+								th:type="text" name="dciudad" class="form-control" id="dciudad"
+								th:field="*{direccionDTO.ciudad}" />
+						</div>
+
+						<div class="col">
+							<label for="dcp" class="form-label">CP</label> <input
+								th:type="number" name="dcp" class="form-control" id="dcp"
+								th:field="*{direccionDTO.cp}" th:min="0" th:max="99999" />
+						</div>
+					</div>
+
+
+				</div>
+
+				<div class="mt-4">
+					<input type="submit" class="btn btn-outline-success w-100"
+						th:value="${add} ? 'Añadir' : 'Actualizar'" />
+				</div>
+
+			</form>
+
+		</div>
+
+	</main>
+
+	<script th:src="@{/vendor/bootstrap-5.2.3/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/js/jquery-3.6.3.js}"></script>
+	<script th:src="@{/js/script.js}"></script>
+
+</body>
+
+</html>
