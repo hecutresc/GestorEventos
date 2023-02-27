@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración</title>
+    <!-- Bootstrap-Icons -->
+     <link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
+    <!-- General CSS -->
+  <link th:href="@{/css/app.css}" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <h1>Panel de Administración</h1>
+        <nav>
+            <div class="sidenav">
+              <a class="closebtn">&times;</a>
+              <a th:href="@{/admin/usuarios/{idUsuario}/eventos (idUsuario=${usuarioDTO.id})}">Volver</a>
+            </div>
+            <div>
+               <img th:src="@{/media/img/menu.png}" alt="menu">
+            </div>
+          </nav>
+    </header>
+
+    <main>
+        <h2>Ubicacion del evento 
+        	<span th:text="${eventoDTO.nombre}"></span>
+        </h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Aforo</th>
+                    <th>Calle</th>
+                    <th>Número</th>
+                    <th>Ciudad</th>
+                    <th>CP</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr >
+                    <td th:text="${ubicacionDTO.id}"></td>
+                    <td th:text="${ubicacionDTO.nombre}"></td>
+                    <td th:text="${ubicacionDTO.aforo}"></td>
+                    <td th:text="${ubicacionDTO.direccionDTO.calle}"></td>
+                    <td th:text="${ubicacionDTO.direccionDTO.numero}"></td>
+                    <td th:text="${ubicacionDTO.direccionDTO.ciudad}"></td>
+                    <td th:text="${ubicacionDTO.direccionDTO.cp}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+
+    <script th:src="@{/js/jquery-3.6.3.js}" ></script>
+  	<script th:src="@{/js/script.js}" ></script>
+
+</body>
+
+</html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -9,7 +9,6 @@
     <link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
     <!-- General CSS -->
     <link th:href="@{/css/app.css}" rel="stylesheet">
-
 </head>
 
 <body>
@@ -21,14 +20,10 @@
                 <a th:href="@{/admin/empresas}">Volver</a>
                 <a th:href="@{/admin/empresas/{idEmpresa}/caterings/add (idEmpresa=${empresaDTO.id})}">Añadir Catering</a>
             </div>
-
             <div>
-            <img th:src="@{/media/img/menu.png}" alt="menu">
+           		<img th:src="@{/media/img/menu.png}" alt="menu">
             </div>
-
         </nav>
-
-
     </header>
 
     <main>
@@ -46,7 +41,6 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Aqui se pondrá el bucle de thymeleaf para ir construyendo la página-->
                 <tr th:each="cateringDTO : ${listaCateringsDTO}">
                     <td th:text="${cateringDTO.id}">...</td>
                     <td th:text="${cateringDTO.empresaDTO.nombre}">...</td>

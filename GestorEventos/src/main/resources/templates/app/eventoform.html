@@ -19,15 +19,11 @@
 		<nav>
 			<div class="sidenav">
 				<a class="closebtn">&times;</a>
-
-				<a th:href="@{/admin/eventos}">Volver</a>
-
+				<a th:href="@{/admin/usuarios/{idUsuario}/eventos (idUsuario=${usuarioDTO.id})}">Volver</a>
 			</div>
-
 			<div>
 				<img th:src="@{/media/img/menu.png}" alt="menu">
 			</div>
-
 		</nav>
 	</header>
 
@@ -35,7 +31,7 @@
 
 		<div class="container col-lg-8 p-4 rounded shadow bg-body mt-3 text-start">
 
-			<form th:action="@{/admin/usuarios/{idUsuario}/eventos/save (idUsuario = ${usuarioDTO.id})}" method="POST" th:object="${eventoDTO}">
+			<form th:action="@{/admin/usuarios/{idUsuario}/eventos/save (idUsuario=${usuarioDTO.id})}" method="POST" th:object="${eventoDTO}">
 
 				<div class="mt-1 text-center">
 					<h2 class="h2 rounded" th:text="${add} ? 'Nuevo evento' : 'Actualizar evento'"></h2>
@@ -52,7 +48,7 @@
 					<div class="col-4">
 						<label for="anfitrion" class="form-label">Anfitrion</label>
 						<input readonly th:type="text" name="anfitrion" class="form-control" id="anfitrion"
-							 th:placeholder="${usuarioDTO.nombre}" th:field="*{usuarioDTO}" th:maxlength="40" />
+							 th:placeholder="${usuarioDTO.nombreUsuario}" th:field="*{usuarioDTO.nombreUsuario}" th:maxlength="40" />
 					</div>
 					<div class="col-8">
 						<label for="nombre" class="form-label">Nombre</label>
@@ -60,8 +56,7 @@
 							th:maxlength="40" />
 					</div>
 				</div>
-
-
+				
 				<div class="row mt-3">
 					<div class="col">
 						<label for="fechaInicio" class="form-label">Fecha inicio</label>
@@ -79,6 +74,7 @@
 					<div class="col">
 						<label for="ubicacion" class="form-label">Ubicacion</label>
 						<select name="ubicacion" th:field="*{ubicacionDTO.id}"  class="form-select">
+							<option selected hidden="true" value="0">Selecciona una ubicación</option>
 							<option th:each="ubicacionDTO : ${listaUbicacionesDTO}" th:value="${ubicacionDTO.id}"
 								th:text="${ubicacionDTO.nombre}">
 							</option>
@@ -89,7 +85,8 @@
 				<div class="row mt-3">
 					<div class="col">
 						<label for="catering" class="form-label">Catering</label>
-						<select name="catering" th:field="*{listaCateringubicacioneventoDTO}"  class="form-select">
+						<select name="catering" th:field="*{cateringDTO.id}"  class="form-select">
+							<option selected hidden="true" value="0">Selecciona un catering</option>
 							<option th:each="cateringDTO : ${listaCateringsDTO}" th:value="${cateringDTO.id}"
 								th:text="${cateringDTO.menu}">
 							</option>

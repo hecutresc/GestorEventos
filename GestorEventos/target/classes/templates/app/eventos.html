@@ -20,7 +20,7 @@
             <div class="sidenav">
               <a class="closebtn">&times;</a>
               <a th:href="@{/admin/usuarios}">Volver</a>
-              <a th:href="@{/admin/usuarios}">Añadir Evento</a>
+              <a th:href="@{/admin/usuarios/{idUsuario}/eventos/add (idUsuario=${usuarioDTO.id})}">Añadir Evento</a>
             </div>
             
             <div>
@@ -60,11 +60,11 @@
                     <td th:text="${evento.nombre}"></td>
                     <td th:text="${evento.usuarioDTO.nombreUsuario}"></td>
                     <td th:text="${#dates.format(evento.creacion, 'dd/MM/yyyy HH:mm')}"></td>
-                    <td><a th:href="@{#}">Ver Ubicación</a></td>
+                    <td><a th:href="@{/admin/usuarios/{idUsuario}/eventos/{idEvento}/ubicacion (idUsuario=${usuarioDTO.id}, idEvento=${evento.id})}">Ver Ubicación</a></td>
                     <td th:text="${#dates.format(evento.fechaInicio, 'dd/MM/yyyy')}"></td>
                     <td th:text="${#dates.format(evento.fechaFin, 'dd/MM/yyyy')}"></td>
                     <td><a th:href="@{/admin/usuarios/{idUsuario}/eventos/{idEvento}/invitados (idUsuario=${usuarioDTO.id}, idEvento=${evento.id})}">Ver Invitados</a></td>
-                    <td><a th:href="@{#}">Catering</a></td>
+                    <td><a th:href="@{/admin/usuarios/{idUsuario}/eventos/{idEvento}/catering (idUsuario=${usuarioDTO.id}, idEvento=${evento.id})}">Catering</a></td>
                     <td><a th:href="@{#}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
                     <td><a th:href="@{#}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
                 </tr>
