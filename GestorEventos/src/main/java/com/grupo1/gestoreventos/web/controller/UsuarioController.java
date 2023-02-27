@@ -94,4 +94,25 @@ public class UsuarioController {
 		return mv;
 	}
 
+	//Métodos Register
+	
+	@GetMapping("/register")
+	public ModelAndView register() {
+		log.info("UsuarioController - register: Muestra el formulario de registro");
+		ModelAndView mav = new ModelAndView("views/register");
+		mav.addObject("usuarioDTO", new UsuarioDTO());
+		// retornamos
+		return mav;
+	}
+
+	@PostMapping("/register/save")
+	public ModelAndView save2(@ModelAttribute("usuarioDTO") UsuarioDTO usuarioDTO) {
+		log.info("UsuarioController - save: Salvamos los datos del usuario:" + usuarioDTO.toString());
+		
+		// Invocamos a la capa de servicios para que almacene los datos del usuario
+		usuarioService.save(usuarioDTO);
+		// Redireccionamos para volver a invocar a la raiz
+		ModelAndView mav = new ModelAndView("redirect:/login");
+		return mav;
+	}
 }
