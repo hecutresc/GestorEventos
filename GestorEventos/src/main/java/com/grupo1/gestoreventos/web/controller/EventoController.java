@@ -55,6 +55,22 @@ public class EventoController {
 		return mv;
 	}
 
+	@GetMapping("/user/usuarios/{idUsuario}/eventos")
+	public ModelAndView findAllByUsuarioUser(@PathVariable("idUsuario") Long idUsuario) {
+		log.info("EventoController - findAllByUsuario: Muestra los eventos del usuario: " + idUsuario);
+
+		UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
+
+		List<EventoDTO> eventosDTO = eventoService.findAllByUser(usuarioDTO);
+
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("app/eventosuser");
+		mv.addObject("usuarioDTO", usuarioDTO);
+		mv.addObject("eventosDTO", eventosDTO);
+
+		return mv;
+	}
+	
 	@GetMapping("/admin/eventos")
 	public ModelAndView findAll() {
 
@@ -147,6 +163,29 @@ public class EventoController {
 
 		return mav;
 	}
+	
+	// Actualizar la informacion de un evento desde admin
+	@GetMapping("/user/usuarios/{idUsuario}/eventos/update/{idEvento}")
+	public ModelAndView updateUser(@PathVariable("idUsuario") Long idUsuario, @PathVariable("idEvento") Long idEvento) {
+
+		log.info("ClienteController - update: Modificamos el evento: " + idEvento);
+
+		// Seteamos la empresa
+		EmpresaDTO usuarioDTO = new EmpresaDTO();
+		usuarioDTO.setId(idUsuario);
+
+		// Obtenemos el evento y lo pasamos al modelo para ser actualizado
+		EventoDTO eventoDTO = new EventoDTO();
+		eventoDTO.setId(idEvento);
+		eventoDTO = eventoService.findById(eventoDTO);
+
+		ModelAndView mav = new ModelAndView("app/eventoformuser");
+		mav.addObject("usuarioDTO", usuarioDTO);
+		mav.addObject("eventoDTO", eventoDTO);
+		mav.addObject("add", false);
+
+		return mav;
+	}
 
 	// Salvar eventos
 	@PostMapping("/admin/usuarios/{idUsuario}/eventos/save")
@@ -169,13 +208,7 @@ public class EventoController {
 
 		EmpresaDTO empresaDTO = cateringDTO.getEmpresaDTO();
 		//empresaDTO = eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO().getEmpresaDTO();
-
-		System.out.println("======================================");
-		System.out.println("EventoDTO: " + eventoDTO.toString());
-		System.out.println("EventoDTO: " + eventoDTO.getUbicacionDTO().toString());
-		System.out.println("EventoDTO: " + eventoDTO.getUsuarioDTO().toString());
-		System.out.println("EventoDTO: " + eventoDTO.getCateringDTO().toString());
-		System.out.println("======================================");
+		
 
 		// Redireccionamos para volver a invocar el metodo que escucha /eventos
 		ModelAndView mav = new ModelAndView("redirect:/admin/usuarios/{idUsuario}/eventos");
@@ -185,6 +218,46 @@ public class EventoController {
 
 	}
 
+	// Salvar eventos
+	@PostMapping("/user/usuarios/{idUsuario}/eventos/save")
+	public ModelAndView saveUser(@PathVariable("idUsuario") Long idUsuario,
+			@ModelAttribute("eventoDTO") EventoDTO eventoDTO) {
+
+		log.info("ClienteController - save: Salvamos los datos del evento:" + eventoDTO.toString());
+
+		UsuarioDTO usuarioDTO = new UsuarioDTO();
+		usuarioDTO.setId(idUsuario);
+		usuarioDTO = usuarioService.findById(usuarioDTO);
+		
+		eventoDTO.setUsuarioDTO(usuarioDTO);
+		
+		eventoService.save(eventoDTO);
+		
+		// Redireccionamos para volver a invocar el metodo que escucha /eventos
+		ModelAndView mav = new ModelAndView("redirect:/user/usuarios/{idUsuario}/eventos");
+		
+		return mav;
+
+	}
+	
+	@GetMapping("/user/usuarios/{idUsuario}/eventos/delete/{idEvento}")
+	public ModelAndView deleteUser(@PathVariable("idUsuario") Long idUsuario, @PathVariable Long idEvento) {
+		// Eliminamos el evento
+		log.info("EventoController - delete: Elimina el evento " + idEvento);
+		EventoDTO eventoDTO = new EventoDTO();
+		eventoDTO.setId(idEvento);
+
+		// Llamamos al service
+		eventoService.delete(eventoDTO);
+
+		// Volvemos a la vista principal
+		ModelAndView mav = new ModelAndView("redirect:/user/usuarios/{idUsuario}/eventos");
+
+		return mav;
+
+	}
+	
+	
 	@GetMapping("/admin/usuarios/{idUsuario}/eventos/delete/{idEvento}")
 	public ModelAndView delete(@PathVariable("idUsuario") Long idUsuario, @PathVariable Long idEvento) {
 		// Eliminamos el evento

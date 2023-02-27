@@ -1,6 +1,7 @@
 package com.grupo1.gestoreventos.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -13,9 +14,13 @@ import com.grupo1.gestoreventos.model.dto.CateringUbicacionEventoDTO;
 import com.grupo1.gestoreventos.model.dto.EventoDTO;
 import com.grupo1.gestoreventos.model.dto.UbicacionDTO;
 import com.grupo1.gestoreventos.model.dto.UsuarioDTO;
+import com.grupo1.gestoreventos.repository.dao.CateringUbicacionEventoRepository;
 import com.grupo1.gestoreventos.repository.dao.EventoRepository;
+import com.grupo1.gestoreventos.repository.entity.Catering;
 import com.grupo1.gestoreventos.repository.entity.CateringUbicacionEvento;
 import com.grupo1.gestoreventos.repository.entity.Evento;
+import com.grupo1.gestoreventos.repository.entity.Ubicacion;
+import com.grupo1.gestoreventos.repository.entity.Usuario;
 
 @Service
 public class EventoServiceImpl implements EventoService{
@@ -24,6 +29,9 @@ public class EventoServiceImpl implements EventoService{
 	
 	@Autowired
 	private EventoRepository eventoRepository;
+	
+	@Autowired
+	private CateringUbicacionEventoRepository cateringUbicacionEventoRepository;
 	
 	@Override
 	public List<EventoDTO> findAll() {
@@ -40,18 +48,35 @@ public class EventoServiceImpl implements EventoService{
 	
 	}
 
-	
 	@Override
-	public void save(EventoDTO eventoDTO) {
-		log.info("EventoServiceImpl - save: Guarda un evento: " + eventoDTO.getId());
+    public void save(EventoDTO eventoDTO) {
+        log.info("EventoServiceImpl - save: Guarda un evento al usuario: " + eventoDTO.getUsuarioDTO().getId());
 
-		Optional<Evento> evento = eventoRepository.findById(eventoDTO.getId());
+        Usuario usuario = new Usuario();
+        usuario.setId(eventoDTO.getUsuarioDTO().getId());
 
-		if (evento.isPresent()) {
-			eventoRepository.save(evento.get());
-		}
-		
-	}
+        Ubicacion ubicacion = new Ubicacion();
+        ubicacion.setId(eventoDTO.getUbicacionDTO().getId());
+
+        Catering catering = new Catering();
+        catering.setId(eventoDTO.getCateringDTO().getId());
+
+        Evento evento = EventoDTO.convertToEntity(eventoDTO);
+        evento.setCreacion(new Date());
+        evento.setUsuario(usuario);
+        evento.setUbicacion(ubicacion);
+
+        evento = eventoRepository.save(evento);
+
+        CateringUbicacionEvento cue = new CateringUbicacionEvento();
+        cue.setEvento(evento);
+        cue.setUbicacion(ubicacion);
+        cue.setCatering(catering);
+        cue.setFechahora(new Date());
+
+        cateringUbicacionEventoRepository.save(cue);
+
+    }
 
 	@Override
 	public EventoDTO findById(EventoDTO eventoDTO) {
