@@ -17,8 +17,7 @@
         <nav>
             <div class="sidenav">
                 <a class="closebtn">&times;</a>
-                <a th:href="@{/admin/empresas}">Volver</a>
-                <a th:href="@{/admin/empresas/{idEmpresa}/caterings/add (idEmpresa=${empresaDTO.id})}">Añadir Catering</a>
+                <a th:href="@{/admin/usuarios/{idUsuario}/eventos (idUsuario=${usuarioDTO.id})}">Volver</a>
             </div>
             <div>
            		<img th:src="@{/media/img/menu.png}" alt="menu">
@@ -28,26 +27,22 @@
 
     <main>
 
-        <h2>Caterings de la Empresa</h2>
+        <h2>Catering del evento 
+        	<span th:text="${eventoDTO.nombre}"></span>
+        </h2>
         <table>
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Nombre Empresa</th>
                     <th>Menu</th>
                     <th>Precio</th>
-                    <th>Editar</th>
-                    <th>Borrar</th>
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="cateringDTO : ${listaCateringsDTO}">
-                    <td th:text="${cateringDTO.id}">...</td>
-                    <td th:text="${cateringDTO.empresaDTO.nombre}">...</td>
-                    <td th:text="${cateringDTO.menu}">...</td>
-                    <td th:text="${cateringDTO.precio}">...</td>
-                    <td><a th:href="@{/admin/empresas/{idEmpresa}/caterings/update/{idCatering} (idEmpresa=${empresaDTO.id}, idCatering=${cateringDTO.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
-                    <td><a th:href="@{/admin/empresas/{idEmpresa}/caterings/delete/{idCatering} (idEmpresa=${empresaDTO.id}, idCatering=${cateringDTO.id})}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
+                <tr>
+                    <td th:text="${cateringDTO.id}"></td>
+                    <td th:text="${cateringDTO.menu}"></td>
+                    <td th:text="${cateringDTO.precio}"></td>
                 </tr>
             </tbody>
         </table>

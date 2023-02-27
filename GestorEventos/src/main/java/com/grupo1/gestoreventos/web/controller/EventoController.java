@@ -46,7 +46,7 @@ public class EventoController {
 		UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
 		
 		List<EventoDTO> eventosDTO = eventoService.findAllByUser(usuarioDTO);
-
+		
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("app/eventos");
 		mv.addObject("usuarioDTO", usuarioDTO);

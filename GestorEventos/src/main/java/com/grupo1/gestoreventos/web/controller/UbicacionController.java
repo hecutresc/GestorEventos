@@ -14,7 +14,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.grupo1.gestoreventos.model.dto.CateringDTO;
 import com.grupo1.gestoreventos.model.dto.EmpresaDTO;
+import com.grupo1.gestoreventos.model.dto.EventoDTO;
 import com.grupo1.gestoreventos.model.dto.UbicacionDTO;
+import com.grupo1.gestoreventos.model.dto.UsuarioDTO;
+import com.grupo1.gestoreventos.service.EventoService;
 import com.grupo1.gestoreventos.service.UbicacionService;
 
 @Controller
@@ -26,6 +29,9 @@ public class UbicacionController {
 	// Objetos Autowired
 	@Autowired
 	private UbicacionService ubicacionService;
+	
+	@Autowired
+	private EventoService eventoService;
 
 	// Métodos
 	@GetMapping("/admin/ubicaciones")
@@ -40,7 +46,6 @@ public class UbicacionController {
 		return mav;
 
 	}
-
 
 	// Alta de clientes
 	@GetMapping("/admin/ubicaciones/add")
@@ -100,6 +105,27 @@ public class UbicacionController {
 		ModelAndView mav = new ModelAndView("redirect:/admin/ubicaciones");
 
 		return mav;
+
+	}
+
+	@GetMapping("/admin/usuarios/{idUsuario}/eventos/{idEvento}/ubicacion")
+	public ModelAndView findByEvento(@PathVariable("idUsuario") Long idUsuario,
+			@PathVariable("idEvento") Long idEvento) {
+		log.info("UbicacionController - findByEvento: Muestra la Ubicacion del Evento: " + idEvento);
+
+		UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
+		EventoDTO eventoDTO = new EventoDTO(idEvento);
+		eventoDTO = eventoService.findById(eventoDTO);
+
+		UbicacionDTO ubicacionDTO = ubicacionService.findById(eventoDTO.getUbicacionDTO());
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("app/ubicacionshow");
+		mv.addObject("usuarioDTO", usuarioDTO);
+		mv.addObject("eventoDTO", eventoDTO);
+		mv.addObject("ubicacionDTO", ubicacionDTO);
+
+		return mv;
 
 	}
 }

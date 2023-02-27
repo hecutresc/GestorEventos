@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.Collection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,7 +101,6 @@ public class EventoServiceImpl implements EventoService{
 		List<Evento> eventos = eventoRepository.findAllByUser(usuarioDTO.getId());
 
 		List<EventoDTO> eventosDTO = eventos.stream().map(EventoDTO::convertToDTO).collect(Collectors.toList());
-		
 
 		return eventosDTO;
 	
