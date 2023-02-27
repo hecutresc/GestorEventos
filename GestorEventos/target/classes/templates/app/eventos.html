@@ -65,17 +65,13 @@
                     <td th:text="${#dates.format(evento.fechaFin, 'dd/MM/yyyy')}"></td>
                     <td><a th:href="@{/admin/usuarios/{idUsuario}/eventos/{idEvento}/invitados (idUsuario=${usuarioDTO.id}, idEvento=${evento.id})}">Ver Invitados</a></td>
                     <td><a th:href="@{/admin/usuarios/{idUsuario}/eventos/{idEvento}/catering (idUsuario=${usuarioDTO.id}, idEvento=${evento.id})}">Catering</a></td>
-                    <td><a th:href="@{#}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
-                    <td><a th:href="@{#}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
+                    <td><a th:href="@{/admin/usuarios/{idUsuario}/eventos/update/{idEvento} (idUsuario=${usuarioDTO.id}, idEvento=${evento.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
+                    <td><a th:href="@{/admin/usuarios/{idUsuario}/eventos/delete/{idEvento} (idUsuario=${usuarioDTO.id}, idEvento=${evento.id})}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
                 </tr>
             </tbody>
         </table>
 
     </main>
-
-    <footer>
-
-    </footer>
 
 	<script th:src="@{/vendor/bootstrap-5.2.3/js/bootstrap.bundle.min.js}" ></script>
     <script th:src="@{/js/jquery-3.6.3.js}" ></script>

@@ -205,16 +205,8 @@ public class EventoController {
 
 		UbicacionDTO ubicacionDTO = new UbicacionDTO();
 		ubicacionDTO = eventoDTO.getUbicacionDTO();
-
-		EmpresaDTO empresaDTO = cateringDTO.getEmpresaDTO();
-		//empresaDTO = eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO().getEmpresaDTO();
 		
-
-		// Redireccionamos para volver a invocar el metodo que escucha /eventos
-		ModelAndView mav = new ModelAndView("redirect:/admin/usuarios/{idUsuario}/eventos");
-		
-		
-		return null;
+		return new ModelAndView("redirect:/admin/usuarios/{idUsuario}/eventos");
 
 	}
 

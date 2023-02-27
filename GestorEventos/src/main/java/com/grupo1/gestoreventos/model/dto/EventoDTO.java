@@ -63,6 +63,7 @@ public class EventoDTO implements Serializable {
 		evento.setFechaFin(eventoDTO.getFechaFin());
 		evento.setNombre(eventoDTO.getNombre());
 		evento.setCreacion(eventoDTO.getCreacion());
+		
 
 		return evento;
 	}
@@ -72,6 +73,7 @@ public class EventoDTO implements Serializable {
 		this.listaInvitadosDTO = new ArrayList<InvitadoDTO>();
 		this.listaCateringubicacioneventoDTO = new ArrayList<CateringUbicacionEventoDTO>();
 		this.ubicacionDTO = new UbicacionDTO();
+		this.cateringDTO = new CateringDTO();
 	}
 
 	public EventoDTO(Long id) {
