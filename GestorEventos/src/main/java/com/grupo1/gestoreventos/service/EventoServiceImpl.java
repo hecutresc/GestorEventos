@@ -52,11 +52,15 @@ public class EventoServiceImpl implements EventoService {
 	public void save(EventoDTO eventoDTO) {
 		log.info("EventoServiceImpl - save: Guarda un evento al usuario: " + eventoDTO.getUsuarioDTO().getId());
 
-		Optional<Evento> aux = eventoRepository.findById(eventoDTO.getId());
+		List<CateringUbicacionEventoDTO> as = new ArrayList<>();
 
-		List<CateringUbicacionEventoDTO> as = new ArrayList<CateringUbicacionEventoDTO>(
-				aux.get().getListaCateringUbicacionEvento().stream().map(CateringUbicacionEventoDTO::convertToDTO)
-						.collect(Collectors.toList()));
+		if (eventoDTO.getId() != null) {
+			Optional<Evento> aux = eventoRepository.findById(eventoDTO.getId());
+			if (aux.isPresent()) {
+				as = new ArrayList<CateringUbicacionEventoDTO>(aux.get().getListaCateringUbicacionEvento().stream()
+						.map(CateringUbicacionEventoDTO::convertToDTO).collect(Collectors.toList()));
+			}
+		}
 
 		Usuario usuario = new Usuario();
 		usuario.setId(eventoDTO.getUsuarioDTO().getId());
@@ -79,7 +83,7 @@ public class EventoServiceImpl implements EventoService {
 		cue.setUbicacion(ubicacion);
 		cue.setCatering(catering);
 
-		if (!as.isEmpty()) {
+		if (as.size() != 0) {
 			Optional<CateringUbicacionEvento> cueA = cateringUbicacionEventoRepository.findById(as.get(0).getId());
 			cue.setId(cueA.get().getId());
 			cue.setFechahora(cueA.get().getFechahora());
