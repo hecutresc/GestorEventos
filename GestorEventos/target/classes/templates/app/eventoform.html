@@ -20,7 +20,7 @@
 			<div class="sidenav">
 				<a class="closebtn">&times;</a>
 
-				<a th:href="@{/admin/eventos}">Volver</a>
+				<a th:href="@{/admin/usuarios/{idUsuario}/eventos (idUsuario=${usuarioDTO.id})}">Volver</a>
 
 			</div>
 
@@ -52,7 +52,7 @@
 					<div class="col-4">
 						<label for="anfitrion" class="form-label">Anfitrion</label>
 						<input readonly th:type="text" name="anfitrion" class="form-control" id="anfitrion"
-							 th:placeholder="${usuarioDTO.nombre}" th:field="*{usuarioDTO}" th:maxlength="40" />
+							 th:placeholder="${usuarioDTO.nombreUsuario}" th:field="*{usuarioDTO.nombreUsuario}" th:maxlength="40" />
 					</div>
 					<div class="col-8">
 						<label for="nombre" class="form-label">Nombre</label>

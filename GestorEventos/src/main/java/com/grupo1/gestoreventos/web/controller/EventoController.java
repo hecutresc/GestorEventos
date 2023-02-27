@@ -38,15 +38,15 @@ public class EventoController {
 	private UsuarioService usuarioService;
 	@Autowired
 	private CateringService cateringService;
-	
+
 	@GetMapping("/admin/usuarios/{idUsuario}/eventos")
 	public ModelAndView findAllByUsuario(@PathVariable("idUsuario") Long idUsuario) {
-		log.info("EventoController - findAllByUsuario: Muestra los eventos del usuario: "+idUsuario);
+		log.info("EventoController - findAllByUsuario: Muestra los eventos del usuario: " + idUsuario);
 
 		UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
-		
+
 		List<EventoDTO> eventosDTO = eventoService.findAllByUser(usuarioDTO);
-		
+
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("app/eventos");
 		mv.addObject("usuarioDTO", usuarioDTO);
@@ -54,14 +54,13 @@ public class EventoController {
 
 		return mv;
 	}
-	
-	
+
 	@GetMapping("/admin/eventos")
 	public ModelAndView findAll() {
-		
+
 		// Mostramos todos los eventos
 		log.info("EventoController - findByEmpresa: Recoge todos los eventos");
- 		List<EventoDTO> listaEventosDTO = eventoService.findAll();
+		List<EventoDTO> listaEventosDTO = eventoService.findAll();
 
 		// Mostramos la lista a la vista | implementar en un nuevo html
 		ModelAndView mav = new ModelAndView("app/alleventos");
@@ -70,26 +69,24 @@ public class EventoController {
 		return mav;
 
 	}
-	
+
 	@GetMapping("/admin/eventos/{idEvento}/show")
 	public ModelAndView showEventos(@PathVariable("idEvento") Long idEvento) {
-		
-		//Recogemos el evento
+
+		// Recogemos el evento
 		EventoDTO eventoDTO = new EventoDTO();
 		eventoDTO.setId(idEvento);
 		eventoDTO = eventoService.findById(eventoDTO);
-		
-		//ModelAndView
+
+		// ModelAndView
 		ModelAndView mav = new ModelAndView("app/eventoshow");
 		mav.addObject("eventoDTO", eventoDTO);
-		mav.addObject("cateringDTO",eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO());
+		mav.addObject("cateringDTO", eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO());
 		return mav;
 	}
-	
 
-	// Alta de eventos
-	@GetMapping({"/admin/usuarios/{idUsuario}/eventos/add",
-		"/user/usuarios/{idUsuario}/eventos/add"})
+	// Alta de eventos desde administrador
+	@GetMapping({ "/admin/usuarios/{idUsuario}/eventos/add" })
 	public ModelAndView add(@PathVariable("idUsuario") Long idUsuario) {
 
 		log.info("EventoController - add: Anyadimos un nuevo evento " + idUsuario);
@@ -97,8 +94,28 @@ public class EventoController {
 		UsuarioDTO usuarioDTO = new UsuarioDTO();
 		usuarioDTO.setId(idUsuario);
 		usuarioDTO = usuarioService.findById(usuarioDTO);
-		
+
 		ModelAndView mav = new ModelAndView("app/eventoform");
+		mav.addObject("listaCateringsDTO", cateringService.findAll());
+		mav.addObject("listaUbicacionesDTO", ubicacionService.findAll());
+		mav.addObject("usuarioDTO", usuarioDTO);
+		mav.addObject("eventoDTO", new EventoDTO());
+		mav.addObject("add", true);
+
+		return mav;
+	}
+	
+	// Alta de eventos desde usuario
+	@GetMapping({ "/user/usuarios/{idUsuario}/eventos/add" })
+	public ModelAndView addEvento(@PathVariable("idUsuario") Long idUsuario) {
+
+		log.info("EventoController - add: Anyadimos un nuevo evento " + idUsuario);
+
+		UsuarioDTO usuarioDTO = new UsuarioDTO();
+		usuarioDTO.setId(idUsuario);
+		usuarioDTO = usuarioService.findById(usuarioDTO);
+
+		ModelAndView mav = new ModelAndView("app/eventoformuser");
 		mav.addObject("listaCateringsDTO", cateringService.findAll());
 		mav.addObject("listaUbicacionesDTO", ubicacionService.findAll());
 		mav.addObject("usuarioDTO", usuarioDTO);
@@ -133,24 +150,24 @@ public class EventoController {
 
 	// Salvar eventos
 	@PostMapping("/admin/usuarios/{idUsuario}/eventos/save")
-	public ModelAndView save(@PathVariable("idUsuario") Long idUsuario, @ModelAttribute("eventoDTO") EventoDTO eventoDTO) {
+	public ModelAndView save(@PathVariable("idUsuario") Long idUsuario,
+			@ModelAttribute("eventoDTO") EventoDTO eventoDTO) {
 
 		log.info("ClienteController - save: Salvamos los datos del evento:" + eventoDTO.toString());
-		
-		//Seteamos la empresa al nuevo Catering
+
+		// Seteamos la empresa al nuevo Catering
 		UsuarioDTO usuarioDTO = new UsuarioDTO();
 		usuarioDTO.setId(idUsuario);
-		
+
 		CateringDTO cateringDTO = new CateringDTO();
 		cateringDTO = eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO();
-		
+
 		UbicacionDTO ubicacionDTO = new UbicacionDTO();
 		ubicacionDTO = eventoDTO.getUbicacionDTO();
-		
+
 		EmpresaDTO empresaDTO = cateringDTO.getEmpresaDTO();
 		empresaDTO = eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO().getEmpresaDTO();
-		
-		
+
 		System.out.println("======================================");
 		System.out.println("EventoDTO: " + eventoDTO.toString());
 		System.out.println("EventoDTO: " + eventoDTO.getUbicacionDTO().toString());
@@ -179,7 +196,7 @@ public class EventoController {
 		return mav;
 
 	}
-	
+
 	@GetMapping("/admin/eventos/delete/{idEvento}")
 	public ModelAndView delete(@PathVariable Long idEvento) {
 		// Eliminamos el evento
@@ -197,6 +214,4 @@ public class EventoController {
 
 	}
 
-
-	
 }
