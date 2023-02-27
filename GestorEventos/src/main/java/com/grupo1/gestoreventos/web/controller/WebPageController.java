@@ -21,10 +21,10 @@ public class WebPageController {
 		return "views/login";
 	}
 
-	@GetMapping("/register")
+	/*@GetMapping("/register")
 	public String register() {
 		return "views/register";
-	}
+	}*/
 
 	@GetMapping("/caterings")
 	public String caterings() {
