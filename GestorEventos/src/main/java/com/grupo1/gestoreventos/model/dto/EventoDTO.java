@@ -40,6 +40,9 @@ public class EventoDTO implements Serializable {
 
 	@ToString.Exclude
 	private List<CateringUbicacionEventoDTO> listaCateringubicacioneventoDTO;
+	
+	@ToString.Exclude
+	private CateringDTO cateringDTO;
 
 	public static EventoDTO convertToDTO(Evento evento) {
 		EventoDTO eventoDTO = new EventoDTO();

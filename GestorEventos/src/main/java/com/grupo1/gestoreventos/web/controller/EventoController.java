@@ -15,8 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.grupo1.gestoreventos.model.dto.EventoDTO;
 import com.grupo1.gestoreventos.model.dto.UbicacionDTO;
 import com.grupo1.gestoreventos.model.dto.UsuarioDTO;
-import com.grupo1.gestoreventos.repository.dao.UbicacionRepository;
 import com.grupo1.gestoreventos.model.dto.CateringDTO;
+import com.grupo1.gestoreventos.model.dto.CateringUbicacionEventoDTO;
 import com.grupo1.gestoreventos.model.dto.EmpresaDTO;
 import com.grupo1.gestoreventos.service.CateringService;
 import com.grupo1.gestoreventos.service.EventoService;
@@ -94,7 +94,7 @@ public class EventoController {
 		UsuarioDTO usuarioDTO = new UsuarioDTO();
 		usuarioDTO.setId(idUsuario);
 		usuarioDTO = usuarioService.findById(usuarioDTO);
-
+		
 		ModelAndView mav = new ModelAndView("app/eventoform");
 		mav.addObject("listaCateringsDTO", cateringService.findAll());
 		mav.addObject("listaUbicacionesDTO", ubicacionService.findAll());
@@ -104,7 +104,7 @@ public class EventoController {
 
 		return mav;
 	}
-	
+
 	// Alta de eventos desde usuario
 	@GetMapping({ "/user/usuarios/{idUsuario}/eventos/add" })
 	public ModelAndView addEvento(@PathVariable("idUsuario") Long idUsuario) {
@@ -125,7 +125,7 @@ public class EventoController {
 		return mav;
 	}
 
-	// Actualizar la informacion de un evento
+	// Actualizar la informacion de un evento desde admin
 	@GetMapping("/admin/usuarios/{idUsuario}/eventos/update/{idEvento}")
 	public ModelAndView update(@PathVariable("idUsuario") Long idUsuario, @PathVariable("idEvento") Long idEvento) {
 
@@ -159,24 +159,29 @@ public class EventoController {
 		UsuarioDTO usuarioDTO = new UsuarioDTO();
 		usuarioDTO.setId(idUsuario);
 
+		eventoDTO.setUsuarioDTO(usuarioDTO);
+		
 		CateringDTO cateringDTO = new CateringDTO();
-		cateringDTO = eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO();
+		//cateringDTO = eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO();
 
 		UbicacionDTO ubicacionDTO = new UbicacionDTO();
 		ubicacionDTO = eventoDTO.getUbicacionDTO();
 
 		EmpresaDTO empresaDTO = cateringDTO.getEmpresaDTO();
-		empresaDTO = eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO().getEmpresaDTO();
+		//empresaDTO = eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO().getEmpresaDTO();
 
 		System.out.println("======================================");
 		System.out.println("EventoDTO: " + eventoDTO.toString());
 		System.out.println("EventoDTO: " + eventoDTO.getUbicacionDTO().toString());
-		System.out.println("EventoDTO: " + eventoDTO.getListaCateringubicacioneventoDTO());
+		System.out.println("EventoDTO: " + eventoDTO.getUsuarioDTO().toString());
+		System.out.println("EventoDTO: " + eventoDTO.getCateringDTO().toString());
 		System.out.println("======================================");
 
 		// Redireccionamos para volver a invocar el metodo que escucha /eventos
 		ModelAndView mav = new ModelAndView("redirect:/admin/usuarios/{idUsuario}/eventos");
-		return mav;
+		
+		
+		return null;
 
 	}
 
