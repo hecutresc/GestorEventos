@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${add} ? 'Nuevo invitado' : 'Actualizar invitado'"></title>
+    <!-- Bootstrap-5.2.3 -->
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
+    <!-- Bootstrap-Icons -->
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap-5.2.3/css/bootstrap.min.css}">
+    <!-- General CSS -->
+  <link th:href="@{/css/app.css}" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <h1><strong>Event</strong><strong>App</strong></h1>
+        <nav>
+            <div class="sidenav">
+              <a class="closebtn">&times;</a>
+             
+              <a th:href="@{/user/usuarios/{idUsuario}/eventos/{idEvento}/invitados (idUsuario=${usuarioDTO.id}, idEvento=${eventoDTO.id})}">Volver</a>
+    		  
+            </div>
+            
+            <div>
+         		<img th:src="@{/media/img/menu.png}" alt="menu">
+            </div>
+            
+          </nav>
+    </header>
+
+    <main>
+        
+    	<div class="container col-lg-6 p-4 rounded shadow bg-body mt-3 text-start">
+        
+        	<form th:action="@{/user/usuarios/{idUsuario}/eventos/{idEvento}/invitados/save (idUsuario=${usuarioDTO.id}, idEvento=${eventoDTO.id})}" method="POST" th:object="${invitadoDTO}">
+        
+        		<div class="mt-1 text-center">
+          			<h2 class="h2 rounded" th:text="${add} ? 'Nuevo Invitado' : 'Actualizar invitado'"></h2>
+      	 		</div>
+		
+				<div class="mt-3" th:if="${errorMessage}" th:utext="${errorMessage}"></div>
+				
+				<div class="mt-3 row" th:if="!${add}" >
+          			<label for="id" class="form-label col">Id</label>
+         			<input type="text" name="id" class="form-control-plaintext col" id="id" th:field="*{id}" readonly/>
+      	 		</div>
+      	 		
+      	 		<div class="mt-3">
+          			<label for="email" class="form-label">Email</label>
+         			<input th:type="email" name="email" class="form-control" id="email" th:field="*{email}" th:maxlength="20"/>
+      	 		</div>
+      	 	
+      	 		<div class="mt-3">
+          			<label for="token" class="form-label">Token</label>
+         			<input th:type="text" name="token" class="form-control" id="token" th:field="*{token}" th:maxlength="100"/>
+      	 		</div>
+      	 	
+				<div class="mt-3">
+          			<label for="asistencia" class="form-label">Asistencia</label>
+         			<input th:type="number" name="asistencia" class="form-control" id="asistencia" th:field="*{asistencia}" th:min="0" th:max="1"/>
+      	 		</div>
+      	 	
+      	 		<div class="mt-4">
+          			<input type="submit" th:value="${add} ? 'Añadir' : 'Actualizar'" class="btn btn-outline-success w-100"/>
+      	 		</div>
+      	 	 
+			</form>
+        	
+        </div>
+
+    </main>
+
+    <footer>
+
+    </footer>
+
+	<script th:src="@{/vendor/bootstrap-5.2.3/js/bootstrap.bundle.min.js}" ></script>
+  	<script th:src="@{/js/jquery-3.6.3.js}" ></script>
+  	<script th:src="@{/js/script.js}" ></script>
+
+</body>
+
+</html>
