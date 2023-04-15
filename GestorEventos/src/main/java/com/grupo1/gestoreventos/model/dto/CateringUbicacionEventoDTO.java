@@ -20,6 +20,9 @@ public class CateringUbicacionEventoDTO {
 	private CateringDTO cateringDTO;
 	
 	@ToString.Exclude
+	private OcioDTO ocioDTO;
+	
+	@ToString.Exclude
 	private UbicacionDTO ubicacionDTO;
 	
 	@ToString.Exclude
@@ -36,6 +39,7 @@ public class CateringUbicacionEventoDTO {
 		cateringUbicacionEventoDTO.setId(cateringUbicacionEvento.getId());
 		cateringUbicacionEventoDTO.setFechahora(cateringUbicacionEvento.getFechahora());
 		cateringUbicacionEventoDTO.setCateringDTO(CateringDTO.convertToDTO(cateringUbicacionEvento.getCatering()));
+		cateringUbicacionEventoDTO.setOcioDTO(OcioDTO.convertToDTO(cateringUbicacionEvento.getOcio()));
 		cateringUbicacionEventoDTO.setUbicacionDTO(UbicacionDTO.convertToDTO(cateringUbicacionEvento.getUbicacion()));
 		cateringUbicacionEventoDTO.setEventoDTO(EventoDTO.convertToDTO(cateringUbicacionEvento.getEvento()));
 		
@@ -51,6 +55,7 @@ public class CateringUbicacionEventoDTO {
 		cateringUbicacionEvento.setId(cateringUbicacionEventoDTO.getId());
 		cateringUbicacionEvento.setFechahora(cateringUbicacionEventoDTO.getFechahora());
 		cateringUbicacionEvento.setCatering(CateringDTO.convertToEntity(cateringUbicacionEventoDTO.getCateringDTO()));
+		cateringUbicacionEvento.setOcio(OcioDTO.convertToEntity(cateringUbicacionEventoDTO.getOcioDTO()));
 		cateringUbicacionEvento.setUbicacion(UbicacionDTO.convertToEntity(cateringUbicacionEventoDTO.getUbicacionDTO()));
 		cateringUbicacionEvento.setEvento(EventoDTO.convertToEntity(cateringUbicacionEventoDTO.getEventoDTO()));
 		
@@ -61,6 +66,7 @@ public class CateringUbicacionEventoDTO {
 	//Constructor
 	public CateringUbicacionEventoDTO () {
 		this.cateringDTO = new CateringDTO();
+		this.ocioDTO = new OcioDTO();
 		this.ubicacionDTO = new UbicacionDTO();
 		this.eventoDTO = new EventoDTO();
 	}
