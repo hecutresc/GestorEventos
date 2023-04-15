@@ -42,7 +42,16 @@ public class Empresa {
 			cascade = CascadeType.ALL, 
 			mappedBy = "empresa")
 	private Set<Catering> listaCaterings;
+	
+	@OneToMany( fetch = FetchType.LAZY, 
+			cascade = CascadeType.ALL, 
+			mappedBy = "empresa")
+	private Set<Ocio> listaOcio;
 
+	@OneToMany( fetch = FetchType.LAZY, 
+			cascade = CascadeType.ALL, 
+			mappedBy = "empresa")
+	private Set<Decorado> listaDecorados;
 	
 	//HashCode && Equals
 	
@@ -67,5 +76,7 @@ public class Empresa {
 	public Empresa() {
 		this.direccion = new Direccion();
 		this.listaCaterings = new HashSet<Catering>();
+		this.listaOcio = new HashSet<Ocio>();
+		this.listaDecorados = new HashSet<Decorado>();
 	}
 }

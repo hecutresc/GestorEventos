@@ -37,6 +37,9 @@ public class Direccion {
 	@Column(name = "cp")
 	private String cp;
 	
+	@Column(name = "provincia")
+	private String provincia;
+	
 	@ToString.Exclude
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "direccion")
 	private Set<Empresa> listaEmpresas;

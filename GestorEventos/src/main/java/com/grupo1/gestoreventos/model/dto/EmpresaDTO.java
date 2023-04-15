@@ -18,6 +18,12 @@ public class EmpresaDTO {
 	@ToString.Exclude
 	private List<CateringDTO> listaCateringsDTO;
 	
+	@ToString.Exclude
+	private List<OcioDTO> listaOcioDTO;
+	
+	@ToString.Exclude
+	private List<DecoradoDTO> listaDecoradosDTO;
+	
 	//Metodos de Conversión
 	
 	//ConvertToDTO
@@ -50,5 +56,7 @@ public class EmpresaDTO {
 	public EmpresaDTO() {
 		this.direccionDTO = new DireccionDTO();
 		this.listaCateringsDTO = new ArrayList<CateringDTO>();
+		this.listaOcioDTO = new ArrayList<OcioDTO>();
+		this.listaDecoradosDTO = new ArrayList<DecoradoDTO>();
 	}
 }

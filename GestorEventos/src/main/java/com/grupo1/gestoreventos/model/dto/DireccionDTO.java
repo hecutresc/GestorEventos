@@ -18,6 +18,7 @@ public class DireccionDTO implements Serializable {
 	private String numero;
 	private String ciudad;
 	private String cp;
+	private String provincia;
 
 	@ToString.Exclude
 	private List<UsuarioDTO> listaUsuariosDTO;
@@ -35,6 +36,7 @@ public class DireccionDTO implements Serializable {
 		direccionDTO.setNumero(direccion.getNumero());
 		direccionDTO.setCiudad(direccion.getCiudad());
 		direccionDTO.setCp(direccion.getCp());
+		direccionDTO.setProvincia(direccion.getProvincia());
 		return direccionDTO;
 	}
 
@@ -45,6 +47,7 @@ public class DireccionDTO implements Serializable {
 		direccion.setNumero(direccionDTO.getNumero());
 		direccion.setCiudad(direccionDTO.getCiudad());
 		direccion.setCp(direccionDTO.getCp());
+		direccion.setProvincia(direccionDTO.getProvincia());
 		return direccion;
 	}
 

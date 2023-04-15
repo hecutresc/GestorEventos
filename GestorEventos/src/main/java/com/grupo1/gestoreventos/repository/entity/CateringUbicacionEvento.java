@@ -35,6 +35,11 @@ public class CateringUbicacionEvento {
 		private Ocio ocio;
 		
 		@ManyToOne
+		@JoinColumn(name = "id_decorado")
+		@ToString.Exclude
+		private Decorado decorado;
+		
+		@ManyToOne
 		@JoinColumn(name = "id_ubicacion")
 		@ToString.Exclude
 		private Ubicacion ubicacion;
@@ -66,6 +71,7 @@ public class CateringUbicacionEvento {
 		public CateringUbicacionEvento() {
 			this.catering = new Catering();
 			this.ocio = new Ocio();
+			this.decorado = new Decorado();
 			this.evento = new Evento();
 			this.ubicacion = new Ubicacion();
 		}
