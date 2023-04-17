@@ -30,6 +30,7 @@ public class UsuarioDTO implements Serializable {
 
 	@ToString.Exclude
 	private List<EventoDTO> listaEventosDTO;
+	
 
 	public static UsuarioDTO convertToDTO(Usuario usuario) {
 		UsuarioDTO usuarioDTO = new UsuarioDTO();

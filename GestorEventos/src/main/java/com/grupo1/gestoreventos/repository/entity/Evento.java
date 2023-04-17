@@ -35,6 +35,9 @@ public class Evento {
 
 	@Column(name = "nombre")
 	private String nombre;
+	
+	@Column(name = "tipo")
+	private String tipo;
 
 	@Column(name = "fecha_inicio")
 	@Temporal(TemporalType.DATE)

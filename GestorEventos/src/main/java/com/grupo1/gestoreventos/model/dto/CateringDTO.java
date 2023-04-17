@@ -20,6 +20,10 @@ public class CateringDTO {
 
 	@ToString.Exclude
 	private EmpresaDTO empresaDTO;
+	
+	@ToString.Exclude
+	private UbicacionDTO ubicacionDTO;
+	
 	@ToString.Exclude
 	private List<CateringUbicacionEventoDTO> listasCateringUbicacionEventoDTO;
 
@@ -51,6 +55,7 @@ public class CateringDTO {
 	
 	// Constructor
 	public CateringDTO() {
+		this.ubicacionDTO = new UbicacionDTO();
 		this.empresaDTO = new EmpresaDTO();
 		this.listasCateringUbicacionEventoDTO = new ArrayList<CateringUbicacionEventoDTO>();
 	}

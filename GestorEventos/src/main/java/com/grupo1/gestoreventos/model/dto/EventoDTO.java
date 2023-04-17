@@ -25,6 +25,8 @@ public class EventoDTO implements Serializable {
 	private Date fechaFin;
 
 	private String nombre;
+	
+	private String tipo;
 
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	private Date creacion;
@@ -50,6 +52,7 @@ public class EventoDTO implements Serializable {
 		eventoDTO.setFechaInicio(evento.getFechaInicio());
 		eventoDTO.setFechaFin(evento.getFechaFin());
 		eventoDTO.setNombre(evento.getNombre());
+		eventoDTO.setTipo(evento.getTipo());
 		eventoDTO.setCreacion(evento.getCreacion());
 		eventoDTO.setUsuarioDTO(UsuarioDTO.convertToDTO(evento.getUsuario()));
 
@@ -62,6 +65,7 @@ public class EventoDTO implements Serializable {
 		evento.setFechaInicio(eventoDTO.getFechaInicio());
 		evento.setFechaFin(eventoDTO.getFechaFin());
 		evento.setNombre(eventoDTO.getNombre());
+		evento.setTipo(eventoDTO.getTipo());
 		evento.setCreacion(eventoDTO.getCreacion());
 		
 

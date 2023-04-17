@@ -37,6 +37,11 @@ public class Catering {
 	@JoinColumn(name = "id_empresa")
 	@ToString.Exclude
 	private Empresa empresa;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_ubicacion")
+	@ToString.Exclude
+	private Ubicacion ubicacion;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "catering")
 	@ToString.Exclude
@@ -63,6 +68,7 @@ public class Catering {
 
 	// Constructor
 	public Catering() {
+		this.ubicacion = new Ubicacion();
 		this.empresa = new Empresa();
 		this.listasCateringUbicacionEvento = new HashSet<CateringUbicacionEvento>();
 

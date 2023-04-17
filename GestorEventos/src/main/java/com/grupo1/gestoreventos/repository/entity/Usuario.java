@@ -62,6 +62,9 @@ public class Usuario {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "usuario")
 	private Set<Evento> listaEventos;
 
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "usuario")
+	private Set<Rol> listaRoles;
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -82,6 +85,7 @@ public class Usuario {
 	public Usuario() {
 		super();
 		this.direccion = new Direccion();
+		this.listaRoles = new HashSet<Rol>();
 		this.listaEventos = new HashSet<Evento>();
 	}
 

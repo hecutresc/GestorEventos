@@ -44,7 +44,7 @@ public class Ocio {
 	@ToString.Exclude
 	private Empresa empresa;
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "catering")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "ocio")
 	@ToString.Exclude
 	private Set<CateringUbicacionEvento> listasCateringUbicacionEvento;
 
