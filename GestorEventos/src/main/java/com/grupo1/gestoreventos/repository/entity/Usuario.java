@@ -27,9 +27,6 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "tipo")
-	private int tipo;
-
 	@Column(name = "nombre")
 	private String nombre;
 

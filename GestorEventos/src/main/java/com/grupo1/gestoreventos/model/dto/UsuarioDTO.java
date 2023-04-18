@@ -16,7 +16,6 @@ public class UsuarioDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private int tipo;
 	private String nombre;
 	private String apellidos;
 	private String nif;
@@ -35,7 +34,6 @@ public class UsuarioDTO implements Serializable {
 	public static UsuarioDTO convertToDTO(Usuario usuario) {
 		UsuarioDTO usuarioDTO = new UsuarioDTO();
 		usuarioDTO.setId(usuario.getId());
-		usuarioDTO.setTipo(usuario.getTipo());
 		usuarioDTO.setNombre(usuario.getNombre());
 		usuarioDTO.setApellidos(usuario.getApellidos());
 		usuarioDTO.setNif(usuario.getNif());
@@ -56,7 +54,6 @@ public class UsuarioDTO implements Serializable {
 	public static Usuario convertToEntity(UsuarioDTO usuarioDTO) {
 		Usuario usuario = new Usuario();
 		usuario.setId(usuarioDTO.getId());
-		usuario.setTipo(usuarioDTO.getTipo());
 		usuario.setNombre(usuarioDTO.getNombre());
 		usuario.setApellidos(usuarioDTO.getApellidos());
 		usuario.setNif(usuarioDTO.getNif());
