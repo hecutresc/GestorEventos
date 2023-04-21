@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title th:text="${add} ? 'Nuevo Ocio' : 'Actualizar Ocio'"></title>
+<!-- Bootstrap-5.2.3 -->
+<link rel="stylesheet"
+	th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
+<!-- Bootstrap-Icons -->
+<link rel="stylesheet"
+	th:href="@{/vendor/bootstrap-5.2.3/css/bootstrap.min.css}">
+<!-- General CSS -->
+<link th:href="@{/css/app.css}" rel="stylesheet">
+</head>
+
+<body>
+	<header>
+		<h1>Panel de Administración</h1>
+		<nav>
+			<div class="sidenav">
+				<a class="closebtn">&times;</a> <a th:href="@{/admin/empresas/{idEmpresa}/ocios (idEmpresa=${empresaDTO.id})}">Volver</a>
+
+			</div>
+
+			<div>
+				<img th:src="@{/media/img/menu.png}" alt="menu">
+			</div>
+
+		</nav>
+	</header>
+
+	<main>
+
+		<div class="container col-lg-8 p-4 rounded shadow bg-body text-start">
+
+	
+
+			<form th:action="@{/admin/empresas/{idEmpresa}/ocios/save (idEmpresa=${empresaDTO.id})}" method="POST"
+				th:object="${ocioDTO}">
+
+				<div class="mt-1 text-center">
+					<h2 class="h2 rounded"
+						th:text="${add} ? 'Añadir Ocio' : 'Actualizar Ocio'"></h2>
+				</div>
+
+				
+
+				<div th:if="${ocioDTO.id}" class="mt-3">
+					<label for="id" class="form-label">ID</label> <input
+						class="form-control" name="id" id="id" type="text"
+						th:field="*{id}" readonly />
+
+				</div>
+
+				<div class="col">
+						<label for="menu" class="form-label">Nombre</label> <input
+							th:type="text" name="menu" class="form-control" id="menu"
+							th:field="*{nombre}"/>
+					</div>
+					
+					<div class="col">
+						<label for="descripcion" class="form-label">Descripción</label> <input
+							th:type="textarea" name="descripcion" class="form-control" id="descripcion"
+							th:field="*{descripcion}" th:min="0"/>
+					</div>
+					
+					<div class="col">
+						<label for="foto" class="form-label">Foto</label> <input
+							th:type="file" name="foto" class="form-control" id="foto"
+							th:field="*{foto}"/>
+					</div>
+					
+					<div class="col">
+						<label for="precio_hora" class="form-label">Precio/Hora</label> <input
+							th:type="number" name="precio_hora" step="0.01" class="form-control" id="precio_hora"
+							th:field="*{precio_hora}" th:min="0"/>
+					</div>
+
+				<div class="mt-4">
+					<input type="submit" class="btn btn-outline-success w-100"
+						th:value="${add} ? 'Añadir' : 'Actualizar'" />
+				</div>
+				<div class="mt-3" th:if="${errorMessage}" th:utext="${errorMessage}"></div>
+			</form>
+
+		</div>
+
+	</main>
+
+	<script th:src="@{/vendor/bootstrap-5.2.3/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/js/jquery-3.6.3.js}"></script>
+	<script th:src="@{/js/script.js}"></script>
+
+</body>
+
+</html>
