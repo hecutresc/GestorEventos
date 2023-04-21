@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.grupo1.gestoreventos.model.dto.CateringDTO;
 import com.grupo1.gestoreventos.model.dto.EmpresaDTO;
@@ -14,6 +15,8 @@ import com.grupo1.gestoreventos.repository.dao.EmpresaRepository;
 import com.grupo1.gestoreventos.repository.dao.OcioRepository;
 import com.grupo1.gestoreventos.repository.entity.Catering;
 import com.grupo1.gestoreventos.repository.entity.Ocio;
+
+@Service
 
 public class OcioServiceImpl implements OcioService{
 	

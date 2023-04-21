@@ -31,7 +31,7 @@ public class OcioController {
 
 	// Métodos del controlador
 
-	@GetMapping("/admin/empresas/{idEmpresa}/ocio")
+	@GetMapping("/admin/empresas/{idEmpresa}/ocios")
 	public ModelAndView findByEmpresa(@PathVariable("idEmpresa") Long idEmpresa) {
 		// Mostramos todos los caterings
 		log.info("OcioController - findByEmpresa: Recoge todos los ocios disponibles de la empresa " + idEmpresa);
@@ -40,9 +40,9 @@ public class OcioController {
 		List<OcioDTO> listaOcioDTO = ocioService.findAllByEmpresa(empresaDTO);
 
 		// Mostramos la lista a la vista
-		ModelAndView mav = new ModelAndView("/app/caterings");
+		ModelAndView mav = new ModelAndView("/app/ocios");
 		mav.addObject("empresaDTO", empresaDTO);
-		mav.addObject("listaCateringsDTO", listaOcioDTO);
+		mav.addObject("listaOciosDTO", listaOcioDTO);
 
 		return mav;
 	}
