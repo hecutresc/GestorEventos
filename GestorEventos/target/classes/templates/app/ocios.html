@@ -32,22 +32,18 @@
         <table>
             <thead>
                 <tr>
-                    <th>Nombre Empresa</th>
                     <th>Nombre</th>
-                    <th>Descripción</th>
-                    <th>Foto</th>
                     <th>Precio/Hora</th>
+                    <th>+ Info</th>
                     <th>Editar</th>
                     <th>Borrar</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="ocioDTO : ${listaOciosDTO}">
-                    <td th:text="${ocioDTO.empresaDTO.nombre}">...</td>
                     <td th:text="${ocioDTO.nombre}">...</td>
-                    <td th:text="${ocioDTO.descripcion}">...</td>
-                    <td th:text="${ocioDTO.foto}">...</td>
                     <td th:text="${ocioDTO.precio_hora}">...</td>
+                    <td><a th:href="@{/admin/empresas/{idEmpresa}/ocios/{idOcio} (idEmpresa=${empresaDTO.id}, idOcio=${ocioDTO.id})}">+Info</a></td>
                     <td><a th:href="@{/admin/empresas/{idEmpresa}/ocios/update/{idOcio} (idEmpresa=${empresaDTO.id}, idOcio=${ocioDTO.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
                     <td><a th:href="@{/admin/empresas/{idEmpresa}/ocios/delete/{idOcio} (idEmpresa=${empresaDTO.id}, idOcio=${ocioDTO.id})}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
                 </tr>

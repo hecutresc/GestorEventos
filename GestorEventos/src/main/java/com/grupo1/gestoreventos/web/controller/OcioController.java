@@ -1,5 +1,10 @@
 package com.grupo1.gestoreventos.web.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -10,13 +15,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.grupo1.gestoreventos.model.dto.CateringDTO;
 import com.grupo1.gestoreventos.model.dto.EmpresaDTO;
+import com.grupo1.gestoreventos.model.dto.EventoDTO;
 import com.grupo1.gestoreventos.model.dto.OcioDTO;
+import com.grupo1.gestoreventos.model.dto.UsuarioDTO;
+import com.grupo1.gestoreventos.service.EmpresaService;
 import com.grupo1.gestoreventos.service.EventoService;
 import com.grupo1.gestoreventos.service.OcioService;
+
 
 @Controller
 public class OcioController {
@@ -30,6 +41,9 @@ public class OcioController {
 
 	@Autowired
 	private EventoService eventoService;
+	
+	@Autowired
+	private EmpresaService empresaService;
 
 	// Métodos del controlador
 
@@ -90,7 +104,7 @@ public class OcioController {
 
 	// Save
 	@PostMapping("/admin/empresas/{idEmpresa}/ocios/save")
-	public ModelAndView save(@PathVariable("idEmpresa") Long idEmpresa, @ModelAttribute("ocioDTO") OcioDTO ocioDTO) {
+	public ModelAndView save(@PathVariable("idEmpresa") Long idEmpresa, @ModelAttribute("ocioDTO") OcioDTO ocioDTO, @RequestParam("archivo") MultipartFile foto) {
 
 		log.info("OcioController - save: Salvamos los datos del ocio:" + ocioDTO.toString());
 
@@ -98,7 +112,34 @@ public class OcioController {
 		EmpresaDTO empresaDTO = new EmpresaDTO();
 		empresaDTO.setId(idEmpresa);
 		ocioDTO.setEmpresaDTO(empresaDTO);
-
+		if(ocioDTO.getId() == null) {
+			try {
+				Files.createDirectories(Paths.get("src/main/resources/static/images"));
+				
+				byte[] bytes = foto.getBytes();
+				Path ruta = Paths.get("src/main/resources/static/images/" + foto.getOriginalFilename());
+				
+				Files.write(ruta, bytes);
+			} catch (IOException e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			ocioDTO.setFoto("/images/"+foto.getOriginalFilename());
+		} else if(ocioDTO.getId() != null && foto.getOriginalFilename() != "") {
+			try {
+				Files.createDirectories(Paths.get("src/main/resources/static/images"));
+				
+				byte[] bytes = foto.getBytes();
+				Path ruta = Paths.get("src/main/resources/static/images/" + foto.getOriginalFilename());
+				
+				Files.write(ruta, bytes);
+			} catch (IOException e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			ocioDTO.setFoto("/images/"+foto.getOriginalFilename());
+		}
+		
 		// Invocamos a la capa de servicios para que almacene los datos del cliente
 		ocioService.save(ocioDTO);
 
@@ -122,6 +163,70 @@ public class OcioController {
 		ModelAndView mav = new ModelAndView("redirect:/admin/empresas/{idEmpresa}/ocios");
 
 		return mav;
+
+	}
+
+	@GetMapping("/admin/usuarios/{idUsuario}/eventos/{idEvento}/ocio")
+	public ModelAndView findByEvento(@PathVariable("idUsuario") Long idUsuario,
+			@PathVariable("idEvento") Long idEvento) {
+		log.info("OcioController - findByEvento: Muestra el Ocio del Evento: " + idEvento);
+
+		UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
+		EventoDTO eventoDTO = new EventoDTO(idEvento);
+		eventoDTO = eventoService.findById(eventoDTO);
+
+		OcioDTO ocioDTO = eventoDTO.getListaCateringubicacioneventoDTO().get(0).getOcioDTO();
+
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("app/ocioshow");
+		mv.addObject("usuarioDTO", usuarioDTO);
+		mv.addObject("eventoDTO", eventoDTO);
+		mv.addObject("ocioDTO", ocioDTO);
+
+		return mv;
+
+	}
+
+	@GetMapping("/admin/empresas/{idEmpresa}/ocios/{idOcio}")
+	public ModelAndView findByEvento2(@PathVariable("idEmpresa") Long idEmpresa, @PathVariable("idOcio") Long idOcio) {
+		log.info("OcioController - findByEvento2: Muestra el Ocio: " + idOcio);
+
+		// Seteamos la empresa al nuevo Catering
+		EmpresaDTO empresaDTO = new EmpresaDTO();
+		empresaDTO.setId(idEmpresa);
+		empresaDTO = empresaService.findById(empresaDTO);
+		
+		OcioDTO ocioDTO = new OcioDTO();
+		ocioDTO.setId(idOcio);
+		ocioDTO = ocioService.findById(ocioDTO);
+
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("app/ocioshow2");
+		mv.addObject("empresaDTO", empresaDTO);
+		mv.addObject("ocioDTO", ocioDTO);
+
+		return mv;
+
+	}
+
+	@GetMapping("/user/usuarios/{idUsuario}/eventos/{idEvento}/ocio")
+	public ModelAndView findByEventoUser(@PathVariable("idUsuario") Long idUsuario,
+			@PathVariable("idEvento") Long idEvento) {
+		log.info("OcioController - findByEvento: Muestra el Ocio del Evento: " + idEvento);
+
+		UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
+		EventoDTO eventoDTO = new EventoDTO(idEvento);
+		eventoDTO = eventoService.findById(eventoDTO);
+
+		OcioDTO ocioDTO = eventoDTO.getListaCateringubicacioneventoDTO().get(0).getOcioDTO();
+
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("app/ocioshowuser");
+		mv.addObject("usuarioDTO", usuarioDTO);
+		mv.addObject("eventoDTO", eventoDTO);
+		mv.addObject("ocioDTO", ocioDTO);
+
+		return mv;
 
 	}
 

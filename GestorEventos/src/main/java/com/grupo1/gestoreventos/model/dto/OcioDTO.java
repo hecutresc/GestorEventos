@@ -67,6 +67,7 @@ public class OcioDTO implements Serializable{
 	
 	//Constructor
 	public OcioDTO() {
+		this.foto = " ";
 		this.empresaDTO = new EmpresaDTO();
 		this.listasCateringUbicacionEventoDTO = new ArrayList<CateringUbicacionEventoDTO>();
 	}
