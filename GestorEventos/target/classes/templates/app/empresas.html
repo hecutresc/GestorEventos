@@ -35,11 +35,11 @@
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
+                	<th>Nombre</th>
                     <th>CIF</th>
-                    <th>Nombre</th>
                     <th>Caterings</th>
                     <th>Ocios</th>
+                    <th>Decorados</th>
                     <th>Dirección</th>
                     <th>Editar</th>
                     <th>Borrar</th>
@@ -48,11 +48,11 @@
             <tbody>
                 <!-- Aqui se pondrá el bucle de thymeleaf para ir construyendo la página-->
                 <tr th:each="empresaDTO : ${listaEmpresasDTO}">
-                    <td th:text="${empresaDTO.id}">...</td>
-                    <td th:text="${empresaDTO.cif}">...</td>
-                    <td th:text="${empresaDTO.nombre}">...</td>
+                	<td th:text="${empresaDTO.nombre}">...</td>
+                    <td th:text="${empresaDTO.cif}">...</td>   
                     <td><a th:href="@{/admin/empresas/{idEmpresa}/caterings (idEmpresa=${empresaDTO.id})}">Caterings</a></td>
                     <td><a th:href="@{/admin/empresas/{idEmpresa}/ocios (idEmpresa=${empresaDTO.id})}">Ocios</a></td>
+                    <td><a th:href="@{/admin/empresas/{idEmpresa}/decorados (idEmpresa=${empresaDTO.id})}">Decorados</a></td>
                     <td><a th:href="@{/admin/empresas/{idEmpresa}/direccion (idEmpresa=${empresaDTO.id})}"><span class="bi bi-geo-alt-fill" role="img" title="Dirección"></span></a></td>
                     <td><a th:href="@{/admin/empresas/update/{idEmpresa} (idEmpresa=${empresaDTO.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
                     <td><a th:href="@{/admin/empresas/delete/{idEmpresa} (idEmpresa=${empresaDTO.id})}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>

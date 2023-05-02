@@ -102,7 +102,7 @@ public class DecoradoController {
 	}
 
 	// Guardar el Decorado Controller
-	@PostMapping("/admin/empresas/{idEmpresa}/ocios/save")
+	@PostMapping("/admin/empresas/{idEmpresa}/decorados/save")
 	public ModelAndView save(@PathVariable("idEmpresa") Long idEmpresa,
 			@ModelAttribute("decoradoDTO") DecoradoDTO decoradoDTO, @RequestParam("archivo") MultipartFile foto) {
 
@@ -127,10 +127,10 @@ public class DecoradoController {
 			decoradoDTO.setFoto("/images/" + foto.getOriginalFilename());
 		} else if (decoradoDTO.getId() != null && foto.getOriginalFilename() != "") {
 			try {
-				Files.createDirectories(Paths.get("src/main/resources/static/images"));
+				Files.createDirectories(Paths.get("src/main/resources/static/imagesDecorados"));
 
 				byte[] bytes = foto.getBytes();
-				Path ruta = Paths.get("src/main/resources/static/images/" + foto.getOriginalFilename());
+				Path ruta = Paths.get("src/main/resources/static/imagesDecorados/" + foto.getOriginalFilename());
 
 				Files.write(ruta, bytes);
 			} catch (IOException e) {
@@ -149,7 +149,7 @@ public class DecoradoController {
 
 	}
 
-	@GetMapping("/admin/empresas/{idEmpresa}/ocios/delete/{idOcio}")
+	@GetMapping("/admin/empresas/{idEmpresa}/decorados/delete/{idDecorado}")
 	public ModelAndView delete(@PathVariable("idEmpresa") Long idEmpresa, @PathVariable Long idDecorado) {
 		// Eliminamos el catering
 		log.info("DecoradoController - delete: Elimina el decorado " + idDecorado);
