@@ -91,9 +91,7 @@
 						<label for="catering" class="form-label">Catering</label>
 						<select name="catering" th:field="*{cateringDTO.id}"  class="form-select">
 							<option selected hidden="true" value="0">Selecciona un catering</option>
-							<option th:each="cateringDTO : ${listaCateringsDTO}" th:value="${cateringDTO.id}"
-								th:text="${cateringDTO.menu}">
-							</option>
+							
 						</select>
 					</div>
 				</div>
@@ -112,6 +110,7 @@
 	<script th:src="@{/vendor/bootstrap-5.2.3/js/bootstrap.bundle.min.js}"></script>
 	<script th:src="@{/js/jquery-3.6.3.js}"></script>
 	<script th:src="@{/js/script.js}"></script>
+	<script th:src="@{/js/formE.js}"></script>
 
 </body>
 

@@ -45,6 +45,14 @@ public class EventoDTO implements Serializable {
 	
 	@ToString.Exclude
 	private CateringDTO cateringDTO;
+	
+	@ToString.Exclude
+	private DecoradoDTO decoradoDTO;
+	
+	@ToString.Exclude
+	private OcioDTO ocioDTO;
+	
+	
 
 	public static EventoDTO convertToDTO(Evento evento) {
 		EventoDTO eventoDTO = new EventoDTO();
@@ -78,6 +86,8 @@ public class EventoDTO implements Serializable {
 		this.listaCateringubicacioneventoDTO = new ArrayList<CateringUbicacionEventoDTO>();
 		this.ubicacionDTO = new UbicacionDTO();
 		this.cateringDTO = new CateringDTO();
+		this.ocioDTO = new OcioDTO();
+		this.decoradoDTO = new DecoradoDTO();
 	}
 
 	public EventoDTO(Long id) {

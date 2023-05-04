@@ -85,7 +85,7 @@
 					</div>
 				</div>
 
-				
+
 				<div class="row mt-3">
 					<div class="col">
 						<label for="catering" class="form-label">Catering</label> <select id="selectCatering"
@@ -93,9 +93,48 @@
 							<option selected hidden="true" value="0">Selecciona un
 								catering</option>
 
-							
+
 						</select>
 					</div>
+				</div>
+
+				<div id="fotoCatering" class="row mt-3" hidden>
+
+
+				</div>
+
+				<div class="row mt-3">
+					<div class="col">
+						<label for="decorado" class="form-label">Decorado</label> <select id="selectDecorado"
+							name="decorado" th:field="*{decoradoDTO.id}" class="form-select">
+							<option selected hidden="true" value="0">Selecciona un
+								decorado</option>
+
+
+						</select>
+					</div>
+				</div>
+
+				<div id="fotoDecorado" class="row mt-3" hidden>
+
+
+				</div>
+
+				<div class="row mt-3">
+					<div class="col">
+						<label for="ocio" class="form-label">Ocio</label> <select id="selectOcio" name="ocio"
+							th:field="*{ocioDTO.id}" class="form-select">
+							<option selected hidden="true" value="0">Selecciona un
+								ocio</option>
+
+
+						</select>
+					</div>
+				</div>
+
+				<div id="fotoDecorado" class="row mt-3" hidden>
+
+
 				</div>
 
 				<div class="mt-4">
@@ -106,31 +145,43 @@
 			</form>
 
 		</div>
-		<script th:inline="javascript" type="text/javascript">
-			var ubicacionList = /*[[${listaUbicacionesDTO}]]*/[];
-			var cateringList = /*[[${listaCateringsDTO}]]*/ [];
-			var selectUbicacion = document.getElementById('selectUbicacion');
+
+	</main>
+
+	<script th:inline="javascript">
+		var selectUbicacion = document.getElementById('selectUbicacion');
+		selectUbicacion.addEventListener('change', listados);
+
+
+
+		function listados() {
+			//Variables
 			var selectCatering = document.getElementById('selectCatering');
-			selectUbicacion.addEventListener('change', function () {
-				alert('Ha entrado');
-				console.log(ubicacionList.length);
-				var ubi = null;
-				var idUbi = selectUbicacion.value;
-				for (var i = 0; i < ubicacionList.length; i++) {
-					if (ubicacionList[i].id == idUbi) {
-						ubi = ubicacionList[i];
-					}
-				};
-				console.log(ubi.id);
+			var selectDecorado = document.getElementById('selectDecorado');
+			var selectOcio = document.getElementById('selectOcio');
+			var ubicacionList = /*[[${listaUbicacionesDTO}]]*/[];
+			var cateringList = /*[[${listaCateringsDTO}]]*/[];
+			var decoradoList = /*[[${listaDecoradosDTO}]]*/[];
+			var ocioList = /*[[${listaOciosDTO}]]*/[];
+			var ubi = null;
+			var idUbi = selectUbicacion.value;
+			console.log(ubicacionList.length);
+			for (var i = 0; i < ubicacionList.length; i++) {
+				if (ubicacionList[i].id == idUbi) {
+					ubi = ubicacionList[i];
+				}
+			};
+
+			if (ubi.listaCateringsDTO.length == 0) {
 				var filteredCaterings = [];
-				console.log(ubi.direccionDTO.provincia);
-				for(var i=0; i < cateringList.length; i++){
+
+				for (var i = 0; i < cateringList.length; i++) {
 					console.log(cateringList[i].empresaDTO.direccionDTO.provincia);
-					if(cateringList[i].empresaDTO.direccionDTO.provincia == ubi.direccionDTO.provincia){
+					if (cateringList[i].empresaDTO.direccionDTO.provincia == ubi.direccionDTO.provincia) {
 						filteredCaterings.push(cateringList[i]);
 					}
 				};
-				
+
 				console.log(filteredCaterings.length);
 				for (var i = 0; i < filteredCaterings.length; i++) {
 					var option = document.createElement('option');
@@ -138,15 +189,50 @@
 					option.text = filteredCaterings[i].menu;
 					selectCatering.appendChild(option);
 				}
+			} else {
 
-			});
-		</script>
-	</main>
+			}
+
+			//Decorado Filtrado
+			console.log(decoradoList.length);
+			var filteredDecorados = [];
+			for (var i = 0; i < decoradoList.length; i++) {
+				console.log(decoradoList[i].empresaDTO.direccionDTO.provincia);
+				if (decoradoList[i].empresaDTO.direccionDTO.provincia == ubi.direccionDTO.provincia) {
+					filteredDecorados.push(decoradoList[i]);
+				}
+			};
+
+			for (var i = 0; i < filteredDecorados.length; i++) {
+				var option = document.createElement('option');
+				option.value = filteredDecorados[i].id;
+				option.text = filteredDecorados[i].nombre;
+				selectDecorado.appendChild(option);
+			}
+
+			//Ocio Filtrado
+			console.log(decoradoList.length);
+			var filteredOcios = [];
+			for (var i = 0; i < ocioList.length; i++) {
+				console.log(ocioList[i].empresaDTO.direccionDTO.provincia);
+				if (ocioList[i].empresaDTO.direccionDTO.provincia == ubi.direccionDTO.provincia) {
+					filteredOcios.push(ocioList[i]);
+				}
+			};
+
+			for (var i = 0; i < filteredOcios.length; i++) {
+				var option = document.createElement('option');
+				option.value = filteredOcios[i].id;
+				option.text = filteredOcios[i].nombre;
+				selectOcio.appendChild(option);
+			};
+		}
+	</script>
 
 	<script th:src="@{/vendor/bootstrap-5.2.3/js/bootstrap.bundle.min.js}"></script>
 	<script th:src="@{/js/jquery-3.6.3.js}"></script>
 	<script th:src="@{/js/script.js}"></script>
-
+	<!--<script th:src="@{/js/formE.js}"></script>-->
 </body>
 
 </html>

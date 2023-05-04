@@ -45,6 +45,7 @@ public class OcioDTO implements Serializable{
 		ocioDTO.setDescripcion(ocio.getDescripcion());
 		ocioDTO.setFoto(ocio.getFoto());
 		ocioDTO.setPrecio_hora(ocio.getPrecio_hora());
+		ocioDTO.setEmpresaDTO(EmpresaDTO.convertToDTO(ocio.getEmpresa()));
 		return ocioDTO;
 	}
 	

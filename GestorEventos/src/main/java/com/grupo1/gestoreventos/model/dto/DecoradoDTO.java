@@ -46,6 +46,7 @@ public class DecoradoDTO implements Serializable{
 		decoradoDTO.setDescripcion(decorado.getDescripcion());
 		decoradoDTO.setFoto(decorado.getFoto());
 		decoradoDTO.setPrecio(decorado.getPrecio());
+		decoradoDTO.setEmpresaDTO(EmpresaDTO.convertToDTO(decorado.getEmpresa()));
 		
 		return decoradoDTO;
 	}

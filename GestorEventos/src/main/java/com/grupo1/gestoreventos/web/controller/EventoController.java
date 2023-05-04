@@ -19,7 +19,9 @@ import com.grupo1.gestoreventos.model.dto.CateringDTO;
 import com.grupo1.gestoreventos.model.dto.CateringUbicacionEventoDTO;
 import com.grupo1.gestoreventos.model.dto.EmpresaDTO;
 import com.grupo1.gestoreventos.service.CateringService;
+import com.grupo1.gestoreventos.service.DecoradoService;
 import com.grupo1.gestoreventos.service.EventoService;
+import com.grupo1.gestoreventos.service.OcioService;
 import com.grupo1.gestoreventos.service.UbicacionService;
 import com.grupo1.gestoreventos.service.UsuarioService;
 
@@ -38,6 +40,11 @@ public class EventoController {
 	private UsuarioService usuarioService;
 	@Autowired
 	private CateringService cateringService;
+	@Autowired
+	private DecoradoService decoradoService;
+	@Autowired
+	private OcioService ocioService;
+	
 
 	@GetMapping("/admin/usuarios/{idUsuario}/eventos")
 	public ModelAndView findAllByUsuario(@PathVariable("idUsuario") Long idUsuario) {
@@ -98,6 +105,8 @@ public class EventoController {
 		ModelAndView mav = new ModelAndView("app/eventoshow");
 		mav.addObject("eventoDTO", eventoDTO);
 		mav.addObject("cateringDTO", eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO());
+		mav.addObject("decoradoDTO", eventoDTO.getListaCateringubicacioneventoDTO().get(0).getDecoradoDTO());
+		mav.addObject("ocioDTO", eventoDTO.getListaCateringubicacioneventoDTO().get(0).getOcioDTO());
 		return mav;
 	}
 
@@ -114,6 +123,8 @@ public class EventoController {
 		ModelAndView mav = new ModelAndView("app/eventoform");
 		mav.addObject("listaCateringsDTO", cateringService.findAll());
 		mav.addObject("listaUbicacionesDTO", ubicacionService.findAll());
+		mav.addObject("listaDecoradosDTO", decoradoService.findAll());
+		mav.addObject("listaOciosDTO", ocioService.findAll());
 		mav.addObject("usuarioDTO", usuarioDTO);
 		mav.addObject("eventoDTO", new EventoDTO());
 		mav.addObject("add", true);
@@ -134,6 +145,8 @@ public class EventoController {
 		ModelAndView mav = new ModelAndView("app/eventoformuser");
 		mav.addObject("listaCateringsDTO", cateringService.findAll());
 		mav.addObject("listaUbicacionesDTO", ubicacionService.findAll());
+		mav.addObject("listaDecoradosDTO", decoradoService.findAll());
+		mav.addObject("listaOciosDTO", ocioService.findAll());
 		mav.addObject("usuarioDTO", usuarioDTO);
 		mav.addObject("eventoDTO", new EventoDTO());
 		mav.addObject("add", true);
@@ -164,6 +177,8 @@ public class EventoController {
 		mav.addObject("eventoDTO", eventoDTO);
 		mav.addObject("listaCateringsDTO", cateringService.findAll());
 		mav.addObject("listaUbicacionesDTO", ubicacionService.findAll());
+		mav.addObject("listaDecoradosDTO", decoradoService.findAll());
+		mav.addObject("listaOciosDTO", ocioService.findAll());
 		mav.addObject("add", false);
 
 		return mav;
@@ -191,6 +206,8 @@ public class EventoController {
 		mav.addObject("eventoDTO", eventoDTO);
 		mav.addObject("listaCateringsDTO", cateringService.findAll());
 		mav.addObject("listaUbicacionesDTO", ubicacionService.findAll());
+		mav.addObject("listaDecoradosDTO", decoradoService.findAll());
+		mav.addObject("listaOciosDTO", ocioService.findAll());
 		mav.addObject("add", false);
 
 		return mav;

@@ -32,7 +32,10 @@ public class Ubicacion {
 
 	@Column(name = "aforo")
 	private String aforo;
-
+	
+	@Column(name="precio_hora")
+	private Float precio_hora;
+	
 	@ManyToOne
 	@JoinColumn(name = "id_direccion")
 	@ToString.Exclude

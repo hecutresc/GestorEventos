@@ -3,6 +3,7 @@ package com.grupo1.gestoreventos.model.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.grupo1.gestoreventos.repository.entity.Catering;
 import com.grupo1.gestoreventos.repository.entity.Evento;
 import com.grupo1.gestoreventos.repository.entity.Ubicacion;
 
@@ -18,6 +19,8 @@ public class UbicacionDTO {
 	private String nombre;
 
 	private String aforo;
+	
+	private Float precio_hora;
 
 	@ToString.Exclude
 	private DireccionDTO direccionDTO;
@@ -43,7 +46,13 @@ public class UbicacionDTO {
 		ubicacionDTO.setId(ubicacion.getId());
 		ubicacionDTO.setNombre(ubicacion.getNombre());
 		ubicacionDTO.setAforo(ubicacion.getAforo());
+		ubicacionDTO.setPrecio_hora(ubicacion.getPrecio_hora());
 		ubicacionDTO.setDireccionDTO(DireccionDTO.convertToDTO(ubicacion.getDireccion()));
+		for (Catering c : ubicacion.getListaCaterings()) {
+			CateringDTO cDTO = new CateringDTO();
+			cDTO = CateringDTO.convertToDTO(c);
+			ubicacionDTO.getListaCateringsDTO().add(cDTO);
+		}
 		return ubicacionDTO;
 	}
 	
@@ -56,6 +65,7 @@ public class UbicacionDTO {
 		ubicacion.setId(ubicacionDTO.getId());
 		ubicacion.setNombre(ubicacionDTO.getNombre());
 		ubicacion.setAforo(ubicacionDTO.getAforo());
+		ubicacion.setPrecio_hora(ubicacionDTO.getPrecio_hora());
 		ubicacion.setDireccion(DireccionDTO.convertToEntity(ubicacionDTO.getDireccionDTO()));
 		return ubicacion;
 	}
