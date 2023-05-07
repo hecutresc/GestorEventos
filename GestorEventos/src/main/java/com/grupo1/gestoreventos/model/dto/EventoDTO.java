@@ -30,6 +30,8 @@ public class EventoDTO implements Serializable {
 
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	private Date creacion;
+	
+	private Float precio;
 
 	@ToString.Exclude
 	private UbicacionDTO ubicacionDTO;
@@ -62,6 +64,7 @@ public class EventoDTO implements Serializable {
 		eventoDTO.setNombre(evento.getNombre());
 		eventoDTO.setTipo(evento.getTipo());
 		eventoDTO.setCreacion(evento.getCreacion());
+		eventoDTO.setPrecio(evento.getPrecio());
 		eventoDTO.setUsuarioDTO(UsuarioDTO.convertToDTO(evento.getUsuario()));
 
 		return eventoDTO;
@@ -75,7 +78,7 @@ public class EventoDTO implements Serializable {
 		evento.setNombre(eventoDTO.getNombre());
 		evento.setTipo(eventoDTO.getTipo());
 		evento.setCreacion(eventoDTO.getCreacion());
-		
+		evento.setPrecio(eventoDTO.getPrecio());
 
 		return evento;
 	}

@@ -41,9 +41,25 @@ public class CateringUbicacionEventoDTO {
 		//Set de los Atributos
 		cateringUbicacionEventoDTO.setId(cateringUbicacionEvento.getId());
 		cateringUbicacionEventoDTO.setFechahora(cateringUbicacionEvento.getFechahora());
-		cateringUbicacionEventoDTO.setCateringDTO(CateringDTO.convertToDTO(cateringUbicacionEvento.getCatering()));
-		cateringUbicacionEventoDTO.setOcioDTO(OcioDTO.convertToDTO(cateringUbicacionEvento.getOcio()));
-		cateringUbicacionEventoDTO.setDecoradoDTO(DecoradoDTO.convertToDTO(cateringUbicacionEvento.getDecorado()));
+		if(cateringUbicacionEvento.getCatering() != null) {
+			cateringUbicacionEventoDTO.setCateringDTO(CateringDTO.convertToDTO(cateringUbicacionEvento.getCatering()));
+		}else {
+			cateringUbicacionEventoDTO.setCateringDTO(new CateringDTO());
+		}
+		
+		if(cateringUbicacionEvento.getOcio() != null) {
+			cateringUbicacionEventoDTO.setOcioDTO(OcioDTO.convertToDTO(cateringUbicacionEvento.getOcio()));
+		}else {
+			cateringUbicacionEventoDTO.setOcioDTO(new OcioDTO());
+		}
+		
+		if(cateringUbicacionEvento.getDecorado() != null) {
+			cateringUbicacionEventoDTO.setDecoradoDTO(DecoradoDTO.convertToDTO(cateringUbicacionEvento.getDecorado()));
+		}else {
+			cateringUbicacionEventoDTO.setDecoradoDTO(new DecoradoDTO());
+		}
+		
+		
 		cateringUbicacionEventoDTO.setUbicacionDTO(UbicacionDTO.convertToDTO(cateringUbicacionEvento.getUbicacion()));
 		cateringUbicacionEventoDTO.setEventoDTO(EventoDTO.convertToDTO(cateringUbicacionEvento.getEvento()));
 		

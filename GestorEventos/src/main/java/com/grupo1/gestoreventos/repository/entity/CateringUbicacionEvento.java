@@ -24,18 +24,18 @@ public class CateringUbicacionEvento {
 		@Column(name = "fechahora")
 		private Date fechahora;
 		
-		@ManyToOne
-		@JoinColumn(name = "id_catering")
+		@ManyToOne(optional = true)
+		@JoinColumn(name = "id_catering", nullable = true)
 		@ToString.Exclude
 		private Catering catering;
 		
-		@ManyToOne
-		@JoinColumn(name = "id_ocio")
+		@ManyToOne(optional = true)
+		@JoinColumn(name = "id_ocio", nullable = true)
 		@ToString.Exclude
 		private Ocio ocio;
 		
-		@ManyToOne
-		@JoinColumn(name = "id_decorado")
+		@ManyToOne(optional = true)
+		@JoinColumn(name = "id_decorado", nullable = true)
 		@ToString.Exclude
 		private Decorado decorado;
 		

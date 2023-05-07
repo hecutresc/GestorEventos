@@ -59,6 +59,19 @@
 							class="form-control" id="nombre" th:field="*{nombre}" th:maxlength="40" />
 					</div>
 				</div>
+				<div class="row mt-3">
+					<div class="col">
+						<label for="tipo" class="form-label">Tipo Evento</label> <select id="selectTipo"
+							name="tipo" th:field="*{tipo}" class="form-select">
+							<option selected hidden="true" value="0">Seleccione un tipo</option>
+							<option value="Boda">Boda</option>
+							<option value="Congreso">Congreso</option>
+							<option value="Ponencia">Ponencia</option>
+							<option value="Comunion">Comunión</option>
+							<option value="Otros">Otros</option>
+						</select>
+					</div>
+				</div>
 
 				<div class="row mt-3">
 					<div class="col">
@@ -132,9 +145,18 @@
 					</div>
 				</div>
 
-				<div id="fotoDecorado" class="row mt-3" hidden>
+				<div id="fotoPrecioDecorado" class="row mt-3" hidden>
 
+					<div></div>
+					<div id="precioDecorado">
 
+					</div>
+
+				</div>
+
+				<div id="precioEvento" class="row mt-3">
+					<label for="precioEvento" class="form-label col">Precio Final:</label> <input type="number" name="precioEvento"
+						class="form-control col" id="precioEvento" th:field="*{precio}" />
 				</div>
 
 				<div class="mt-4">
