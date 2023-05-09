@@ -20,6 +20,8 @@ public class UbicacionDTO {
 
 	private String aforo;
 	
+	private String foto;
+	
 	private Float precio_hora;
 
 	@ToString.Exclude
@@ -27,10 +29,7 @@ public class UbicacionDTO {
 	
 	@ToString.Exclude
 	private List<EventoDTO> listaEventosDTO;
-	
-	@ToString.Exclude
-	private List<CateringDTO> listaCateringsDTO;
-	
+
 	@ToString.Exclude
 	private List<CateringUbicacionEventoDTO> listaCateringUbicacionEventosDTO;
 	
@@ -47,12 +46,8 @@ public class UbicacionDTO {
 		ubicacionDTO.setNombre(ubicacion.getNombre());
 		ubicacionDTO.setAforo(ubicacion.getAforo());
 		ubicacionDTO.setPrecio_hora(ubicacion.getPrecio_hora());
+		ubicacionDTO.setFoto(ubicacion.getFoto());
 		ubicacionDTO.setDireccionDTO(DireccionDTO.convertToDTO(ubicacion.getDireccion()));
-		for (Catering c : ubicacion.getListaCaterings()) {
-			CateringDTO cDTO = new CateringDTO();
-			cDTO = CateringDTO.convertToDTO(c);
-			ubicacionDTO.getListaCateringsDTO().add(cDTO);
-		}
 		return ubicacionDTO;
 	}
 	
@@ -66,6 +61,7 @@ public class UbicacionDTO {
 		ubicacion.setNombre(ubicacionDTO.getNombre());
 		ubicacion.setAforo(ubicacionDTO.getAforo());
 		ubicacion.setPrecio_hora(ubicacionDTO.getPrecio_hora());
+		ubicacion.setFoto(ubicacionDTO.getFoto());
 		ubicacion.setDireccion(DireccionDTO.convertToEntity(ubicacionDTO.getDireccionDTO()));
 		return ubicacion;
 	}
@@ -75,7 +71,6 @@ public class UbicacionDTO {
 	public UbicacionDTO() {
 		this.direccionDTO = new DireccionDTO();
 		this.listaEventosDTO = new ArrayList<EventoDTO>();
-		this.listaCateringsDTO = new ArrayList<CateringDTO>();
 		this.listaCateringUbicacionEventosDTO = new ArrayList<CateringUbicacionEventoDTO>();
 	}
 	

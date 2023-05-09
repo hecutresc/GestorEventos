@@ -22,9 +22,6 @@ public class CateringDTO {
 	private EmpresaDTO empresaDTO;
 	
 	@ToString.Exclude
-	private UbicacionDTO ubicacionDTO;
-	
-	@ToString.Exclude
 	private List<CateringUbicacionEventoDTO> listasCateringUbicacionEventoDTO;
 
 	// Métodos convertores
@@ -56,7 +53,6 @@ public class CateringDTO {
 	
 	// Constructor
 	public CateringDTO() {
-		this.ubicacionDTO = new UbicacionDTO();
 		this.empresaDTO = new EmpresaDTO();
 		this.listasCateringUbicacionEventoDTO = new ArrayList<CateringUbicacionEventoDTO>();
 	}

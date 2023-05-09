@@ -33,6 +33,15 @@ public class Empresa {
 	@Column(name = "nombre")
 	private String nombre;
 	
+	@Column(name = "email_contacto")
+	private String email_contacto;
+	
+	@Column(name = "telefono_contacto")
+	private String telefono_contacto;
+	
+	@Column(name = "web")
+	private String web;
+	
 	@ManyToOne
 	@JoinColumn(name = "id_direccion")
 	@ToString.Exclude

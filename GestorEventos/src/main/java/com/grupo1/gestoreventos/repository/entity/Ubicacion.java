@@ -36,13 +36,13 @@ public class Ubicacion {
 	@Column(name="precio_hora")
 	private Float precio_hora;
 	
+	@Column(name = "foto")
+	private String foto;
+	
 	@ManyToOne
 	@JoinColumn(name = "id_direccion")
 	@ToString.Exclude
 	private Direccion direccion;
-
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "ubicacion")
-	private Set<Catering> listaCaterings;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "ubicacion")
 	private Set<Evento> listaEventos;
@@ -71,7 +71,6 @@ public class Ubicacion {
 
 	public Ubicacion() {
 		this.direccion = new Direccion();
-		this.listaCaterings = new HashSet<Catering>();
 		this.listaEventos = new HashSet<Evento>();
 		this.listaCateringUbicacionEventos = new HashSet<CateringUbicacionEvento>();
 	}

@@ -1,5 +1,9 @@
 package com.grupo1.gestoreventos.web.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -10,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.grupo1.gestoreventos.model.dto.CateringDTO;
@@ -78,10 +84,39 @@ public class UbicacionController {
 
 	// Salvar clientes
 	@PostMapping("/admin/ubicaciones/save")
-	public ModelAndView save(@ModelAttribute("ubicacionDTO") UbicacionDTO ubicacionDTO) {
+	public ModelAndView save(@ModelAttribute("ubicacionDTO") UbicacionDTO ubicacionDTO, @RequestParam("archivo") MultipartFile foto) {
 
 		log.info("UbicacionController - save: Salvamos los datos de la ubicaion:" + ubicacionDTO.toString());
 
+		//Guardamos la foto
+		if (ubicacionDTO.getId() == null) {
+			try {
+				Files.createDirectories(Paths.get("src/main/resources/static/imagesUbicaciones"));
+
+				byte[] bytes = foto.getBytes();
+				Path ruta = Paths.get("src/main/resources/static/imagesUbicaciones/" + foto.getOriginalFilename());
+
+				Files.write(ruta, bytes);
+			} catch (IOException e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			ubicacionDTO.setFoto("/imagesUbicaciones/" + foto.getOriginalFilename());
+		} else if (ubicacionDTO.getId() != null && foto.getOriginalFilename() != "") {
+			try {
+				Files.createDirectories(Paths.get("src/main/resources/static/imagesUbicaciones"));
+
+				byte[] bytes = foto.getBytes();
+				Path ruta = Paths.get("src/main/resources/static/imagesUbicaciones/" + foto.getOriginalFilename());
+
+				Files.write(ruta, bytes);
+			} catch (IOException e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			ubicacionDTO.setFoto("/imagesUbicaciones/" + foto.getOriginalFilename());
+		}
+		
 		// Invocamos a la capa de servicios para que almacene los datos del cliente
 		ubicacionService.save(ubicacionDTO);
 

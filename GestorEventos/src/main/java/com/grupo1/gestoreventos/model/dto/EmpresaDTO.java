@@ -13,6 +13,10 @@ public class EmpresaDTO {
 	private Long id;
 	private String cif;
 	private String nombre;
+	private String email_contacto;
+	private String telefono_contacto;
+	private String web;
+	
 	@ToString.Exclude
 	private DireccionDTO direccionDTO;
 	@ToString.Exclude
@@ -35,6 +39,9 @@ public class EmpresaDTO {
 		empresaDTO.setId(empresa.getId());
 		empresaDTO.setCif(empresa.getCif());
 		empresaDTO.setNombre(empresa.getNombre());
+		empresaDTO.setEmail_contacto(empresa.getEmail_contacto());
+		empresaDTO.setTelefono_contacto(empresa.getTelefono_contacto());
+		empresaDTO.setWeb(empresa.getWeb());
 		empresaDTO.setDireccionDTO(DireccionDTO.convertToDTO(empresa.getDireccion()));
 		return empresaDTO;
 	}
@@ -47,6 +54,9 @@ public class EmpresaDTO {
 		empresa.setId(empresaDTO.getId());
 		empresa.setCif(empresaDTO.getCif());
 		empresa.setNombre(empresaDTO.getNombre());
+		empresa.setEmail_contacto(empresaDTO.getEmail_contacto());
+		empresa.setTelefono_contacto(empresaDTO.getTelefono_contacto());
+		empresa.setWeb(empresaDTO.getWeb());
 		empresa.setDireccion(DireccionDTO.convertToEntity(empresaDTO.getDireccionDTO()));
 		return empresa;
 	}
