@@ -23,7 +23,6 @@
 
 body {
     min-width: 360px;
-    height: 100vh;
 
     background: linear-gradient(0deg, rgba(248,206,38,1) 0%, rgba(234,242,251,1) 100%); 
 }
@@ -289,6 +288,10 @@ footer {
   
   @media (min-width: 800px) {
 
+      body{
+              height: 100vh;
+
+      }
     .sidenav{
       position: initial !important;
       box-shadow: none;
