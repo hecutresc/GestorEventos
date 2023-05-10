@@ -17,6 +17,8 @@ public class CateringDTO {
 	private String menu;
 
 	private Float precio;
+	
+	private String foto;
 
 	@ToString.Exclude
 	private EmpresaDTO empresaDTO;
@@ -35,6 +37,7 @@ public class CateringDTO {
 		cateringDTO.setId(catering.getId());
 		cateringDTO.setMenu(catering.getMenu());
 		cateringDTO.setPrecio(catering.getPrecio());
+		cateringDTO.setFoto(catering.getFoto());
 		cateringDTO.setEmpresaDTO(EmpresaDTO.convertToDTO(catering.getEmpresa()));
 		return cateringDTO;
 	}
@@ -48,6 +51,7 @@ public class CateringDTO {
 		catering.setId(cateringDTO.getId());
 		catering.setMenu(cateringDTO.getMenu());
 		catering.setPrecio(cateringDTO.getPrecio());
+		catering.setFoto(cateringDTO.getFoto());
 		return catering;
 	}
 	
