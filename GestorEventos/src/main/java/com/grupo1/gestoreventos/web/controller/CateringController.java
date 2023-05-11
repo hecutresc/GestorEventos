@@ -1,5 +1,9 @@
 package com.grupo1.gestoreventos.web.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -10,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.grupo1.gestoreventos.model.dto.CateringDTO;
@@ -28,7 +34,7 @@ public class CateringController {
 	// Objetos Autowired
 	@Autowired
 	private CateringService cateringService;
-	
+
 	@Autowired
 	private EventoService eventoService;
 
@@ -90,15 +96,45 @@ public class CateringController {
 
 	// Salvar clientes
 	@PostMapping("/admin/empresas/{idEmpresa}/caterings/save")
-	public ModelAndView save(@PathVariable("idEmpresa") Long idEmpresa, @ModelAttribute("cateringDTO") CateringDTO cateringDTO) {
+	public ModelAndView save(@PathVariable("idEmpresa") Long idEmpresa,
+			@ModelAttribute("cateringDTO") CateringDTO cateringDTO, @RequestParam("archivo") MultipartFile foto) {
 
 		log.info("ClienteController - save: Salvamos los datos del cliente:" + cateringDTO.toString());
-		
-		//Seteamos la empresa al nuevo Catering
+
+		// Guardamos la foto
+		if (cateringDTO.getId() == null) {
+			try {
+				Files.createDirectories(Paths.get("src/main/resources/static/imagesUbicaciones"));
+
+				byte[] bytes = foto.getBytes();
+				Path ruta = Paths.get("src/main/resources/static/imagesUbicaciones/" + foto.getOriginalFilename());
+
+				Files.write(ruta, bytes);
+			} catch (IOException e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			cateringDTO.setFoto("/imagesUbicaciones/" + foto.getOriginalFilename());
+		} else if (cateringDTO.getId() != null && foto.getOriginalFilename() != "") {
+			try {
+				Files.createDirectories(Paths.get("src/main/resources/static/imagesUbicaciones"));
+
+				byte[] bytes = foto.getBytes();
+				Path ruta = Paths.get("src/main/resources/static/imagesUbicaciones/" + foto.getOriginalFilename());
+
+				Files.write(ruta, bytes);
+			} catch (IOException e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			cateringDTO.setFoto("/imagesUbicaciones/" + foto.getOriginalFilename());
+		}
+
+		// Seteamos la empresa al nuevo Catering
 		EmpresaDTO empresaDTO = new EmpresaDTO();
 		empresaDTO.setId(idEmpresa);
 		cateringDTO.setEmpresaDTO(empresaDTO);
-		
+
 		// Invocamos a la capa de servicios para que almacene los datos del cliente
 		cateringService.save(cateringDTO);
 
@@ -135,7 +171,7 @@ public class CateringController {
 		eventoDTO = eventoService.findById(eventoDTO);
 
 		CateringDTO cateringDTO = eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO();
-		
+
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("app/cateringshow");
 		mv.addObject("usuarioDTO", usuarioDTO);
@@ -145,7 +181,7 @@ public class CateringController {
 		return mv;
 
 	}
-	
+
 	@GetMapping("/user/usuarios/{idUsuario}/eventos/{idEvento}/catering")
 	public ModelAndView findByEventoUser(@PathVariable("idUsuario") Long idUsuario,
 			@PathVariable("idEvento") Long idEvento) {
@@ -156,7 +192,7 @@ public class CateringController {
 		eventoDTO = eventoService.findById(eventoDTO);
 
 		CateringDTO cateringDTO = eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO();
-		
+
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("app/cateringshowuser");
 		mv.addObject("usuarioDTO", usuarioDTO);
@@ -166,5 +202,5 @@ public class CateringController {
 		return mv;
 
 	}
-	
+
 }
