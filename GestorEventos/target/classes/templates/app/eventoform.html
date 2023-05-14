@@ -74,15 +74,23 @@
 					</div>
 				</div>
 
-				<div class="row mt-3">
-					<div class="col">
+				<div id="divFechas" class="row mt-3" style="display: none;">
+					<div id="divFI" class="col">
 						<label for="fechaInicio" class="form-label">Fecha inicio</label> <input th:type="date"
 							name="fechaInicio" class="form-control" id="fechaInicio" th:field="*{fechaInicio}"
 							th:maxlength="100" />
 					</div>
-					<div class="col">
+					<div id="divFF" class="col" style="display: none;">
 						<label for="fechaFin" class="form-label">Fecha Fin</label> <input th:type="date" name="fechaFin"
 							class="form-control" id="fechaFin" th:field="*{fechaFin}" th:maxlength="100" />
+					</div>
+					<div id="divHI" class="col" style="display: none;">
+						<label for="horaInicio" class="form-label">Hora Inicio</label> <input th:type="time" name="horaInicio"
+							class="form-control" id="horaInicio" th:field="*{hora_inicio}" th:maxlength="100" />
+					</div>
+					<div id="divNH" class="col"  style="display: none;">
+						<label for="nHoras" class="form-label">Número de Horas</label> <input th:type="number" name="nHoras"
+							class="form-control" id="nHoras" th:field="*{num_horas}" th:maxlength="23" />
 					</div>
 				</div>
 
@@ -182,8 +190,8 @@
 
 				<!--Precio Evento-->
 				<div id="precioEvento" class="row mt-3">
-					<label for="precioEvento" class="form-label col">Precio Final:</label> <input type="number"
-						name="precioEvento" class="form-control col" id="precioEvento" th:field="*{precio}" />
+					<label for="precioEvento" class="form-label col-4">Precio Final:</label> <input type="number"
+						name="precioEvento" class="form-control col-4" id="precioEvento" th:field="*{precio}" />
 				</div>
 
 				<div class="mt-4">
@@ -217,6 +225,13 @@
 		var selectUbicacion = document.getElementById('selectUbicacion');
 		selectUbicacion.addEventListener('change', function(e){
 			listados(ubicacionList, cateringList, decoradoList, ocioList);
+		});
+
+		//Función para que según el tipo de evento te salgan distintos campos para la fecha
+		var selectTipo = document.getElementById('selectTipo');
+		selectTipo.addEventListener('change', function(e){
+			console.log(this.value);
+			horario(this.value);
 		});
 
 

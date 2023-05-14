@@ -147,6 +147,38 @@ function listados(ubicacionList, cateringList, decoradoList, ocioList) {
                     //Recogemos el elemento con la imagen y el input 
                     p.placeholder = o.precio_hora;
                     i.src = o.foto;
+
+                    //Recogemos el precio y lo sumamos
+                    if (sessionStorage.getItem('precioOcio')) {
+                        //Aqui recogemos el antiguo precio y lo multiplicamos por las hora que hayan y se lo restamos al total antes de poner el nuevo
+                        var p_anterior = sessionStorage.getItem('precioOcio');
+
+                        //Miramos si que tipo de evento es para saber como calcular las horas
+                        var tipoEvento = document.getElementById('selectTipo').value;
+                        if (tipoEvento == "Congreso" || tipoEvento == "Otros") {
+                            var fechaInicio = new Date(document.getElementById("fechaInicio").value);
+                            var fechaFin = new Date(document.getElementById("fechaFin").value);
+
+                            //Calcula en milisegundos
+                            var diferencia = fechaFin - fechaInicio;
+
+                            // Calcular el número de horas redondeando hacia abajo
+                            var horas = Math.floor(diferencia / (1000 * 60 * 60));
+                            var pAnterior_total = p_anterior * horas;
+                            var precioNuevo = o.precio_hora * horas;
+                            //Recogemos el precio final le quitamos
+                            var precio = document.getElementById('precioEvento');
+                            var p1 = (document.getElementById('precioEvento').value - pAnterior_total) + precioNuevo;
+                            precio. value = p1;
+                        } else {
+                            var horas = document.getElementById('');
+                        }
+
+                    } else {
+                        //Tan solo calculamos el precio sin tener en cuenta el precio anterior ya que es el primero
+
+                    }
+
                 } else {
                     p.placeholder = "Error";
                     i.alt = "Error";
@@ -186,4 +218,50 @@ function insertarUbicaciones(listaUbicaciones) {
         option.text = listaUbicaciones[i].nombre;
         selectUbicacion.appendChild(option);
     }
+}
+
+
+//Función para que según el tipo de evento muestre o no algunos parámetros
+function horario(tipo) {
+    //Variables
+    var divFechas = document.getElementById('divFechas');
+    var divFF = document.getElementById('divFF');
+    var divHI = document.getElementById('divHI');
+    var divNH = document.getElementById('divNH');
+    //Mostrar el div que contiene los parámetros y ocultar los otros por si se han cambiado los que hay que mostrar
+    divFF.style.display = "none";
+    divHI.style.display = "none";
+    divNH.style.display = "none";
+    divFechas.style.display = "block";
+    //Según el tipo
+    switch (tipo) {
+        case 'Boda':
+            //Fecha Inicio y Horas
+            divHI.style.display = "block";
+            divNH.style.display = "block";
+            break;
+        case 'Congreso':
+            //Fecha Inicio y Fecha Fin
+            divFF.style.display = "block";
+            break;
+        case 'Ponencia':
+            //Fecha Inicio y Horas
+            divHI.style.display = "block";
+            divNH.style.display = "block";
+            break;
+        case 'Comunion':
+            //Fecha Inicio y Horas
+            divHI.style.display = "block";
+            divNH.style.display = "block";
+            break;
+        case 'Otros':
+            //Fecha Inicio y Fecha Fin
+            divFF.style.display = "block";
+            break;
+    }
+}
+
+//Función para calcular el precio, solo sumará el resultado
+function calcular_precio() {
+
 }

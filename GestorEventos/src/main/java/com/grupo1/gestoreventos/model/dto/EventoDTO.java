@@ -23,6 +23,10 @@ public class EventoDTO implements Serializable {
 
 	@DateTimeFormat(iso = ISO.DATE)
 	private Date fechaFin;
+	
+	private String hora_inicio;
+	
+	private Long num_horas;
 
 	private String nombre;
 	
@@ -61,6 +65,8 @@ public class EventoDTO implements Serializable {
 		eventoDTO.setId(evento.getId());
 		eventoDTO.setFechaInicio(evento.getFechaInicio());
 		eventoDTO.setFechaFin(evento.getFechaFin());
+		eventoDTO.setHora_inicio(evento.getHora_incio());
+		eventoDTO.setNum_horas(evento.getNum_horas());
 		eventoDTO.setNombre(evento.getNombre());
 		eventoDTO.setTipo(evento.getTipo());
 		eventoDTO.setCreacion(evento.getCreacion());
@@ -75,6 +81,8 @@ public class EventoDTO implements Serializable {
 		evento.setId(eventoDTO.getId());
 		evento.setFechaInicio(eventoDTO.getFechaInicio());
 		evento.setFechaFin(eventoDTO.getFechaFin());
+		evento.setHora_incio(eventoDTO.getHora_inicio());
+		evento.setNum_horas(eventoDTO.getNum_horas());
 		evento.setNombre(eventoDTO.getNombre());
 		evento.setTipo(eventoDTO.getTipo());
 		evento.setCreacion(eventoDTO.getCreacion());

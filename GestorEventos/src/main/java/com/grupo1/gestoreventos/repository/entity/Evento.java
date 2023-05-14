@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
+import org.hibernate.type.TrueFalseConverter;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -47,8 +50,14 @@ public class Evento {
 	private Date fechaInicio;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "fecha_fin")
+	@Column(name = "fecha_fin", nullable = true)
 	private Date fechaFin;
+	
+	@Column(name = "hora_inicio", nullable = true)
+	private String hora_incio;
+	
+	@Column(name = "num_horas", nullable = true)
+	private Long num_horas;
 
 	@ManyToOne
 	@JoinColumn(name = "id_ubicacion")
