@@ -11,7 +11,7 @@
 	<link rel="stylesheet" th:href="@{/vendor/bootstrap-5.2.3/css/bootstrap.min.css}">
 	<!-- General CSS -->
 	<link th:href="@{/css/app.css}" rel="stylesheet">
-	
+
 </head>
 
 <body>
@@ -85,12 +85,20 @@
 							class="form-control" id="fechaFin" th:field="*{fechaFin}" th:maxlength="100" />
 					</div>
 					<div id="divHI" class="col" style="display: none;">
-						<label for="horaInicio" class="form-label">Hora Inicio</label> <input th:type="time" name="horaInicio"
-							class="form-control" id="horaInicio" th:field="*{hora_inicio}" th:maxlength="100" />
+						<label for="horaInicio" class="form-label">Hora Inicio</label> <input th:type="time"
+							name="horaInicio" class="form-control" id="horaInicio" th:field="*{hora_inicio}"
+							th:maxlength="100" />
 					</div>
-					<div id="divNH" class="col"  style="display: none;">
-						<label for="nHoras" class="form-label">Número de Horas</label> <input th:type="number" name="nHoras"
-							class="form-control" id="nHoras" th:field="*{num_horas}" th:maxlength="23" />
+					<div id="divNH" class="col" style="display: none;">
+						<label for="nHoras" class="form-label">Número de Horas</label>
+						<select id="nHoras" name="ubicacion" th:field="*{num_horas}" class="form-select">
+							<option value="2">2</option>
+							<option value="4">4</option>
+							<option value="6">6</option>
+							<option value="8">8</option>
+							<option value="10">10</option>
+							<option value="12">12</option>
+						</select>
 					</div>
 				</div>
 
@@ -111,7 +119,8 @@
 					</div>
 					<div id="divPrecioUbicacion">
 						<label class="form-label col" for="precioUbicacion">Precio Ubicacion</label>
-						<input class="form-control col" readonly type="number" name="precioUbicacion" id="precioUbicacion">
+						<input class="form-control col" readonly type="number" name="precioUbicacion"
+							id="precioUbicacion">
 					</div>
 
 				</div>
@@ -136,7 +145,8 @@
 					</div>
 					<div id="divPrecioCatering">
 						<label class="form-label col" for="precioCatering">Precio Catering</label>
-						<input class="form-control col" readonly type="number" name="precioCatering" id="precioCatering">
+						<input class="form-control col" readonly type="number" name="precioCatering"
+							id="precioCatering">
 					</div>
 
 				</div>
@@ -189,9 +199,10 @@
 				</div>
 
 				<!--Precio Evento-->
-				<div id="precioEvento" class="row mt-3">
-					<label for="precioEvento" class="form-label col-4">Precio Final:</label> <input type="number"
-						name="precioEvento" class="form-control col-4" id="precioEvento" th:field="*{precio}" />
+				<div id="divPrecioEvento" class="row mt-3">
+					<label for="precioEvento" class="form-label col">Precio Final:</label> <input type="number"
+						name="precioEvento" readonly class="form-control" id="precioEvento" th:field="*{precio}"
+						value="0" />
 				</div>
 
 				<div class="mt-4">
@@ -205,13 +216,22 @@
 
 	</main>
 
-	
+
 
 	<script th:src="@{/vendor/bootstrap-5.2.3/js/bootstrap.bundle.min.js}"></script>
 	<script th:src="@{/js/jquery-3.6.3.js}"></script>
 	<script th:src="@{/js/script.js}"></script>
 	<script th:src="@{/js/formE.js}"></script>
 	<script th:inline="javascript">
+
+		//Ponemos todos los session storage a null
+		quitarSession('pOcio');
+		quitarSession('p_ubi');
+		quitarSession('pDecorado');
+		quitarSession('pCatering');
+
+		//Ponemos el precio por defecto a 0
+		document.getElementById('precioEvento').value = 0;
 
 		//Listas de los objetos
 		var ubicacionList = /*[[${listaUbicacionesDTO}]]*/[];
@@ -223,19 +243,20 @@
 
 		//Función que controla las demas funciones en el archivo js
 		var selectUbicacion = document.getElementById('selectUbicacion');
-		selectUbicacion.addEventListener('change', function(e){
+		selectUbicacion.addEventListener('change', function (e) {
 			listados(ubicacionList, cateringList, decoradoList, ocioList);
 		});
 
 		//Función para que según el tipo de evento te salgan distintos campos para la fecha
 		var selectTipo = document.getElementById('selectTipo');
-		selectTipo.addEventListener('change', function(e){
-			console.log(this.value);
+		selectTipo.addEventListener('change', function (e) {
 			horario(this.value);
+			cambio_Tipo_Evento();
+
 		});
 
 
-		
+
 	</script>
 </body>
 

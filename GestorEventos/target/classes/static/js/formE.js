@@ -39,7 +39,7 @@ function listados(ubicacionList, cateringList, decoradoList, ocioList) {
         p.placeholder = ubi.precio_hora;
         i.src = ubi.foto;
         divFPUbicacion.style.display = "block";
-
+        calcular_precio_hora("p_ubi", ubi.precio_hora);
         //Creamos la lista para los caterings filtrados y los añdimos y vaciamos
         var filteredCaterings = [];
         vaciarSelect(selectCatering);
@@ -148,36 +148,9 @@ function listados(ubicacionList, cateringList, decoradoList, ocioList) {
                     p.placeholder = o.precio_hora;
                     i.src = o.foto;
 
-                    //Recogemos el precio y lo sumamos
-                    if (sessionStorage.getItem('precioOcio')) {
-                        //Aqui recogemos el antiguo precio y lo multiplicamos por las hora que hayan y se lo restamos al total antes de poner el nuevo
-                        var p_anterior = sessionStorage.getItem('precioOcio');
+                    //Llamamos a la función para que calcule el precio
+                    calcular_precio_hora("pOcio", o.precio_hora);
 
-                        //Miramos si que tipo de evento es para saber como calcular las horas
-                        var tipoEvento = document.getElementById('selectTipo').value;
-                        if (tipoEvento == "Congreso" || tipoEvento == "Otros") {
-                            var fechaInicio = new Date(document.getElementById("fechaInicio").value);
-                            var fechaFin = new Date(document.getElementById("fechaFin").value);
-
-                            //Calcula en milisegundos
-                            var diferencia = fechaFin - fechaInicio;
-
-                            // Calcular el número de horas redondeando hacia abajo
-                            var horas = Math.floor(diferencia / (1000 * 60 * 60));
-                            var pAnterior_total = p_anterior * horas;
-                            var precioNuevo = o.precio_hora * horas;
-                            //Recogemos el precio final le quitamos
-                            var precio = document.getElementById('precioEvento');
-                            var p1 = (document.getElementById('precioEvento').value - pAnterior_total) + precioNuevo;
-                            precio. value = p1;
-                        } else {
-                            var horas = document.getElementById('');
-                        }
-
-                    } else {
-                        //Tan solo calculamos el precio sin tener en cuenta el precio anterior ya que es el primero
-
-                    }
 
                 } else {
                     p.placeholder = "Error";
@@ -261,7 +234,114 @@ function horario(tipo) {
     }
 }
 
-//Función para calcular el precio, solo sumará el resultado
-function calcular_precio() {
+function quitarSession(nSession) {
+    if (sessionStorage.getItem(nSession)) {
+        sessionStorage.removeItem(nSession);
+    }
+}
 
+//Función para calcular el precio, solo sumará el resultado
+function calcular_precio_hora(s_object, precio_hora) {
+    console.log('ha entrado');
+    //Recogemos el precio y lo sumamos
+    if (sessionStorage.getItem(s_object)) {
+        //Aqui recogemos el antiguo precio y lo multiplicamos por las hora que hayan y se lo restamos al total antes de poner el nuevo
+        var p_anterior = parseFloat(sessionStorage.getItem(s_object));
+
+        //Miramos si que tipo de evento es para saber como calcular las horas
+        var tipoEvento = document.getElementById('selectTipo').value;
+        if (tipoEvento == "Congreso" || tipoEvento == "Otros") {
+            var fechaInicio = new Date(document.getElementById("fechaInicio").value);
+            var fechaFin = new Date(document.getElementById("fechaFin").value);
+
+            //Calcula en milisegundos
+            var diferencia = fechaFin - fechaInicio;
+
+            // Calcular el número de horas redondeando hacia abajo
+            var horas = Math.floor(diferencia / (1000 * 60 * 60));
+            var pAnterior_total = p_anterior * horas;
+            var precioNuevo = precio_hora * horas;
+            //Recogemos el precio final le quitamos
+            var precio = document.getElementById('precioEvento');
+            var p1 = ((parseFloat(precio.value)) - pAnterior_total) + precioNuevo;
+            //Seteamos el precio actualizado
+            precio.value = p1;
+            //Seteamos el sesión storage
+            sessionStorage.setItem(s_object, precio_hora);
+        } else {
+            var horas = document.getElementById('nHoras').value;
+            var pAnterior_total = p_anterior * horas;
+            var precioNuevo = precio_hora * horas;
+            var precio = document.getElementById('precioEvento');
+            var p1 = ((parseFloat(precio.value)) - pAnterior_total) + precioNuevo;
+            //Seteamos el precio actualizado
+            console.log(precio.value);
+            console.log(p1);
+            precio.value = p1;
+            //Seteamos el sesión storage
+            sessionStorage.setItem(s_object, precio_hora);
+        }
+
+    } else {
+        //Tan solo calculamos el precio sin tener en cuenta el precio anterior ya que es el primero
+        var tipoEvento = document.getElementById('selectTipo').value;
+        if (tipoEvento == "Congreso" || tipoEvento == "Otros") {
+            var fechaInicio = new Date(document.getElementById("fechaInicio").value);
+            var fechaFin = new Date(document.getElementById("fechaFin").value);
+
+            //Calcula en milisegundos
+            var diferencia = fechaFin - fechaInicio;
+            // Calcular el número de horas redondeando hacia abajo
+            var horas = Math.floor(diferencia / (1000 * 60 * 60));
+            var precioNuevo = precio_hora * horas;
+            //Recogemos el precio final le quitamos
+            var precio = document.getElementById('precioEvento');
+            var p1 = (parseFloat(precio.value)) + precioNuevo;
+            //Seteamos el precio actualizado
+            console.log(precio.value);
+            console.log(p1);
+            precio.value = p1;
+            //Seteamos el sesión storage
+            sessionStorage.setItem(s_object, precio_hora);
+        } else {
+
+            var horas = document.getElementById('nHoras').value;
+            var precioNuevo = precio_hora * horas;
+            var precio = document.getElementById('precioEvento');
+            var p1 = (parseFloat(precio.value)) + precioNuevo;
+            //Seteamos el precio actualizado
+            precio.value = p1;
+            //Seteamos el sesión storage
+            sessionStorage.setItem(s_object, precio_hora);
+        }
+    }
+}
+
+function cambio_Tipo_Evento() {
+    //Quitamos todos los session porque se ha cambiado el tipo de evento
+    quitarSession('pOcio');
+    quitarSession('p_ubi');
+    quitarSession('pDecorado');
+    quitarSession('pCatering');
+    //Dejamos todos los select a value 0 para que así el usuario los elija de nuevo.
+    var selectUbi = document.getElementById('selectUbicacion');
+    selectUbi.value = "0";
+    var selectCatering = document.getElementById('selectCatering');
+    selectCatering.value = "0";
+    var selectOcio = document.getElementById('selectOcio');
+    selectOcio.value = "0";
+    var selectDecorado = document.getElementById('selectDecorado');
+    selectDecorado.value = "0";
+    //Ocultamos todos los div que no se tengan que ver
+    var divUbi = document.getElementById('fotoPrecioUbicacion');
+    divUbi.style.display = "none";
+    var divCatering = document.getElementById('fotoPrecioCatering');
+    divCatering.style.display = "none";
+    var divOcio = document.getElementById('fotoPrecioOcio');
+    divOcio.style.display = "none";
+    var divDecorado = document.getElementById('fotoPrecioDecorado');
+    divDecorado.style.display = "none";
+    //Dejamos el precio del evento a 0
+    var precio = document.getElementById('precioEvento');
+    precio.value = 0;
 }
