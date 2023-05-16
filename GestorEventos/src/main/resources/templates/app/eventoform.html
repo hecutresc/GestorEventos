@@ -35,7 +35,7 @@
 		<div class="container col-lg-8 p-4 rounded shadow bg-body mt-3 text-start">
 
 			<form th:action="@{/admin/usuarios/{idUsuario}/eventos/save (idUsuario=${usuarioDTO.id})}" method="POST"
-				th:object="${eventoDTO}">
+				th:object="${eventoDTO}" id="formulario">
 
 				<div class="mt-1 text-center">
 					<h2 class="h2 rounded" th:text="${add} ? 'Nuevo evento' : 'Actualizar evento'"></h2>
@@ -92,6 +92,7 @@
 					<div id="divNH" class="col" style="display: none;">
 						<label for="nHoras" class="form-label">Número de Horas</label>
 						<select id="nHoras" name="ubicacion" th:field="*{num_horas}" class="form-select">
+							<option selected value="0">Selecciona las Horas</option>
 							<option value="2">2</option>
 							<option value="4">4</option>
 							<option value="6">6</option>
@@ -103,12 +104,16 @@
 				</div>
 
 				<div class="row mt-3">
-					<div class="col">
+					<div id="ubicacionDiv" class="col">
 						<label for="ubicacion" class="form-label">Ubicacion</label> <select id="selectUbicacion"
 							name="ubicacion" th:field="*{ubicacionDTO.id}" class="form-select">
 							<option selected value="0">Selecciona una
 								ubicación</option>
 						</select>
+					</div>
+					<div id="provinciaShow" class="col-4" style="display: none;">
+						<label for="provincia" class="form-label">Provincia:</label>
+						<input id="provincia" name="provincia" class="form-control" type="text" readonly>
 					</div>
 				</div>
 				<!--Precio/Foto Ubicacion-->
@@ -200,9 +205,11 @@
 
 				<!--Precio Evento-->
 				<div id="divPrecioEvento" class="row mt-3">
-					<label for="precioEvento" class="form-label col">Precio Final:</label> <input type="number"
-						name="precioEvento" readonly class="form-control" id="precioEvento" th:field="*{precio}"
+					<div>
+						<label for="precioEvento" class="form-label col">Precio Final:</label> <input type="number"
+						name="precioEvento" readonly class="form-control col" id="precioEvento" th:field="*{precio}"
 						value="0" />
+					</div>
 				</div>
 
 				<div class="mt-4">
@@ -251,7 +258,7 @@
 		var selectTipo = document.getElementById('selectTipo');
 		selectTipo.addEventListener('change', function (e) {
 			horario(this.value);
-			cambio_Tipo_Evento();
+			cambio_Tipo_Evento(this.value);
 
 		});
 

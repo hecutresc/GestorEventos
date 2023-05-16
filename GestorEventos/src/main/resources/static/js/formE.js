@@ -31,6 +31,7 @@ function listados(ubicacionList, cateringList, decoradoList, ocioList) {
         }
     };
 
+    //Comprobar que el usuario a elegido tipo de Evento y horario
 
     if (ubi) {
         //Ponemos la imagen y el precio de la ubicacion
@@ -40,6 +41,8 @@ function listados(ubicacionList, cateringList, decoradoList, ocioList) {
         i.src = ubi.foto;
         divFPUbicacion.style.display = "block";
         calcular_precio_hora("p_ubi", ubi.precio_hora);
+        //Ponemos la provincia de la ubicacion
+        poner_Provincia(ubi.direccionDTO.provincia);
         //Creamos la lista para los caterings filtrados y los añdimos y vaciamos
         var filteredCaterings = [];
         vaciarSelect(selectCatering);
@@ -69,6 +72,8 @@ function listados(ubicacionList, cateringList, decoradoList, ocioList) {
                     //Recogemos el elemento con la imagen y el input 
                     p.placeholder = c.precio;
                     i.src = c.foto;
+                    //Añadimos el precio al precio final
+                    ponerDinero('pCatering', c.precio);
                 } else {
                     p.placeholder = "Error";
                     i.alt = "Error";
@@ -109,6 +114,8 @@ function listados(ubicacionList, cateringList, decoradoList, ocioList) {
                     //Recogemos el elemento con la imagen y el input 
                     p.placeholder = d.precio;
                     i.src = d.foto;
+                    //Añadimos el precio al precio final
+                    ponerDinero('pDecorado', d.precio);
                 } else {
                     p.placeholder = "Error";
                     i.alt = "Error";
@@ -162,6 +169,11 @@ function listados(ubicacionList, cateringList, decoradoList, ocioList) {
             }
         });
     } else {
+        var divProv = document.getElementById('provinciaShow');
+        var divUbi = document.getElementById('ubicacionDiv');
+        divUbi.classList.replace("col-8", "col");
+        divProv.style.display = "none";
+        //Quitamos que se muestre los de la ubicación
         divFPUbicacion.style.display = "none";
     }
 
@@ -242,7 +254,6 @@ function quitarSession(nSession) {
 
 //Función para calcular el precio, solo sumará el resultado
 function calcular_precio_hora(s_object, precio_hora) {
-    console.log('ha entrado');
     //Recogemos el precio y lo sumamos
     if (sessionStorage.getItem(s_object)) {
         //Aqui recogemos el antiguo precio y lo multiplicamos por las hora que hayan y se lo restamos al total antes de poner el nuevo
@@ -253,33 +264,48 @@ function calcular_precio_hora(s_object, precio_hora) {
         if (tipoEvento == "Congreso" || tipoEvento == "Otros") {
             var fechaInicio = new Date(document.getElementById("fechaInicio").value);
             var fechaFin = new Date(document.getElementById("fechaFin").value);
+            if (fechaInicio != "" && fechaFin != "") {
+                if (fechaFin > fechaInicio) {
+                    //Calcula en milisegundos
+                    var diferencia = fechaFin - fechaInicio;
 
-            //Calcula en milisegundos
-            var diferencia = fechaFin - fechaInicio;
+                    // Calcular el número de horas redondeando hacia abajo
+                    var horas = Math.floor(diferencia / (1000 * 60 * 60));
+                    var pAnterior_total = p_anterior * horas;
+                    var precioNuevo = precio_hora * horas;
+                    //Recogemos el precio final le quitamos
+                    var precio = document.getElementById('precioEvento');
+                    var p1 = ((parseFloat(precio.value)) - pAnterior_total) + precioNuevo;
+                    //Seteamos el precio actualizado
+                    precio.value = p1;
+                    //Seteamos el sesión storage
+                    sessionStorage.setItem(s_object, precio_hora);
+                } else {
+                    alert('La fecha final del Evento tiene que ser superior que la de inicio');
+                }
+            } else {
+                //
+                alert('Tienes que elegir las fechas para el evento');
+            }
 
-            // Calcular el número de horas redondeando hacia abajo
-            var horas = Math.floor(diferencia / (1000 * 60 * 60));
-            var pAnterior_total = p_anterior * horas;
-            var precioNuevo = precio_hora * horas;
-            //Recogemos el precio final le quitamos
-            var precio = document.getElementById('precioEvento');
-            var p1 = ((parseFloat(precio.value)) - pAnterior_total) + precioNuevo;
-            //Seteamos el precio actualizado
-            precio.value = p1;
-            //Seteamos el sesión storage
-            sessionStorage.setItem(s_object, precio_hora);
         } else {
             var horas = document.getElementById('nHoras').value;
-            var pAnterior_total = p_anterior * horas;
-            var precioNuevo = precio_hora * horas;
-            var precio = document.getElementById('precioEvento');
-            var p1 = ((parseFloat(precio.value)) - pAnterior_total) + precioNuevo;
-            //Seteamos el precio actualizado
-            console.log(precio.value);
-            console.log(p1);
-            precio.value = p1;
-            //Seteamos el sesión storage
-            sessionStorage.setItem(s_object, precio_hora);
+            if (horas != 0) {
+                var pAnterior_total = p_anterior * horas;
+                var precioNuevo = precio_hora * horas;
+                var precio = document.getElementById('precioEvento');
+                var p1 = ((parseFloat(precio.value)) - pAnterior_total) + precioNuevo;
+                //Seteamos el precio actualizado
+                console.log(precio.value);
+                console.log(p1);
+                precio.value = p1;
+                //Seteamos el sesión storage
+                sessionStorage.setItem(s_object, precio_hora);
+            } else {
+                //
+                alert('Tienes que elegir el número de horas');
+            }
+
         }
 
     } else {
@@ -288,8 +314,9 @@ function calcular_precio_hora(s_object, precio_hora) {
         if (tipoEvento == "Congreso" || tipoEvento == "Otros") {
             var fechaInicio = new Date(document.getElementById("fechaInicio").value);
             var fechaFin = new Date(document.getElementById("fechaFin").value);
-
-            //Calcula en milisegundos
+            if (fechaInicio != "" && fechaFin != "") {
+                if(fechaFin > fechaInicio){
+                     //Calcula en milisegundos
             var diferencia = fechaFin - fechaInicio;
             // Calcular el número de horas redondeando hacia abajo
             var horas = Math.floor(diferencia / (1000 * 60 * 60));
@@ -303,21 +330,51 @@ function calcular_precio_hora(s_object, precio_hora) {
             precio.value = p1;
             //Seteamos el sesión storage
             sessionStorage.setItem(s_object, precio_hora);
+                }else{
+                    alert('La Fecha de Finalización del Evento tiene que ser superior a la de Inicio');
+                }
+            }else{
+                alert('Tienes que elegir las fechas de tu evento');
+            }
+           
         } else {
-
             var horas = document.getElementById('nHoras').value;
-            var precioNuevo = precio_hora * horas;
-            var precio = document.getElementById('precioEvento');
-            var p1 = (parseFloat(precio.value)) + precioNuevo;
-            //Seteamos el precio actualizado
-            precio.value = p1;
-            //Seteamos el sesión storage
-            sessionStorage.setItem(s_object, precio_hora);
+            if (horas != 0) {
+                var precioNuevo = precio_hora * horas;
+                var precio = document.getElementById('precioEvento');
+                var p1 = (parseFloat(precio.value)) + precioNuevo;
+                //Seteamos el precio actualizado
+                precio.value = p1;
+                //Seteamos el sesión storage
+                sessionStorage.setItem(s_object, precio_hora);
+            } else {
+                //
+                alert('Tienes que elegir las horas');
+            }
+
+
         }
     }
 }
 
-function cambio_Tipo_Evento() {
+function ponerDinero(s_object, precioN) {
+    //Recogemos el precio y se lo sumamos al precio final
+    if (sessionStorage.getItem(s_object)) {
+        //Quitamos el precio del anterior producto
+        var p_anterior = sessionStorage.getItem(s_object);
+        var precio = document.getElementById('precioEvento');
+        var p1 = (parseFloat(precio.value) - p_anterior) + precioN;
+        precio.value = p1;
+        sessionStorage.setItem(s_object, precioN);
+    } else {
+        var precio = document.getElementById('precioEvento');
+        var p1 = (parseFloat(precio.value)) + precioN;
+        precio.value = p1;
+        sessionStorage.setItem(s_object, precioN);
+    }
+}
+
+function cambio_Tipo_Evento(tipoEvento) {
     //Quitamos todos los session porque se ha cambiado el tipo de evento
     quitarSession('pOcio');
     quitarSession('p_ubi');
@@ -344,4 +401,50 @@ function cambio_Tipo_Evento() {
     //Dejamos el precio del evento a 0
     var precio = document.getElementById('precioEvento');
     precio.value = 0;
+    //Escondemos la provincia
+    var divProv = document.getElementById('provinciaShow');
+    var divUbi = document.getElementById('ubicacionDiv');
+    divUbi.classList.replace("col-8", "col");
+    divProv.style.display = "none";
+    //Quitamos todos los valores de las fechas/ horas
+    var fInicio = document.getElementById('fechaInicio');
+    var fFinal = document.getElementById('fechaFinal');
+    var hInicio = document.getElementById('horaInicio');
+    var nHoras = document.getElementById('nHoras');
+    
+    if(tipoEvento == "Congreso" || tipoEvento == "Otros"){
+        if(fInicio){
+            fInicio.value = "";
+        }
+        
+        if(fFinal){
+            fFinal.value = "";
+        }
+        
+    }else{
+        if(fInicio){
+            fInicio.value = "";
+        }
+        if(hInicio){
+            hInicio.value = "";
+        }
+        
+        if(nHoras){
+           nHoras.selectedIndex = 0;
+        }
+        
+    }
+    
+    
+
+}
+
+function poner_Provincia(provincia) {
+    var provInput = document.getElementById('provincia');
+    var divProv = document.getElementById('provinciaShow');
+    var divUbi = document.getElementById('ubicacionDiv');
+    provInput.value = provincia;
+    divUbi.classList.replace("col", "col-8");
+    divProv.style.display = "block";
+
 }
