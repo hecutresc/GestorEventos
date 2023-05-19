@@ -257,8 +257,8 @@
 		//Función para que según el tipo de evento te salgan distintos campos para la fecha
 		var selectTipo = document.getElementById('selectTipo');
 		selectTipo.addEventListener('change', function (e) {
-			horario(this.value);
-			cambio_Tipo_Evento(this.value);
+			horario(this.value, ubicacionList, ocioList);
+			cambio_Tipo_Evento(this.value, ubicacionList, ocioList);
 
 		});
 
