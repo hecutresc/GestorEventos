@@ -567,40 +567,45 @@ function cambio_Tipo_Evento(tipoEvento, ubicacionList, ocioList) {
                     var ff = document.getElementById('fechaFinal');
                     if (ff) {
                         //Calcula en milisegundos
-                        var diferencia = (ff.value) - (this.value);
+                        var diferencia = new Date(element.value) - new Date(fi.value);
                         // Calcular el número de horas redondeando hacia abajo
                         var horasNuevas = Math.floor(diferencia / (1000 * 60 * 60));
+                        console.log(horasNuevas);
                         var horasAntiguas = sessionStorage.getItem('horas');
                         sessionStorage.setItem('horas', horasNuevas);
                         //Recogemos el precio total antes de ser actualizado
                         var precio = document.getElementById('precioEvento');
                         //Comprobamos que almenos esta escogida la ubicación
                         var ubi = document.getElementById('selectUbicacion');
-
                         if (ubi.value != 0) {
                             //Cambiamos el precio de la ubicación
                             var ubicacion = buscarObjetoPorId(ubi.value, ubicacionList);
                             var precioHorasAnterior = horasAntiguas * (ubicacion.precio_hora);
-                            var p_a = precio.value;
-                            precio.value = (p_a - precioHorasAnterior) + (horasNuevas * (ubicacion.precio_hora));
-
+                            var p_a = parseFloat(precio.value);
+                            var precioQ = p_a - precioHorasAnterior;
+                            var nPrecio = horasNuevas * ubicacion.precio_hora;
+                            var pTotal = precioQ + nPrecio;
+                            precio.value = pTotal;
                             //Miramos si ha contratado también ocio
                             var oci = document.getElementById('selectOcio');
                             if (oci.value != 0) {
                                 var ocio = buscarObjetoPorId(oci.value, ocioList);
-                                precioHorasAnterior = horasAntiguas * (ocio.precio_hora);
-                                p_a = precio.value;
-                                precio.value = (p_a - precioHorasAnterior) + (horasNuevas * (ocio.precio_hora))
+                                var precioHorasAnterior = horasAntiguas * (ocio.precio_hora);
+                                var p_a = parseFloat(precio.value);
+                                var precioQ = p_a - precioHorasAnterior;
+                                var nPrecio = horasNuevas * ocio.precio_hora;
+                                var pTotal = precioQ + nPrecio;
+                                precio.value = pTotal;
                             }
+
                         }
+
                     }
-
-
-                } else {
-                    fInicio.value = "";
-                    alert('Tienes que introducir una fecha válida(Superior a la actual)');
-                }
-            });
+                    } else {
+                        fInicio.value = "";
+                        alert('Tienes que introducir una fecha válida(Superior a la actual)');
+                    }
+                });
         }
 
 
