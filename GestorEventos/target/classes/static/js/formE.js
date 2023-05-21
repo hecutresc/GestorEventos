@@ -164,23 +164,30 @@ function listados(ubicacionList, cateringList, decoradoList, ocioList) {
                         i.src = o.foto;
 
                         //Llamamos a la función para que calcule el precio
-                        calcular_precio_hora("pOcio", o.precio_hora);
+                        var res2 = calcular_precio_hora("pOcio", o.precio_hora);
 
+                        if (res2) {
+                            divFPOcio.style.display = "block";
+                            
+                        }else{
+                            selectOcio.value = 0;
+                        }
 
                     } else {
                         p.placeholder = "Error";
                         i.alt = "Error";
+                        divFPOcio.style.display = "block";
                     }
-                    divFPOcio.style.display = "block";
+
                 } else {
-                    //Quitamos el precio del Ocio
+                    //Quitamos el precio del Ocibicaco
                     quitar_precio_hora('pOcio');
                     //No se enseña el div
                     divFPOcio.style.display = "none";
                 }
             });
         } else {
-            this.value = "";
+            selectUbicacion.value = 0;
         }
     } else {
         var divProv = document.getElementById('provinciaShow');
@@ -236,7 +243,26 @@ function horario(tipo, ubicacionList, ocioList) {
     var divFF = document.getElementById('divFF');
     var divHI = document.getElementById('divHI');
     var divNH = document.getElementById('divNH');
-
+    //Divs contenedores de los select
+    var divCatering = document.getElementById('divCatering');
+    var divDecorado = document.getElementById('divDecorado');
+    var divOcio = document.getElementById('divOcio');
+    //Divs de la imagen y el precio
+    var divFPCatering = document.getElementById('fotoPrecioCatering');
+    var divFPDecorado = document.getElementById('fotoPrecioDecorado');
+    var divFPOcio = document.getElementById('fotoPrecioOcio');
+    var divFPUbicacion = document.getElementById('fotoPrecioUbicacion');
+    //
+    var selectUbi = document.getElementById('selectUbicacion');
+    selectUbi.value = "";
+    //Quitamos los precios y las imagenes porque se ha cambiado la ubicación
+    divCatering.style.display = "none";
+    divDecorado.style.display = "none";
+    divOcio.style.display = "none";
+    divFPCatering.style.display = "none";
+    divFPDecorado.style.display = "none";
+    divFPOcio.style.display = "none";
+    divFPUbicacion.style.display = "none";
     //Mostrar el div que contiene los parámetros y ocultar los otros por si se han cambiado los que hay que mostrar
     divFF.style.display = "none";
     divHI.style.display = "none";
@@ -248,6 +274,10 @@ function horario(tipo, ubicacionList, ocioList) {
             //Fecha Inicio y Horas
             divHI.style.display = "block";
             divNH.style.display = "block";
+            var h = document.getElementById('nHoras');
+            h.addEventListener('change',function(){
+                fHoras(h, ubicacionList, ocioList);
+            });
             break;
         case 'Congreso':
             //Fecha Inicio y Fecha Fin
@@ -261,11 +291,19 @@ function horario(tipo, ubicacionList, ocioList) {
             //Fecha Inicio y Horas
             divHI.style.display = "block";
             divNH.style.display = "block";
+            var h = document.getElementById('nHoras');
+            h.addEventListener('change',function(){
+                fHoras(h, ubicacionList, ocioList);
+            });
             break;
         case 'Comunion':
             //Fecha Inicio y Horas
             divHI.style.display = "block";
             divNH.style.display = "block";
+            var h = document.getElementById('nHoras');
+            h.addEventListener('change',function(){
+                fHoras(h, ubicacionList, ocioList);
+            });
             break;
         case 'Otros':
             //Fecha Inicio y Fecha Fin
@@ -301,7 +339,7 @@ function ffinal(element, ubicacionList, ocioList) {
                 var precioQ = p_a - precioHorasAnterior;
                 var nPrecio = horasNuevas * ubicacion.precio_hora;
                 var pTotal = precioQ + nPrecio;
-                precio.value = pTotal;
+                precio.value = Number(pTotal.toFixed(2)) ;
                 //Miramos si ha contratado también ocio
                 var oci = document.getElementById('selectOcio');
                 if (oci.value != 0) {
@@ -311,7 +349,7 @@ function ffinal(element, ubicacionList, ocioList) {
                     var precioQ = p_a - precioHorasAnterior;
                     var nPrecio = horasNuevas * ocio.precio_hora;
                     var pTotal = precioQ + nPrecio;
-                    precio.value = pTotal;
+                    precio.value = Number(pTotal.toFixed(2)) ;
                 }
 
             }
@@ -342,7 +380,7 @@ function quitar_precio_hora(s_object) {
         var precio = document.getElementById('precioEvento');
         //Según el tipo de evento calculamos como sacar las horas
         var tipoEvento = document.getElementById('selectTipo');
-        if (tipoEvento == "Congreso" || tipoEvento == "Otros") {
+        if (tipoEvento.value == "Congreso" || tipoEvento.value == "Otros") {
             var fechaInicio = new Date(document.getElementById("fechaInicio").value);
             var fechaFin = new Date(document.getElementById("fechaFin").value);
             var diferencia = fechaFin - fechaInicio;
@@ -350,7 +388,7 @@ function quitar_precio_hora(s_object) {
             var horas = Math.floor(diferencia / (1000 * 60 * 60));
             var pAnterior_total = p_anterior * horas;
             var p1 = ((parseFloat(precio.value)) - pAnterior_total);
-            precio.value = p1;
+            precio.value = Number(p1.toFixed(2));
             //Seteamos el sesión storage
             sessionStorage.removeItem(s_object);
         } else {
@@ -358,7 +396,7 @@ function quitar_precio_hora(s_object) {
             var pAnterior_total = p_anterior * horas;
             var precio = document.getElementById('precioEvento');
             var p1 = ((parseFloat(precio.value)) - pAnterior_total);
-            precio.value = p1;
+            precio.value = Number(p1.toFixed(2));
             //Seteamos el sesión storage
             sessionStorage.removeItem(s_object);
         }
@@ -379,7 +417,7 @@ function calcular_precio_hora(s_object, precio_hora) {
             if (tipoEvento == "Congreso" || tipoEvento == "Otros") {
                 var fechaInicio = new Date(document.getElementById("fechaInicio").value);
                 var fechaFin = new Date(document.getElementById("fechaFin").value);
-                if (fechaInicio != "" && fechaFin != "") {
+                if (fechaInicio && fechaFin) {
                     if (fechaFin > fechaInicio) {
                         //Calcula en milisegundos
                         var diferencia = fechaFin - fechaInicio;
@@ -393,7 +431,7 @@ function calcular_precio_hora(s_object, precio_hora) {
                         var precio = document.getElementById('precioEvento');
                         var p1 = ((parseFloat(precio.value)) - pAnterior_total) + precioNuevo;
                         //Seteamos el precio actualizado
-                        precio.value = p1;
+                        precio.value = Number(p1.toFixed(2));
                         //Seteamos el sesión storage
                         sessionStorage.setItem(s_object, precio_hora);
                         return true;
@@ -416,9 +454,7 @@ function calcular_precio_hora(s_object, precio_hora) {
                     var precio = document.getElementById('precioEvento');
                     var p1 = ((parseFloat(precio.value)) - pAnterior_total) + precioNuevo;
                     //Seteamos el precio actualizado
-                    console.log(precio.value);
-                    console.log(p1);
-                    precio.value = p1;
+                    precio.value = Number(p1.toFixed(2));
                     //Seteamos el sesión storage
                     sessionStorage.setItem(s_object, precio_hora);
                     return true;
@@ -450,7 +486,7 @@ function calcular_precio_hora(s_object, precio_hora) {
                         //Seteamos el precio actualizado
                         console.log(precio.value);
                         console.log(p1);
-                        precio.value = p1;
+                        precio.value = Number(p1.toFixed(2));
                         //Seteamos el sesión storage
                         sessionStorage.setItem(s_object, precio_hora);
                         return true;
@@ -471,7 +507,7 @@ function calcular_precio_hora(s_object, precio_hora) {
                     var precio = document.getElementById('precioEvento');
                     var p1 = (parseFloat(precio.value)) + precioNuevo;
                     //Seteamos el precio actualizado
-                    precio.value = p1;
+                    precio.value = Number(p1.toFixed(2));
                     //Seteamos el sesión storage
                     sessionStorage.setItem(s_object, precio_hora);
                     return true;
@@ -497,12 +533,12 @@ function ponerDinero(s_object, precioN) {
         var p_anterior = sessionStorage.getItem(s_object);
         var precio = document.getElementById('precioEvento');
         var p1 = (parseFloat(precio.value) - p_anterior) + precioN;
-        precio.value = p1;
+        precio.value = Number(p1.toFixed(2));
         sessionStorage.setItem(s_object, precioN);
     } else {
         var precio = document.getElementById('precioEvento');
         var p1 = (parseFloat(precio.value)) + precioN;
-        precio.value = p1;
+        precio.value = Number(p1.toFixed(2));
         sessionStorage.setItem(s_object, precioN);
     }
 }
@@ -513,7 +549,7 @@ function quitarDinero(s_object) {
         var p_anterior = sessionStorage.getItem(s_object);
         var precio = document.getElementById('precioEvento');
         var p1 = (parseFloat(precio.value) - p_anterior);
-        precio.value = p1;
+        precio.value = Number(p1.toFixed(2));
         sessionStorage.removeItem(s_object);
     }
 }
@@ -570,7 +606,6 @@ function cambio_Tipo_Evento(tipoEvento, ubicacionList, ocioList) {
                         var diferencia = new Date(element.value) - new Date(fi.value);
                         // Calcular el número de horas redondeando hacia abajo
                         var horasNuevas = Math.floor(diferencia / (1000 * 60 * 60));
-                        console.log(horasNuevas);
                         var horasAntiguas = sessionStorage.getItem('horas');
                         sessionStorage.setItem('horas', horasNuevas);
                         //Recogemos el precio total antes de ser actualizado
@@ -585,7 +620,7 @@ function cambio_Tipo_Evento(tipoEvento, ubicacionList, ocioList) {
                             var precioQ = p_a - precioHorasAnterior;
                             var nPrecio = horasNuevas * ubicacion.precio_hora;
                             var pTotal = precioQ + nPrecio;
-                            precio.value = pTotal;
+                            precio.value = Number(pTotal.toFixed(2));
                             //Miramos si ha contratado también ocio
                             var oci = document.getElementById('selectOcio');
                             if (oci.value != 0) {
@@ -595,17 +630,17 @@ function cambio_Tipo_Evento(tipoEvento, ubicacionList, ocioList) {
                                 var precioQ = p_a - precioHorasAnterior;
                                 var nPrecio = horasNuevas * ocio.precio_hora;
                                 var pTotal = precioQ + nPrecio;
-                                precio.value = pTotal;
+                                precio.value = Number(pTotal.toFixed(2)) ;
                             }
 
                         }
 
                     }
-                    } else {
-                        fInicio.value = "";
-                        alert('Tienes que introducir una fecha válida(Superior a la actual)');
-                    }
-                });
+                } else {
+                    fInicio.value = "";
+                    alert('Tienes que introducir una fecha válida(Superior a la actual)');
+                }
+            });
         }
 
 
@@ -617,6 +652,12 @@ function cambio_Tipo_Evento(tipoEvento, ubicacionList, ocioList) {
     } else {
         if (fInicio) {
             fInicio.value = "";
+            fInicio.addEventListener('change', function () {
+                if (new Date(this.value) < new Date()) {
+                    fInicio.value = "";
+                    alert('Tienes que introducir una fecha válida(Superior a la actual)');
+                }
+            });
         }
         if (hInicio) {
             hInicio.value = "";
@@ -630,6 +671,42 @@ function cambio_Tipo_Evento(tipoEvento, ubicacionList, ocioList) {
 
 
 
+}
+
+function fHoras(element, ubicacionList, ocioList){
+    if (sessionStorage.getItem('horas')) {
+        var horasAntiguas = sessionStorage.getItem('horas');
+        var horasNuevas = element.value;
+        sessionStorage.setItem('horas', horasNuevas);
+        //Recogemos el precio total antes de ser actualizado
+        var precio = document.getElementById('precioEvento');
+        //Comprobamos que almenos esta escogida la ubicación
+        var ubi = document.getElementById('selectUbicacion');
+        if (ubi.value != 0) {
+            //Cambiamos el precio de la ubicación
+            var ubicacion = buscarObjetoPorId(ubi.value, ubicacionList);
+            var precioHorasAnterior = horasAntiguas * (ubicacion.precio_hora);
+            var p_a = parseFloat(precio.value);
+            var precioQ = p_a - precioHorasAnterior;
+            var nPrecio = horasNuevas * ubicacion.precio_hora;
+            var pTotal = precioQ + nPrecio;
+            precio.value = Number(pTotal.toFixed(2)) ;
+            //Miramos si ha contratado también ocio
+            var oci = document.getElementById('selectOcio');
+            if (oci.value != 0) {
+                var ocio = buscarObjetoPorId(oci.value, ocioList);
+                var precioHorasAnterior = horasAntiguas * (ocio.precio_hora);
+                var p_a = parseFloat(precio.value);
+                var precioQ = p_a - precioHorasAnterior;
+                var nPrecio = horasNuevas * ocio.precio_hora;
+                var pTotal = precioQ + nPrecio;
+                precio.value = Number(pTotal.toFixed(2)) ;
+            }
+
+        }
+    } else {
+        sessionStorage.setItem('horas', element.value);
+    }
 }
 
 function poner_Provincia(provincia) {

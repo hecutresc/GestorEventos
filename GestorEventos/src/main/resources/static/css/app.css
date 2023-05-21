@@ -96,6 +96,18 @@ a{
     font-size: 36px;
     margin-left: 50px;
   }
+
+  /*Clase para las imagenes del formulario*/
+  .formimagediv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .formimage{
+    object-fit: cover;
+    height: 168px;
+    width: 300px;
+  }
   
   /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
   main {
@@ -289,7 +301,7 @@ footer {
   @media (min-width: 800px) {
 
       body{
-              height: 100vh;
+          height: auto;
 
       }
     .sidenav{
@@ -303,6 +315,11 @@ footer {
 
     .sidenav > a:hover{
         color: #f8ce26;
+    }
+
+    .formimage{
+      height: 368px;
+      width: 600px;
     }
 
 

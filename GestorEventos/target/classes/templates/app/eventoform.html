@@ -119,8 +119,8 @@
 				<!--Precio/Foto Ubicacion-->
 				<div id="fotoPrecioUbicacion" class="row mt-3" style="display: none;">
 
-					<div id="divFotoUbicacion">
-						<img id="fotoUbicacion">
+					<div id="divFotoUbicacion" class="formimagediv">
+						<img id="fotoUbicacion" class="formimage">
 					</div>
 					<div id="divPrecioUbicacion">
 						<label class="form-label col" for="precioUbicacion">Precio Ubicacion</label>
@@ -145,8 +145,8 @@
 				<!--Precio/Foto Catering-->
 				<div id="fotoPrecioCatering" class="row mt-3" style="display: none;">
 
-					<div id="divFotoCatering">
-						<img id="fotoCatering">
+					<div id="divFotoCatering" class="formimagediv">
+						<img id="fotoCatering" class="formimage">
 					</div>
 					<div id="divPrecioCatering">
 						<label class="form-label col" for="precioCatering">Precio Catering</label>
@@ -168,8 +168,8 @@
 				<!--Precio/Foto Decorado-->
 				<div id="fotoPrecioDecorado" class="row mt-3" style="display: none;">
 
-					<div id="divFotoDecorado">
-						<img id="fotoDecorado">
+					<div id="divFotoDecorado" class="formimagediv">
+						<img id="fotoDecorado" class="formimage">
 					</div>
 					<div id="divPrecioDecorado">
 						<label class="form-label col" for="precioDecorado">Precio Decorado</label>
@@ -193,8 +193,8 @@
 				<!--Precio/Foto Ocio-->
 				<div id="fotoPrecioOcio" class="row mt-3" style="display: none;">
 
-					<div id="divFotoOcio">
-						<img id="fotoOcio">
+					<div id="divFotoOcio" class="formimagediv">
+						<img id="fotoOcio" class="formimage">
 					</div>
 					<div id="divPrecioOcio">
 						<label class="form-label col" for="precioOcio">Precio Ocio</label>
@@ -236,7 +236,7 @@
 		quitarSession('p_ubi');
 		quitarSession('pDecorado');
 		quitarSession('pCatering');
-
+		quitarSession('horas');
 		//Ponemos el precio por defecto a 0
 		document.getElementById('precioEvento').value = 0;
 

@@ -37,6 +37,7 @@
 
 			<form th:action="@{/user/usuarios/{idUsuario}/eventos/save (idUsuario = ${usuarioDTO.id})}" method="POST" th:object="${eventoDTO}">
 
+				
 				<div class="mt-1 text-center">
 					<h2 class="h2 rounded" th:text="${add} ? 'Nuevo evento' : 'Actualizar evento'"></h2>
 				</div>
@@ -44,57 +45,171 @@
 				<div class="mt-3" th:if="${errorMessage}" th:utext="${errorMessage}"></div>
 
 				<div class="mt-3 row" th:if="!${add}">
-					<label for="id" class="form-label col">Id</label>
-					<input type="text" name="id" class="form-control col" id="id" th:field="*{id}" readonly />
+					<label for="id" class="form-label col">Id</label> <input type="text" name="id"
+						class="form-control-plaintext col" id="id" th:field="*{id}" readonly />
 				</div>
 
 				<div class="row mt-3">
 					<div class="col-4">
-						<label for="anfitrion" class="form-label">Anfitrion</label>
-						<input readonly th:type="text" name="anfitrion" class="form-control" id="anfitrion"
-							 th:placeholder="${usuarioDTO.nombreUsuario}" th:field="*{usuarioDTO.nombreUsuario}" th:maxlength="40" />
-					</div>
-					<div class="col-8">
-						<label for="nombre" class="form-label">Nombre</label>
-						<input th:type="text" name="nombre" class="form-control" id="nombre" th:field="*{nombre}"
+						<label for="anfitrion" class="form-label">Anfitrion</label> <input readonly th:type="text"
+							name="anfitrion" class="form-control" id="anfitrion"
+							th:placeholder="${usuarioDTO.nombreUsuario}" th:field="*{usuarioDTO.nombreUsuario}"
 							th:maxlength="40" />
 					</div>
+					<div class="col-8">
+						<label for="nombre" class="form-label">Nombre</label> <input th:type="text" name="nombre"
+							class="form-control" id="nombre" th:field="*{nombre}" th:maxlength="40" />
+					</div>
 				</div>
-
-
 				<div class="row mt-3">
 					<div class="col">
-						<label for="fechaInicio" class="form-label">Fecha inicio</label>
-						<input th:type="date" name="fechaInicio" class="form-control" id="fechaInicio"
-							th:field="*{fechaInicio}" th:maxlength="100" />
+						<label for="tipo" class="form-label">Tipo Evento</label> <select id="selectTipo" name="tipo"
+							th:field="*{tipo}" class="form-select">
+							<option selected hidden="true" value="0">Seleccione un tipo</option>
+							<option value="Boda">Boda</option>
+							<option value="Congreso">Congreso</option>
+							<option value="Ponencia">Ponencia</option>
+							<option value="Comunion">Comunión</option>
+							<option value="Otros">Otros</option>
+						</select>
 					</div>
-					<div class="col">
-						<label for="fechaFin" class="form-label">Fecha Fin</label>
-						<input th:type="date" name="fechaFin" class="form-control" id="fechaFin" th:field="*{fechaFin}"
+				</div>
+
+				<div id="divFechas" class="row mt-3" style="display: none;">
+					<div id="divFI" class="col">
+						<label for="fechaInicio" class="form-label">Fecha inicio</label> <input th:type="date"
+							name="fechaInicio" class="form-control" id="fechaInicio" th:field="*{fechaInicio}"
 							th:maxlength="100" />
 					</div>
-				</div>
-
-				<div class="row mt-3">
-					<div class="col">
-						<label for="ubicacion" class="form-label">Ubicacion</label>
-						<select name="ubicacion" th:field="*{ubicacionDTO.id}"  class="form-select">
-							<option th:each="ubicacionDTO : ${listaUbicacionesDTO}" th:value="${ubicacionDTO.id}"
-								th:text="${ubicacionDTO.nombre}">
-							</option>
+					<div id="divFF" class="col" style="display: none;">
+						<label for="fechaFin" class="form-label">Fecha Fin</label> <input th:type="date" name="fechaFin"
+							class="form-control" id="fechaFin" th:field="*{fechaFin}" th:maxlength="100" />
+					</div>
+					<div id="divHI" class="col" style="display: none;">
+						<label for="horaInicio" class="form-label">Hora Inicio</label> <input th:type="time"
+							name="horaInicio" class="form-control" id="horaInicio" th:field="*{hora_inicio}"
+							th:maxlength="100" />
+					</div>
+					<div id="divNH" class="col" style="display: none;">
+						<label for="nHoras" class="form-label">Número de Horas</label>
+						<select id="nHoras" name="ubicacion" th:field="*{num_horas}" class="form-select">
+							<option selected value="0">Selecciona las Horas</option>
+							<option value="2">2</option>
+							<option value="4">4</option>
+							<option value="6">6</option>
+							<option value="8">8</option>
+							<option value="10">10</option>
+							<option value="12">12</option>
 						</select>
 					</div>
 				</div>
-				
+
 				<div class="row mt-3">
-					<div class="col">
-						<label for="catering" class="form-label">Catering</label>
-						<select name="catering" th:field="*{cateringDTO.id}"  class="form-select">
-							<option selected hidden="true" value="0">Selecciona un catering</option>
-							<option th:each="cateringDTO : ${listaCateringsDTO}" th:value="${cateringDTO.id}"
-								th:text="${cateringDTO.menu}">
-							</option>
+					<div id="ubicacionDiv" class="col">
+						<label for="ubicacion" class="form-label">Ubicacion</label> <select id="selectUbicacion"
+							name="ubicacion" th:field="*{ubicacionDTO.id}" class="form-select">
+							<option selected value="0">Selecciona una
+								ubicación</option>
 						</select>
+					</div>
+					<div id="provinciaShow" class="col-4" style="display: none;">
+						<label for="provincia" class="form-label">Provincia:</label>
+						<input id="provincia" name="provincia" class="form-control" type="text" readonly>
+					</div>
+				</div>
+				<!--Precio/Foto Ubicacion-->
+				<div id="fotoPrecioUbicacion" class="row mt-3" style="display: none;">
+
+					<div id="divFotoUbicacion" class="formimagediv">
+						<img id="fotoUbicacion" class="formimage">
+					</div>
+					<div id="divPrecioUbicacion">
+						<label class="form-label col" for="precioUbicacion">Precio Ubicacion</label>
+						<input class="form-control col" readonly type="number" name="precioUbicacion"
+							id="precioUbicacion">
+					</div>
+
+				</div>
+
+				<div id="divCatering" class="row mt-3" style="display: none;">
+					<div class="col">
+						<label for="catering" class="form-label">Catering</label> <select id="selectCatering"
+							name="catering" th:field="*{cateringDTO.id}" class="form-select">
+							<option selected value="0">Selecciona un
+								catering</option>
+
+
+						</select>
+					</div>
+				</div>
+
+				<!--Precio/Foto Catering-->
+				<div id="fotoPrecioCatering" class="row mt-3" style="display: none;">
+
+					<div id="divFotoCatering" class="formimagediv">
+						<img id="fotoCatering" class="formimage">
+					</div>
+					<div id="divPrecioCatering">
+						<label class="form-label col" for="precioCatering">Precio Catering</label>
+						<input class="form-control col" readonly type="number" name="precioCatering"
+							id="precioCatering">
+					</div>
+
+				</div>
+
+				<div id="divDecorado" class="row mt-3" style="display: none;">
+					<div class="col">
+						<label for="decorado" class="form-label">Decorado</label> <select id="selectDecorado"
+							name="decorado" th:field="*{decoradoDTO.id}" class="form-select">
+							<option selected value="0">Selecciona un
+								decorado</option>
+						</select>
+					</div>
+				</div>
+				<!--Precio/Foto Decorado-->
+				<div id="fotoPrecioDecorado" class="row mt-3" style="display: none;">
+
+					<div id="divFotoDecorado" class="formimagediv">
+						<img id="fotoDecorado" class="formimage">
+					</div>
+					<div id="divPrecioDecorado">
+						<label class="form-label col" for="precioDecorado">Precio Decorado</label>
+						<input class="form-control col" readonly type="number" name="precioDecorado"
+							id="precioDecorado">
+					</div>
+				</div>
+
+				<div id="divOcio" class="row mt-3" style="display: none;">
+					<div class="col">
+						<label for="ocio" class="form-label">Ocio</label> <select id="selectOcio" name="ocio"
+							th:field="*{ocioDTO.id}" class="form-select">
+							<option selected value="0">Selecciona un
+								ocio</option>
+
+
+						</select>
+					</div>
+				</div>
+
+				<!--Precio/Foto Ocio-->
+				<div id="fotoPrecioOcio" class="row mt-3" style="display: none;">
+
+					<div id="divFotoOcio" class="formimagediv">
+						<img id="fotoOcio" class="formimage">
+					</div>
+					<div id="divPrecioOcio">
+						<label class="form-label col" for="precioOcio">Precio Ocio</label>
+						<input class="form-control col" readonly type="number" name="precioOcio" id="precioOcio">
+					</div>
+
+				</div>
+
+				<!--Precio Evento-->
+				<div id="divPrecioEvento" class="row mt-3">
+					<div>
+						<label for="precioEvento" class="form-label col">Precio Final:</label> <input type="number"
+						name="precioEvento" step="0.01" readonly class="form-control col" id="precioEvento" th:field="*{precio}"
+						value="0" />
 					</div>
 				</div>
 
@@ -113,6 +228,42 @@
 	<script th:src="@{/js/jquery-3.6.3.js}"></script>
 	<script th:src="@{/js/script.js}"></script>
 	<script th:src="@{/js/formE.js}"></script>
+	<script th:inline="javascript">
+
+		//Ponemos todos los session storage a null
+		quitarSession('pOcio');
+		quitarSession('p_ubi');
+		quitarSession('pDecorado');
+		quitarSession('pCatering');
+		quitarSession('horas');
+		//Ponemos el precio por defecto a 0
+		document.getElementById('precioEvento').value = 0;
+
+		//Listas de los objetos
+		var ubicacionList = /*[[${listaUbicacionesDTO}]]*/[];
+		var cateringList = /*[[${listaCateringsDTO}]]*/[];
+		var decoradoList = /*[[${listaDecoradosDTO}]]*/[];
+		var ocioList = /*[[${listaOciosDTO}]]*/[];
+		//Función para insertar la lista de ubicaciones
+		insertarUbicaciones(ubicacionList);
+
+		//Función que controla las demas funciones en el archivo js
+		var selectUbicacion = document.getElementById('selectUbicacion');
+		selectUbicacion.addEventListener('change', function (e) {
+			listados(ubicacionList, cateringList, decoradoList, ocioList);
+		});
+
+		//Función para que según el tipo de evento te salgan distintos campos para la fecha
+		var selectTipo = document.getElementById('selectTipo');
+		selectTipo.addEventListener('change', function (e) {
+			horario(this.value, ubicacionList, ocioList);
+			cambio_Tipo_Evento(this.value, ubicacionList, ocioList);
+
+		});
+
+
+
+	</script>
 
 </body>
 
