@@ -184,4 +184,18 @@ public class UbicacionController {
 		return mv;
 
 	}
+	
+	@GetMapping("/admin/ubicaciones/{idUbicacion}")
+	public ModelAndView showUbicacion(@PathVariable("idUbicacion") Long idUbicacion) {
+		
+		//Buscamos la ubicacion
+		UbicacionDTO ubicacionDTO =  new UbicacionDTO();
+		ubicacionDTO.setId(idUbicacion);
+		ubicacionDTO = ubicacionService.findById(ubicacionDTO);
+		
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("ubicacionDTO", ubicacionDTO);
+		mv.setViewName("app/ubicacion_info");
+		return mv;
+	}
 }

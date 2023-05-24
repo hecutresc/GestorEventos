@@ -41,8 +41,10 @@
 				<input th:field="${decoradoDTO.nombre}" class="form-control" type="text">
 			</div>
 			<div class="col mt-3">
-			<label class="form-label">Foto</label><br>
-				<img alt="Imagen del ocio" style="object-fit: cover;" th:src="${decoradoDTO.foto}">
+				<div class="formimagediv">
+					<label class="form-label">Foto</label><br>
+					<img alt="Imagen del ocio" class="formimage" th:src="${decoradoDTO.foto}">
+				</div>
 			</div>
 			<div class="col mt-3">
 			<label class="form-label">Descripción</label>

@@ -7,6 +7,8 @@
     <title>Panel de Administración</title>
     <!-- Bootstrap-Icons -->
     <link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
+    <link rel="stylesheet"
+	th:href="@{/vendor/bootstrap-5.2.3/css/bootstrap.min.css}">
     <!-- General CSS -->
     <link th:href="@{/css/app.css}" rel="stylesheet">
 </head>
@@ -30,28 +32,31 @@
         <h2>Catering del evento 
         	<span th:text="${eventoDTO.nombre}"></span>
         </h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Menu</th>
-                    <th>Precio</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td th:text="${cateringDTO.id}"></td>
-                    <td th:text="${cateringDTO.menu}"></td>
-                    <td th:text="${cateringDTO.precio}"></td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="container col-lg-8 p-4 rounded shadow bg-body text-start">
+			<div class="row mt-3">
+				<label>Menu</label>
+				<input value="${cateringDTO.menu}" type="text">
+			</div>
+            <div class="row mt-3">
+				<label>Descripción</label>
+				<textarea value="${cateringDTO.descripcion}"></textarea>
+			</div>
+			<div class="row mt-3">
+				<div class="formimagediv">
+					<label>Foto</label>
+				<img alt="Imagen del catering" class="formimage" src="${cateringDTO.foto}">
+				</div>
+			</div>
+
+			<div class="row mt-3">
+				<label>Precio por Comensal</label>
+				<input type="number" value="${cateringDTO.precio}">
+			</div>
+		</div>
     </main>
 
-    <footer>
 
-    </footer>
-
+<script th:src="@{/vendor/bootstrap-5.2.3/js/bootstrap.bundle.min.js}"></script>
       <script th:src="@{/js/jquery-3.6.3.js}" ></script>
   <script th:src="@{/js/script.js}" ></script>
 

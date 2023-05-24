@@ -2,14 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panel de Administración</title>
-<!-- Bootstrap-Icons -->
-<link rel="stylesheet"
-	th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
-<!-- General CSS -->
-<link th:href="@{/css/app.css}" rel="stylesheet">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Panel de Administración</title>
+	<!-- Bootstrap-Icons -->
+	<link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
+	<!-- General CSS -->
+	<link th:href="@{/css/app.css}" rel="stylesheet">
 </head>
 
 <body>
@@ -37,8 +36,10 @@
 				<input value="${ocioDTO.nombre}" type="text">
 			</div>
 			<div class="col">
-				<h5>Foto</h5>
-				<img alt="Imagen del ocio" src="${ocioDTO.foto}">
+				<div class="formimagediv">
+					<h5>Foto</h5>
+					<img alt="Imagen del ocio" class="formimage" src="${ocioDTO.foto}">
+				</div>
 			</div>
 			<div class="col">
 				<h5>Descripción</h5>
@@ -60,7 +61,6 @@
 
 	</main>
 
-	<footer> </footer>
 
 	<script th:src="@{/js/jquery-3.6.3.js}"></script>
 	<script th:src="@{/js/script.js}"></script>

@@ -160,6 +160,27 @@ public class CateringController {
 		return mav;
 
 	}
+	
+	@GetMapping("/admin/empresas/{idEmpresa}/caterings/{idCatering}")
+	public ModelAndView findbyEmpresa(@PathVariable("idEmpresa") Long idEmpresa,
+			@PathVariable("idCatering") Long idCatering) {
+		log.info("CateringController - +info: Muestra más información del catering "+idCatering);
+
+		EmpresaDTO empresaDTO = new EmpresaDTO();
+		empresaDTO.setId(idEmpresa);
+		
+		CateringDTO cateringDTO = new CateringDTO();
+		cateringDTO.setId(idCatering);
+		cateringDTO = cateringService.findById(cateringDTO);
+
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("app/catering_info");
+		mv.addObject("cateringDTO", cateringDTO);
+		mv.addObject("empresaDTO", empresaDTO);
+
+		return mv;
+
+	}
 
 	@GetMapping("/admin/usuarios/{idUsuario}/eventos/{idEvento}/catering")
 	public ModelAndView findByEvento(@PathVariable("idUsuario") Long idUsuario,
