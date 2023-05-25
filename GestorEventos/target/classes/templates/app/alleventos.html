@@ -48,7 +48,7 @@
             <tbody>
                 <tr th:each="evento : ${eventosDTO}">
                     <td th:text="${evento.nombre}"></td>
-                    <td><a th:text="+Info" th:href="@{/admin/eventos/{idEvento}/show (idEvento=${evento.id})}"></a></td>
+                    <td><a th:href="@{/admin/eventos/{idEvento}/show (idEvento=${evento.id})}">+Info</a></td>
                     <td><a th:href="@{/admin/eventos/delete/{idEvento} (idEvento=${evento.id})}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
                 </tr>
             </tbody>

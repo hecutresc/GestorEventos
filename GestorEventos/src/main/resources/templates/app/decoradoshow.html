@@ -32,27 +32,29 @@
 			Decorado del evento <span th:text="${eventoDTO.nombre}"></span>
 		</h2>
 		<div class="container col-lg-8 p-4 rounded shadow bg-body text-start">
-			<div class="col">
-				<h5>Nombre</h5>
-				<input value="${decoradoDTO.nombre}" type="text">
+			<div class="row mt-3">
+				<label class="form-label">Nombre</label>
+				<input class="form-control" readonly value="${decoradoDTO.nombre}" type="text">
 			</div>
-			<div class="col">
-				<h5>Foto</h5>
-				<img alt="Imagen del ocio" src="${decoradoDTO.foto}">
+			<div class="row mt-3">
+				<label class="form-label">Foto</label><br>
+				<div class="formimagediv">
+					<img alt="Imagen del ocio" class="formimage" th:src="${decoradoDTO.foto}">
+				</div>
 			</div>
-			<div class="col">
-				<h5>Descripción</h5>
-				<textarea value="${decoradoDTO.descripcion}"></textarea>
-			</div>
-
-			<div class="col">
-				<h5>Precio</h5>
-				<input type="number" value="${decoradoDTO.precio}">
+			<div class="row mt-3">
+				<label class="form-label">Descripción</label>
+				<textarea class="form-control" readonly value="${decoradoDTO.descripcion}"></textarea>
 			</div>
 
-			<div class="col">
-				<h5>Empresa</h5>
-				<input type="text" value="${empresaDTO.nombre}">
+			<div class="row mt-3">
+				<label class="form-label">Precio</label>
+				<input class="form-control" readonly type="number" value="${decoradoDTO.precio}">
+			</div>
+
+			<div class="row mt-3">
+				<label class="form-label">Empresa</label>
+				<input class="form-control" readonly type="text" value="${empresaDTO.nombre}">
 			</div>
 
 		</div>

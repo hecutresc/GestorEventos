@@ -92,5 +92,17 @@ public class EmpresaController {
 		return mav;
 
 	}
+	
+	@GetMapping("/admin/empresas/{idEmpresa}")
+	public ModelAndView masInfo(@PathVariable("idEmpresa") Long idEmpresa) {
+		log.info("EmpresasController - +Info: Muestra todos los datos de la empresa " + idEmpresa);
+		EmpresaDTO empresaDTO = new EmpresaDTO();
+		empresaDTO.setId(idEmpresa);
+		empresaDTO = empresaService.findById(empresaDTO);
+		
+		ModelAndView mav = new ModelAndView("app/empresa_info");
+		mav.addObject("empresaDTO", empresaDTO);
+		return mav;
+	}
 
 }

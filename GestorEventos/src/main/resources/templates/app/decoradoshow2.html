@@ -2,17 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panel de Administración</title>
-<!-- Bootstrap-Icons -->
-<link rel="stylesheet"
-	th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
-	
-<link rel="stylesheet"
-	th:href="@{/vendor/bootstrap-5.2.3/css/bootstrap.min.css}">
-<!-- General CSS -->
-<link th:href="@{/css/app.css}" rel="stylesheet">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Panel de Administración</title>
+	<!-- Bootstrap-Icons -->
+	<link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
+
+	<link rel="stylesheet" th:href="@{/vendor/bootstrap-5.2.3/css/bootstrap.min.css}">
+	<!-- General CSS -->
+	<link th:href="@{/css/app.css}" rel="stylesheet">
 </head>
 
 <body>
@@ -30,35 +28,35 @@
 	</header>
 
 	<main>
-		
+
 
 		<div class="container col-lg-8 p-4 rounded shadow bg-body text-start">
 			<div class="mt-1 text-center">
-					<h2 class="h2 rounded">Decorado</h2>
-				</div>
-			<div class="col mt-3">
-				<label class="form-label">Nombre</label>
-				<input th:field="${decoradoDTO.nombre}" class="form-control" type="text">
+				<h2 class="h2 rounded">Decorado</h2>
 			</div>
-			<div class="col mt-3">
+			<div class="row mt-3">
+				<label class="form-label">Nombre</label>
+				<input readonly th:field="${decoradoDTO.nombre}" class="form-control" type="text">
+			</div>
+			<div class="row mt-3">
+				<label class="form-label">Foto</label><br>
 				<div class="formimagediv">
-					<label class="form-label">Foto</label><br>
 					<img alt="Imagen del ocio" class="formimage" th:src="${decoradoDTO.foto}">
 				</div>
 			</div>
-			<div class="col mt-3">
-			<label class="form-label">Descripción</label>
-				<textarea th:field="${decoradoDTO.descripcion}" class="form-control"></textarea>
+			<div class="row mt-3">
+				<label class="form-label">Descripción</label>
+				<textarea readonly th:field="${decoradoDTO.descripcion}" class="form-control"></textarea>
 			</div>
 
-			<div class="col mt-3">
+			<div class="row mt-3">
 				<label class="form-label">Precio</label>
-				<input type="number" th:field="${decoradoDTO.precio}" class="form-control"/>
+				<input readonly type="number" th:field="${decoradoDTO.precio}" class="form-control" />
 			</div>
 
-			<div class="col mt-3">
+			<div class="row mt-3">
 				<label class="form-label">Empresa</label>
-				<input type="text" th:field="${empresaDTO.nombre}" class="form-control">
+				<input readonly type="text" th:field="${empresaDTO.nombre}" class="form-control">
 			</div>
 
 		</div>

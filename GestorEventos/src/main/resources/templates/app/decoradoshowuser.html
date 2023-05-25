@@ -2,58 +2,59 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Usuario</title>
-    <!-- Bootstrap-Icons -->
-    <link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
-    <!-- General CSS -->
-    <link th:href="@{/css/app.css}" rel="stylesheet">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Panel de Usuario</title>
+	<!-- Bootstrap-Icons -->
+	<link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
+	<!-- General CSS -->
+	<link th:href="@{/css/app.css}" rel="stylesheet">
 </head>
 
 <body>
-    <header>
-      <h1><strong>Event</strong><strong>App</strong></h1>
-        <nav>
-            <div class="sidenav">
-                <a class="closebtn">&times;</a>
-                <a th:href="@{/user/usuarios/{idUsuario}/eventos (idUsuario=${usuarioDTO.id})}">Volver</a>
-            </div>
-            <div>
-           		<img th:src="@{/media/img/menu.png}" alt="menu">
-            </div>
-        </nav>
-    </header>
+	<header>
+		<h1><strong>Event</strong><strong>App</strong></h1>
+		<nav>
+			<div class="sidenav">
+				<a class="closebtn">&times;</a>
+				<a th:href="@{/user/usuarios/{idUsuario}/eventos (idUsuario=${usuarioDTO.id})}">Volver</a>
+			</div>
+			<div>
+				<img th:src="@{/media/img/menu.png}" alt="menu">
+			</div>
+		</nav>
+	</header>
 
 	<main>
 
-		<h2>
-			Decorado del evento <span th:text="${eventoDTO.nombre}"></span>
-		</h2>
+
 		<div class="container col-lg-8 p-4 rounded shadow bg-body text-start">
-			<div class="col">
-				<h5>Nombre</h5>
-				<input value="${decoradoDTO.nombre}" type="text">
+			<div class="mt-1 text-center">
+				<h2 class="h2 rounded">Decorado</h2>
 			</div>
-			<div class="col">
+			<div class="row mt-3">
+				<label class="form-label">Nombre</label>
+				<input readonly th:field="${decoradoDTO.nombre}" class="form-control" type="text">
+			</div>
+			<div class="row mt-3">
+				<label class="form-label">Foto</label><br>
 				<div class="formimagediv">
-					<h5>Foto</h5>
-				<img alt="Imagen del ocio" class="formimage" src="${decoradoDTO.foto}">
+					<img alt="Imagen del ocio" class="formimage" th:src="${decoradoDTO.foto}">
 				</div>
 			</div>
-			<div class="col">
-				<h5>Descripción</h5>
-				<textarea value="${decoradoDTO.descripcion}"></textarea>
+			<div class="row mt-3">
+				<label class="form-label">Descripción</label>
+				<textarea readonly th:field="${decoradoDTO.descripcion}" class="form-control"></textarea>
 			</div>
 
-			<div class="col">
-				<h5>Precio</h5>
-				<input type="number" value="${decoradoDTO.precio}">
+			<div class="row mt-3">
+				<label class="form-label">Precio</label>
+				<input readonly type="number" th:field="${decoradoDTO.precio}" class="form-control" />
 			</div>
 
-			<div class="col">
-				<h5>Empresa</h5>
-				<input type="text" value="${empresaDTO.nombre}">
+			<div class="row mt-3">
+				<label class="form-label">Empresa</label>
+				<input readonly type="text" th:field="${empresaDTO.nombre}" class="form-control">
 			</div>
 
 		</div>
