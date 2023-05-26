@@ -71,6 +71,7 @@ public class EventoDTO implements Serializable {
 		eventoDTO.setTipo(evento.getTipo());
 		eventoDTO.setCreacion(evento.getCreacion());
 		eventoDTO.setPrecio(evento.getPrecio());
+		eventoDTO.setUbicacionDTO(UbicacionDTO.convertToDTO(evento.getUbicacion()));
 		eventoDTO.setUsuarioDTO(UsuarioDTO.convertToDTO(evento.getUsuario()));
 
 		return eventoDTO;

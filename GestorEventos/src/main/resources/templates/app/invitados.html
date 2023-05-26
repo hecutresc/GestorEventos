@@ -17,7 +17,7 @@
         <nav>
             <div class="sidenav">
               <a class="closebtn">&times;</a>
-              <a th:href="@{/admin/usuarios/{idUsuario}/eventos (idUsuario=${usuarioDTO.id})}">Volver</a>
+              <a th:href="@{/admin/usuarios/{idUsuario}/eventos/{idEvento} (idUsuario=${usuarioDTO.id}, idEvento=${eventoDTO.id})}">Volver</a>
               <a th:href="@{/admin/usuarios/{idUsuario}/eventos/{idEvento}/invitados/add (idUsuario=${usuarioDTO.id}, idEvento=${eventoDTO.id})}">Añadir Invitado</a>
             </div>
             

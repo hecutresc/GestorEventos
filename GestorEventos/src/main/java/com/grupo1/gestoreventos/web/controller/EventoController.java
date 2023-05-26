@@ -44,7 +44,6 @@ public class EventoController {
 	private DecoradoService decoradoService;
 	@Autowired
 	private OcioService ocioService;
-	
 
 	@GetMapping("/admin/usuarios/{idUsuario}/eventos")
 	public ModelAndView findAllByUsuario(@PathVariable("idUsuario") Long idUsuario) {
@@ -104,6 +103,25 @@ public class EventoController {
 		// ModelAndView
 		ModelAndView mav = new ModelAndView("app/eventoshow");
 		mav.addObject("eventoDTO", eventoDTO);
+		mav.addObject("cateringDTO", eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO());
+		mav.addObject("decoradoDTO", eventoDTO.getListaCateringubicacioneventoDTO().get(0).getDecoradoDTO());
+		mav.addObject("ocioDTO", eventoDTO.getListaCateringubicacioneventoDTO().get(0).getOcioDTO());
+		return mav;
+	}
+
+	@GetMapping("/admin/usuarios/{idUsuario}/eventos/{idEvento}")
+	public ModelAndView showEventos2(@PathVariable("idUsuario") Long idUsuario,
+			@PathVariable("idEvento") Long idEvento) {
+		// Recogemos el evento
+		EventoDTO eventoDTO = new EventoDTO();
+		eventoDTO.setId(idEvento);
+		eventoDTO = eventoService.findById(eventoDTO);
+		UsuarioDTO usuarioDTO = new UsuarioDTO();
+		usuarioDTO.setId(idUsuario);
+		// ModelAndView
+		ModelAndView mav = new ModelAndView("app/evento_info");
+		mav.addObject("eventoDTO", eventoDTO);
+		mav.addObject("usuarioDTO",usuarioDTO);
 		mav.addObject("cateringDTO", eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO());
 		mav.addObject("decoradoDTO", eventoDTO.getListaCateringubicacioneventoDTO().get(0).getDecoradoDTO());
 		mav.addObject("ocioDTO", eventoDTO.getListaCateringubicacioneventoDTO().get(0).getOcioDTO());
@@ -197,9 +215,9 @@ public class EventoController {
 		EventoDTO eventoDTO = new EventoDTO();
 		eventoDTO.setId(idEvento);
 		eventoDTO = eventoService.findById(eventoDTO);
-		
+
 		eventoDTO.getCateringDTO()
-		.setId(eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO().getId());
+				.setId(eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO().getId());
 
 		ModelAndView mav = new ModelAndView("app/eventoformuser");
 		mav.addObject("usuarioDTO", usuarioDTO);
@@ -226,7 +244,6 @@ public class EventoController {
 		usuarioDTO = usuarioService.findById(usuarioDTO);
 
 		eventoDTO.setUsuarioDTO(usuarioDTO);
-
 
 		eventoService.save(eventoDTO);
 
@@ -256,7 +273,7 @@ public class EventoController {
 		return mav;
 
 	}
-	
+
 	@GetMapping("/user/usuarios/{idUsuario}/eventos/delete/{idEvento}")
 	public ModelAndView deleteUser(@PathVariable("idUsuario") Long idUsuario, @PathVariable Long idEvento) {
 		// Eliminamos el evento
@@ -273,8 +290,7 @@ public class EventoController {
 		return mav;
 
 	}
-	
-	
+
 	@GetMapping("/admin/usuarios/{idUsuario}/eventos/delete/{idEvento}")
 	public ModelAndView delete(@PathVariable("idUsuario") Long idUsuario, @PathVariable Long idEvento) {
 		// Eliminamos el evento

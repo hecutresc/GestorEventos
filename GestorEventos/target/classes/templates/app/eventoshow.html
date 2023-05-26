@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eventos</title>
-   <!-- Bootstrap-5.2.3 -->
+    <!-- Bootstrap-5.2.3 -->
     <link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
     <!-- Bootstrap-Icons -->
     <link rel="stylesheet" th:href="@{/vendor/bootstrap-5.2.3/css/bootstrap.min.css}">
     <!-- General CSS -->
-  	<link th:href="@{/css/app.css}" rel="stylesheet">
+    <link th:href="@{/css/app.css}" rel="stylesheet">
 </head>
 
 <body>
@@ -18,59 +18,162 @@
         <h1>Panel de Administración</h1>
         <nav>
             <div class="sidenav">
-              <a class="closebtn">&times;</a>
-              <a th:href="@{/admin/eventos}">Volver</a>
+                <a class="closebtn">&times;</a>
+                <a th:href="@{/admin/eventos}">Volver</a>
             </div>
-            
+
             <div>
-              <img th:src="@{/media/img/menu.png}" alt="menu">
+                <img th:src="@{/media/img/menu.png}" alt="menu">
             </div>
-            
-          </nav>
+
+        </nav>
 
     </header>
 
     <main>
 
-        <h2>Evento</h2>
-        
-        <table>
-        
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                	<th>Usuario Creador</th> 
-                    <th>Fecha Creación</th>
-                 	<th>Nombre Ubicación</th>
-                    <th>Fecha Inicio</th>
-                    <th>Fecha Fin</th>
-                  	<th>Menu Catering</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td th:text="${eventoDTO.id}"></td>
-                    <td th:text="${eventoDTO.nombre}"></td>
-                    <td th:text="${eventoDTO.usuarioDTO.nombreUsuario}"></td>
-                    <td th:text="${#dates.format(eventoDTO.creacion, 'dd/MM/yyyy HH:mm')}"></td>
-                    <td th:text="${eventoDTO.ubicacionDTO.nombre}"></td>
-                    <td th:text="${#dates.format(eventoDTO.fechaInicio, 'dd/MM/yyyy')}"></td>
-                    <td th:text="${#dates.format(eventoDTO.fechaFin, 'dd/MM/yyyy')}"></td>
-                    <td th:text="${cateringDTO.menu}"></td>
-                </tr>
-            </tbody>
-        </table>
+
+
+        <div class="container col-lg-8 p-4 rounded shadow bg-body mt-3 text-start">
+            <div class="mt-1 text-center">
+                <h2 class="h2 rounded">Evento</h2>
+            </div>
+            <div class="row mt-3">
+                <div>
+                    <label for="nombre" class="form-label">Nombre</label> <input readonly th:type="text" name="nombre"
+                        class="form-control" id="nombre" th:field="${eventoDTO.nombre}" th:maxlength="40" />
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div>
+                    <label class="form-label" for="tipoEvento">Tipo de Evento</label>
+                    <input readonly class="form-control" type="text" th:field="${eventoDTO.tipo}">
+                </div>
+            </div>
+            <div th:if="${eventoDTO.tipo == 'Congreso' or eventoDTO.tipo == 'Otros'}" class="row mt-3">
+                <div id="divFI" class="col">
+                    <label for="fechaInicio" class="form-label">Fecha inicio</label> <input readonly th:type="date"
+                        name="fechaInicio" class="form-control" id="fechaInicio" th:field="${eventoDTO.fechaInicio}"
+                        th:maxlength="100" />
+                </div>
+                <div id="divFF" class="col">
+                    <label for="fechaFin" class="form-label">Fecha Fin</label> <input readonly th:type="date"
+                        name="fechaFin" class="form-control" id="fechaFin" th:field="${eventoDTO.fechaFin}"
+                        th:maxlength="100" />
+                </div>
+            </div>
+            <div th:if="${eventoDTO.tipo != 'Congreso' and eventoDTO.tipo != 'Otros'}" class="row mt-3">
+                <div id="divFI" class="col">
+                    <label for="fechaInicio" class="form-label">Fecha inicio</label> <input readonly th:type="date"
+                        name="fechaInicio" class="form-control" id="fechaInicio" th:field="${eventoDTO.fechaInicio}"
+                        th:maxlength="100" />
+                </div>
+                <div id="divHI" class="col">
+                    <label for="horaInicio" class="form-label">Hora Inicio</label> <input readonly th:type="time"
+                        name="horaInicio" class="form-control" id="horaInicio" th:field="${eventoDTO.hora_inicio}"
+                        th:maxlength="100" />
+                </div>
+                <div class="col">
+                    <label for="nHoras" class="form-label">Número de Horas</label>
+                    <input readonly type="text" class="form-control" th:field="${eventoDTO.num_horas}">
+
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div>
+                    <label class="form-label">Ubicación</label>
+                    <input readonly type="text" class="form-control" th:field="${eventoDTO.ubicacionDTO.nombre}">
+                </div>
+                <div>
+                    <label class="form-label">Aforo</label>
+                    <input readonly th:field="${eventoDTO.ubicacionDTO.aforo}" type="number" class="form-control">
+                </div>
+                <div>
+                    <label class="form-label">Foto</label>
+                    <div class="formimagediv">
+                        <img class="formimage form-control" th:src="${eventoDTO.ubicacionDTO.foto}"
+                            alt="Foto de la Ubicacion">
+                    </div>
+
+                </div>
+                <div>
+                    <label class="form-label" for="">Precio por hora:</label>
+                    <input class="form-control" readonly type="number" th:field="${eventoDTO.ubicacionDTO.precio_hora}">
+                </div>
+            </div>
+
+            <div th:if="${cateringDTO.id != null}" class="row mt-3">
+                <div>
+                    <label class="form-label" for="">Catering</label>
+                    <input readonly type="text" class="form-control" th:field="${cateringDTO.menu}">
+                </div>
+                <div>
+                    <label class="form-label" for="">Foto</label>
+                    <div class="formimagediv">
+                        <img class="formimage form-control" th:src="${cateringDTO.foto}" alt="Foto del Catering">
+                    </div>
+
+                </div>
+                <div>
+                    <label class="form-label" for="">Precio por Comensal:</label>
+                    <input readonly type="number" class="form-control" th:field="${cateringDTO.precio}">
+                </div>
+            </div>
+            <div th:if="${decoradoDTO.id != null}" class="row mt-3">
+                <div>
+                    <label class="form-label" for="">Decorado:</label>
+                    <input readonly class="form-control" type="text" th:field="${decoradoDTO.nombre}">
+                </div>
+                <div>
+                    <label class="form-label">Descripción</label>
+                    <textarea readonly class="form-control" th:field="${decoradoDTO.descripcion}"></textarea>
+                </div>
+                <div>
+                    <label class="form-label">Foto</label>
+                    <div class="formimagediv">
+                        <img class="formimage form-control" th:src="${decoradoDTO.foto}" alt="Foto del Decorado">
+                    </div>
+
+                </div>
+                <div>
+                    <label class="form-label">Precio</label>
+                    <input readonly th:field="${decoradoDTO.precio}" class="form-control" type="number">
+                </div>
+            </div>
+            <div th:if="${ocioDTO.id != null}" class="row mt-3">
+                <div>
+                    <label class="form-label">Ocio:</label>
+                    <input readonly class="form-control" th:field="${ocioDTO.nombre}" type="text">
+                </div>
+                <div>
+                    <label class="form-label">Descripción:</label>
+                    <textarea class="form-control" th:field="${ocioDTO.descripcion}"></textarea>
+                </div>
+                <div>
+                    <label class="form-label">Foto</label>
+                    <div class="formimagediv">
+                        <img class="formimage form-control" th:src="${ocioDTO.foto}" alt="Foto ocio">
+                    </div>
+
+                </div>
+                <div>
+                    <label class="form-label">Precio por hora</label>
+                    <input readonly class="form-control" th:field="${ocioDTO.precio_hora}" type="number">
+                </div>
+
+            </div>
+            <div class="row mt-3">
+                <div>
+                    <label class="form-label">Precio Evento:</label>
+                <input readonly class="form-control" th:field="${eventoDTO.precio}" type="number">
+                </div>
+        </div>
 
     </main>
 
-    <footer>
-
-    </footer>
-
-	<script th:src="@{/vendor/bootstrap-5.2.3/js/bootstrap.bundle.min.js}" ></script>
-    <script th:src="@{/js/jquery-3.6.3.js}" ></script>
-  	<script th:src="@{/js/script.js}" ></script>
+    <script th:src="@{/vendor/bootstrap-5.2.3/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/jquery-3.6.3.js}"></script>
+    <script th:src="@{/js/script.js}"></script>
 </body>
 
 </html>
