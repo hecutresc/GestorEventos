@@ -120,6 +120,10 @@ main > div > a{
 
 }
 
+video{
+  object-fit: cover;
+}
+
 footer{
   position: absolute !important;
   bottom: 0;

@@ -181,16 +181,18 @@ public class EventoController {
 		// Seteamos la empresa
 		UsuarioDTO usuarioDTO = new UsuarioDTO();
 		usuarioDTO.setId(idUsuario);
-
+		usuarioDTO = usuarioService.findById(usuarioDTO);
 		// Obtenemos el evento y lo pasamos al modelo para ser actualizado
 		EventoDTO eventoDTO = new EventoDTO();
 		eventoDTO.setId(idEvento);
 		eventoDTO = eventoService.findById(eventoDTO);
+		eventoDTO.setUsuarioDTO(usuarioDTO);
+		eventoDTO.setUbicacionDTO(eventoDTO.getListaCateringubicacioneventoDTO().get(0).getUbicacionDTO());
+		eventoDTO.setCateringDTO(eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO());
+		eventoDTO.setDecoradoDTO(eventoDTO.getListaCateringubicacioneventoDTO().get(0).getDecoradoDTO());
+		eventoDTO.setOcioDTO(eventoDTO.getListaCateringubicacioneventoDTO().get(0).getOcioDTO());
 
-		eventoDTO.getCateringDTO()
-				.setId(eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO().getId());
-
-		ModelAndView mav = new ModelAndView("app/eventoform");
+		ModelAndView mav = new ModelAndView("app/eventoform2");
 		mav.addObject("usuarioDTO", usuarioDTO);
 		mav.addObject("eventoDTO", eventoDTO);
 		mav.addObject("listaCateringsDTO", cateringService.findAll());
@@ -215,10 +217,10 @@ public class EventoController {
 		EventoDTO eventoDTO = new EventoDTO();
 		eventoDTO.setId(idEvento);
 		eventoDTO = eventoService.findById(eventoDTO);
-
-		eventoDTO.getCateringDTO()
-				.setId(eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO().getId());
-
+		eventoDTO.setCateringDTO(eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO());
+		eventoDTO.setDecoradoDTO(eventoDTO.getListaCateringubicacioneventoDTO().get(0).getDecoradoDTO());
+		eventoDTO.setOcioDTO(eventoDTO.getListaCateringubicacioneventoDTO().get(0).getOcioDTO());
+		
 		ModelAndView mav = new ModelAndView("app/eventoformuser");
 		mav.addObject("usuarioDTO", usuarioDTO);
 		mav.addObject("eventoDTO", eventoDTO);

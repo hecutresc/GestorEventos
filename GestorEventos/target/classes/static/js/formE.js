@@ -110,9 +110,7 @@ function listados(ubicacionList, cateringList, decoradoList, ocioList) {
             selectDecorado.addEventListener('change', function () {
                 if (this.value !== "0") {
                     //Recogemos el objeto Decorado
-                    console.log(this.value);
                     var d = buscarObjetoPorId(this.value, decoradoList);
-                    console.log(d);
                     var i = document.getElementById('fotoDecorado');
                     var p = document.getElementById('precioDecorado');
                     if (d) {
@@ -168,8 +166,8 @@ function listados(ubicacionList, cateringList, decoradoList, ocioList) {
 
                         if (res2) {
                             divFPOcio.style.display = "block";
-                            
-                        }else{
+
+                        } else {
                             selectOcio.value = 0;
                         }
 
@@ -275,7 +273,7 @@ function horario(tipo, ubicacionList, ocioList) {
             divHI.style.display = "block";
             divNH.style.display = "block";
             var h = document.getElementById('nHoras');
-            h.addEventListener('change',function(){
+            h.addEventListener('change', function () {
                 fHoras(h, ubicacionList, ocioList);
             });
             break;
@@ -292,7 +290,7 @@ function horario(tipo, ubicacionList, ocioList) {
             divHI.style.display = "block";
             divNH.style.display = "block";
             var h = document.getElementById('nHoras');
-            h.addEventListener('change',function(){
+            h.addEventListener('change', function () {
                 fHoras(h, ubicacionList, ocioList);
             });
             break;
@@ -301,7 +299,7 @@ function horario(tipo, ubicacionList, ocioList) {
             divHI.style.display = "block";
             divNH.style.display = "block";
             var h = document.getElementById('nHoras');
-            h.addEventListener('change',function(){
+            h.addEventListener('change', function () {
                 fHoras(h, ubicacionList, ocioList);
             });
             break;
@@ -339,7 +337,7 @@ function ffinal(element, ubicacionList, ocioList) {
                 var precioQ = p_a - precioHorasAnterior;
                 var nPrecio = horasNuevas * ubicacion.precio_hora;
                 var pTotal = precioQ + nPrecio;
-                precio.value = Number(pTotal.toFixed(2)) ;
+                precio.value = Number(pTotal.toFixed(2));
                 //Miramos si ha contratado también ocio
                 var oci = document.getElementById('selectOcio');
                 if (oci.value != 0) {
@@ -349,7 +347,7 @@ function ffinal(element, ubicacionList, ocioList) {
                     var precioQ = p_a - precioHorasAnterior;
                     var nPrecio = horasNuevas * ocio.precio_hora;
                     var pTotal = precioQ + nPrecio;
-                    precio.value = Number(pTotal.toFixed(2)) ;
+                    precio.value = Number(pTotal.toFixed(2));
                 }
 
             }
@@ -630,7 +628,7 @@ function cambio_Tipo_Evento(tipoEvento, ubicacionList, ocioList) {
                                 var precioQ = p_a - precioHorasAnterior;
                                 var nPrecio = horasNuevas * ocio.precio_hora;
                                 var pTotal = precioQ + nPrecio;
-                                precio.value = Number(pTotal.toFixed(2)) ;
+                                precio.value = Number(pTotal.toFixed(2));
                             }
 
                         }
@@ -673,7 +671,7 @@ function cambio_Tipo_Evento(tipoEvento, ubicacionList, ocioList) {
 
 }
 
-function fHoras(element, ubicacionList, ocioList){
+function fHoras(element, ubicacionList, ocioList) {
     if (sessionStorage.getItem('horas')) {
         var horasAntiguas = sessionStorage.getItem('horas');
         var horasNuevas = element.value;
@@ -690,7 +688,7 @@ function fHoras(element, ubicacionList, ocioList){
             var precioQ = p_a - precioHorasAnterior;
             var nPrecio = horasNuevas * ubicacion.precio_hora;
             var pTotal = precioQ + nPrecio;
-            precio.value = Number(pTotal.toFixed(2)) ;
+            precio.value = Number(pTotal.toFixed(2));
             //Miramos si ha contratado también ocio
             var oci = document.getElementById('selectOcio');
             if (oci.value != 0) {
@@ -700,7 +698,7 @@ function fHoras(element, ubicacionList, ocioList){
                 var precioQ = p_a - precioHorasAnterior;
                 var nPrecio = horasNuevas * ocio.precio_hora;
                 var pTotal = precioQ + nPrecio;
-                precio.value = Number(pTotal.toFixed(2)) ;
+                precio.value = Number(pTotal.toFixed(2));
             }
 
         }
@@ -717,4 +715,277 @@ function poner_Provincia(provincia) {
     divUbi.classList.replace("col", "col-8");
     divProv.style.display = "block";
 
+}
+
+function edicion(eventoDTO, ubicacionList, cateringList, decoradoList, ocioList) {
+    //Se nos pasan objetos y según el tipo de evento que sea tendremos que mostrar o no divs
+    var divFechas = document.getElementById('divFechas');
+    divFechas.style.display = "block";
+    var fI = document.getElementById('fechaInicio');
+    fI.addEventListener('change', function(){
+        var fF = document.getElementById('fechaFin');
+        if(new Date(this.value) > new Date()){
+            
+            if(eventoDTO.tipo == "Congreso" || eventoDTO.tipo == "Otros"){
+                fF.value = "";
+            }
+        }else{
+            alert('La fecha de Inicio tiene que ser superior a la actual');
+            this.value = "";
+            if(eventoDTO.tipo == "Congreso" || eventoDTO.tipo == "Otros"){
+                fF.value = "";
+            }
+            
+            
+        }
+
+    });
+    if (eventoDTO.tipo == "Congreso" || eventoDTO.tipo == "Otros") {
+        //Ponemos los valores de las horas a null
+        var fechaInicio = new Date(document.getElementById("fechaInicio").value);
+        var fechaFin = new Date(document.getElementById("fechaFin").value);
+        //Calcula en milisegundos
+        var diferencia = fechaFin - fechaInicio;
+        // Calcular el número de horas redondeando hacia abajo
+        var horas = Math.floor(diferencia / (1000 * 60 * 60));
+        sessionStorage.setItem('horas', horas);
+    } else {
+        var horas = document.getElementById('nHoras').value;
+        sessionStorage.setItem('horas', horas);
+    }
+    horario(eventoDTO.tipo, ubicacionList, ocioList);
+
+    //Poner las listas de los añadidos según la provincia
+    var ubicacionDTO = buscarObjetoPorId(eventoDTO.ubicacionDTO.id, ubicacionList);
+    var selectUbicacion = document.getElementById("selectUbicacion");
+    var divFPUbicacion = document.getElementById('fotoPrecioUbicacion');
+    selectUbicacion.value = ubicacionDTO.id;
+
+    //Mostrar los divs
+    var iU = document.getElementById('fotoUbicacion');
+    var pU = document.getElementById('precioUbicacion');
+    pU.placeholder = ubicacionDTO.precio_hora;
+    iU.src = ubicacionDTO.foto;
+    divFPUbicacion.style.display = "block";
+    //Poner listas de los objetos
+    //Ponemos la provincia de la ubicacion
+    poner_Provincia(ubicacionDTO.direccionDTO.provincia);
+
+    //Creamos la lista para los caterings filtrados y los añdimos y vaciamos
+    //Variables necesarias
+    var divCatering = document.getElementById('divCatering');
+    var divDecorado = document.getElementById('divDecorado');
+    var divOcio = document.getElementById('divOcio');
+    var divFPCatering = document.getElementById('fotoPrecioCatering');
+    var divFPDecorado = document.getElementById('fotoPrecioDecorado');
+    var divFPOcio = document.getElementById('fotoPrecioOcio');
+    //Catering List
+    var selectCatering = document.getElementById('selectCatering');
+
+    var filteredCaterings = [];
+    vaciarSelect(selectCatering);
+    for (var i = 0; i < cateringList.length; i++) {
+        if (cateringList[i].empresaDTO.direccionDTO.provincia == ubicacionDTO.direccionDTO.provincia) {
+            filteredCaterings.push(cateringList[i]);
+        }
+    };
+    for (var i = 0; i < filteredCaterings.length; i++) {
+        var option = document.createElement('option');
+        option.value = filteredCaterings[i].id;
+        option.text = filteredCaterings[i].menu;
+        selectCatering.appendChild(option);
+    }
+    selectCatering.addEventListener('change', function () {
+        edicionCatering(this.value, cateringList, divFPCatering);
+    });
+    divCatering.style.display = "block";
+    //DecoradoList
+    var selectDecorado = document.getElementById('selectDecorado');
+
+    var filteredDecorados = [];
+    vaciarSelect(selectDecorado);
+    for (var i = 0; i < decoradoList.length; i++) {
+        console.log(decoradoList[i].empresaDTO.direccionDTO.provincia);
+        if (decoradoList[i].empresaDTO.direccionDTO.provincia == ubicacionDTO.direccionDTO.provincia) {
+            filteredDecorados.push(decoradoList[i]);
+        }
+    };
+
+    for (var i = 0; i < filteredDecorados.length; i++) {
+        var option = document.createElement('option');
+        option.value = filteredDecorados[i].id;
+        option.text = filteredDecorados[i].nombre;
+        selectDecorado.appendChild(option);
+    }
+    selectDecorado.addEventListener('change', function () {
+        edicionDecorado(this.value, decoradoList, divFPDecorado);
+    });
+    divDecorado.style.display = "block";
+    //Ocio List
+    //Ocio Filtrado
+    var selectOcio = document.getElementById('selectOcio');
+
+    var filteredOcios = [];
+    vaciarSelect(selectOcio);
+    for (var i = 0; i < ocioList.length; i++) {
+        console.log(ocioList[i].empresaDTO.direccionDTO.provincia);
+        if (ocioList[i].empresaDTO.direccionDTO.provincia == ubicacionDTO.direccionDTO.provincia) {
+            filteredOcios.push(ocioList[i]);
+        }
+    };
+
+    for (var i = 0; i < filteredOcios.length; i++) {
+        var option = document.createElement('option');
+        option.value = filteredOcios[i].id;
+        option.text = filteredOcios[i].nombre;
+        selectOcio.appendChild(option);
+    };
+    selectOcio.addEventListener('change', function () {
+        edicionOcio(this.value, ocioList, divFPOcio, this);
+    });
+    divOcio.style.display = "block";
+    //Poner los valores de cada atributo
+    if (eventoDTO.cateringDTO.id != null) {
+        //Buscar el objeto en las listas y poner todo
+        var cateringDTO = buscarObjetoPorId(eventoDTO.cateringDTO.id, cateringList);
+        selectCatering.value = cateringDTO.id;
+        var iC = document.getElementById('fotoCatering');
+        var pC = document.getElementById('precioCatering');
+        //Poner los divs visibles 
+        if (cateringDTO) {
+            //Recogemos el elemento con la imagen y el input 
+            pC.placeholder = cateringDTO.precio;
+            iC.src = cateringDTO.foto;
+            sessionStorage.setItem('pCatering', cateringDTO.precio);
+        } else {
+            pC.placeholder = "Error";
+            iC.alt = "Error";
+        }
+        divFPCatering.style.display = "block";
+
+    }
+
+    if (eventoDTO.decoradoDTO.id != null) {
+        //Buscar el objeto en las listas y poner todo
+        var decoradoDTO = buscarObjetoPorId(eventoDTO.decoradoDTO.id, decoradoList);
+        selectDecorado.value = decoradoDTO.id;
+        var iD = document.getElementById('fotoDecorado');
+        var pD = document.getElementById('precioDecorado');
+        //Poner los divs visibles 
+        if (decoradoDTO) {
+            //Recogemos el elemento con la imagen y el input 
+            pD.placeholder = decoradoDTO.precio;
+            iD.src = decoradoDTO.foto;
+            sessionStorage.setItem('pDecorado', decoradoDTO.precio);
+        } else {
+            pD.placeholder = "Error";
+            iD.alt = "Error";
+        }
+        divFPDecorado.style.display = "block";
+    }
+
+    if (eventoDTO.ocioDTO.id != null) {
+        var ocioDTO = buscarObjetoPorId(eventoDTO.ocioDTO.id, ocioList);
+        selectOcio.value = ocioDTO.id;
+        var iO = document.getElementById('fotoOcio');
+        var pO = document.getElementById('precioOcio');
+        if (ocioDTO) {
+            //Recogemos el elemento con la imagen y el input 
+            pO.placeholder = ocioDTO.precio_hora;
+            iO.src = ocioDTO.foto;
+            sessionStorage.setItem('pOcio', ocioDTO.precio_hora);
+        } else {
+            pO.placeholder = "Error";
+            iO.alt = "Error";
+        }
+        divFPOcio.style.display = "block";
+    }
+
+
+}
+
+function edicionCatering(id, cateringList, divFPCatering) {
+    if (id !== "0") {
+        //Recogemos el objeto Decorado
+
+        var c = buscarObjetoPorId(id, cateringList);
+        var i = document.getElementById('fotoCatering');
+        var p = document.getElementById('precioCatering');
+        if (c) {
+            //Recogemos el elemento con la imagen y el input 
+            p.placeholder = c.precio;
+            i.src = c.foto;
+            //Añadimos el precio al precio final
+            ponerDinero('pCatering', c.precio);
+        } else {
+            p.placeholder = "Error";
+            i.alt = "Error";
+        }
+        divFPCatering.style.display = "block";
+    } else {
+        //Quitamos el dinero
+        quitarDinero('pCatering');
+        //Quitamos el div
+        divFPCatering.style.display = "none";
+    }
+}
+
+function edicionDecorado(id, decoradoList, divFPDecorado) {
+    if (id !== "0") {
+        //Recogemos el objeto Decorado
+        var d = buscarObjetoPorId(id, decoradoList);
+        var i = document.getElementById('fotoDecorado');
+        var p = document.getElementById('precioDecorado');
+        if (d) {
+            //Recogemos el elemento con la imagen y el input 
+            p.placeholder = d.precio;
+            i.src = d.foto;
+            //Añadimos el precio al precio final
+            ponerDinero('pDecorado', d.precio);
+        } else {
+            p.placeholder = "Error";
+            i.alt = "Error";
+        }
+        divFPDecorado.style.display = "block";
+    } else {
+        //Quitamos el dinero
+        quitarDinero('pDecorado');
+        //Quitamos la vista
+        divFPDecorado.style.display = "none";
+    }
+}
+
+function edicionOcio(id, ocioList, divFPOcio, selectOcio) {
+    if (id !== "0") {
+        //Recogemos el objeto Decorado
+        var o = buscarObjetoPorId(id, ocioList);
+        var i = document.getElementById('fotoOcio');
+        var p = document.getElementById('precioOcio');
+        if (o) {
+            //Recogemos el elemento con la imagen y el input 
+            p.placeholder = o.precio_hora;
+            i.src = o.foto;
+
+            //Llamamos a la función para que calcule el precio
+            var res2 = calcular_precio_hora("pOcio", o.precio_hora);
+
+            if (res2) {
+                divFPOcio.style.display = "block";
+
+            } else {
+                selectOcio.value = 0;
+            }
+
+        } else {
+            p.placeholder = "Error";
+            i.alt = "Error";
+            divFPOcio.style.display = "block";
+        }
+
+    } else {
+        //Quitamos el precio del Ocibicaco
+        quitar_precio_hora('pOcio');
+        //No se enseña el div
+        divFPOcio.style.display = "none";
+    }
 }
