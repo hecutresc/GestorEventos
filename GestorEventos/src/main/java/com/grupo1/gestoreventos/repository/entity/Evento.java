@@ -44,6 +44,9 @@ public class Evento {
 	
 	@Column(name= "precio")
 	private Float precio;
+	
+	@Column(name = "n_asistentes")
+	private Long n_asistentes;
 
 	@Column(name = "fecha_inicio")
 	@Temporal(TemporalType.DATE)

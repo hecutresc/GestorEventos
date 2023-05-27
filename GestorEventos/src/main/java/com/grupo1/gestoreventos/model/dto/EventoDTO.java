@@ -36,6 +36,8 @@ public class EventoDTO implements Serializable {
 	private Date creacion;
 	
 	private Float precio;
+	
+	private Long n_asistentes;
 
 	@ToString.Exclude
 	private UbicacionDTO ubicacionDTO;
@@ -71,6 +73,7 @@ public class EventoDTO implements Serializable {
 		eventoDTO.setTipo(evento.getTipo());
 		eventoDTO.setCreacion(evento.getCreacion());
 		eventoDTO.setPrecio(evento.getPrecio());
+		eventoDTO.setN_asistentes(evento.getN_asistentes());
 		eventoDTO.setUbicacionDTO(UbicacionDTO.convertToDTO(evento.getUbicacion()));
 		eventoDTO.setUsuarioDTO(UsuarioDTO.convertToDTO(evento.getUsuario()));
 
@@ -88,7 +91,7 @@ public class EventoDTO implements Serializable {
 		evento.setTipo(eventoDTO.getTipo());
 		evento.setCreacion(eventoDTO.getCreacion());
 		evento.setPrecio(eventoDTO.getPrecio());
-
+		evento.setN_asistentes(eventoDTO.getN_asistentes());
 		return evento;
 	}
 

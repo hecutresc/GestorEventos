@@ -35,9 +35,10 @@
 
 		<div class="container col-lg-8 p-4 rounded shadow bg-body mt-3 text-start">
 
-			<form th:action="@{/user/usuarios/{idUsuario}/eventos/save (idUsuario = ${usuarioDTO.id})}" method="POST" th:object="${eventoDTO}">
+			<form th:action="@{/user/usuarios/{idUsuario}/eventos/save (idUsuario = ${usuarioDTO.id})}" method="POST"
+				th:object="${eventoDTO}">
 
-				
+
 				<div class="mt-1 text-center">
 					<h2 class="h2 rounded" th:text="${add} ? 'Nuevo evento' : 'Actualizar evento'"></h2>
 				</div>
@@ -74,7 +75,13 @@
 						</select>
 					</div>
 				</div>
-
+				<div class="row mt-3">
+					<div>
+						<label for="nAsistentes" class="form-label">Nº Asistentes</label>
+						<input id="nAsistentes" th:field="*{n_asistentes}" name="nAsistentes" class="form-control"
+							type="number">
+					</div>
+				</div>
 				<div id="divFechas" class="row mt-3" style="display: none;">
 					<div id="divFI" class="col">
 						<label for="fechaInicio" class="form-label">Fecha inicio</label> <input th:type="date"
@@ -124,9 +131,18 @@
 						<img id="fotoUbicacion" class="formimage">
 					</div>
 					<div id="divPrecioUbicacion">
-						<label class="form-label col" for="precioUbicacion">Precio Ubicacion</label>
-						<input class="form-control col" readonly type="number" name="precioUbicacion"
-							id="precioUbicacion">
+						<div class="row mt-3">
+							<div class="col">
+								<label class="form-label" for="precioUbicacion">Precio Ubicacion</label>
+								<input class="form-control" readonly type="number" name="precioUbicacion"
+									id="precioUbicacion">
+							</div>
+							<div class="col">
+								<label class="form-label" for="aforoUbicacion">Aforo</label>
+								<input readonly id="aforoUbicacion" name="aforoUbicacion" class="form-control"
+									type="number">
+							</div>
+						</div>
 					</div>
 
 				</div>
@@ -208,8 +224,8 @@
 				<div id="divPrecioEvento" class="row mt-3">
 					<div>
 						<label for="precioEvento" class="form-label col">Precio Final:</label> <input type="number"
-						name="precioEvento" step="0.01" readonly class="form-control col" id="precioEvento" th:field="*{precio}"
-						value="0" />
+							name="precioEvento" step="0.01" readonly class="form-control col" id="precioEvento"
+							th:field="*{precio}" value="0" />
 					</div>
 				</div>
 
@@ -236,6 +252,7 @@
 		quitarSession('pDecorado');
 		quitarSession('pCatering');
 		quitarSession('horas');
+		quitarSession('nAsistentes');
 		//Ponemos el precio por defecto a 0
 		document.getElementById('precioEvento').value = 0;
 
@@ -247,6 +264,11 @@
 		//Función para insertar la lista de ubicaciones
 		insertarUbicaciones(ubicacionList);
 
+		//Asistentes
+		var selectnAsistentes = document.getElementById('nAsistentes');
+		selectnAsistentes.addEventListener('change', function () {
+			nComprobar(this.value, ubicacionList, cateringList);
+		});
 		//Función que controla las demas funciones en el archivo js
 		var selectUbicacion = document.getElementById('selectUbicacion');
 		selectUbicacion.addEventListener('change', function (e) {

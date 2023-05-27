@@ -4,6 +4,7 @@ function listados(ubicacionList, cateringList, decoradoList, ocioList) {
     var selectCatering = document.getElementById('selectCatering');
     var selectDecorado = document.getElementById('selectDecorado');
     var selectOcio = document.getElementById('selectOcio');
+    var selectnAsitentes = document.getElementById('nAsistentes');
     var ubi = null;
     var idUbi = selectUbicacion.value;
 
@@ -31,162 +32,177 @@ function listados(ubicacionList, cateringList, decoradoList, ocioList) {
         }
     };
 
-    //Comprobar que el usuario a elegido tipo de Evento y horario
+    //Comprobar que el usuario a elegido tipo de Evento y horario y que el Nº de invitado es menor o igual al aforo
 
     if (ubi) {
-        var res = calcular_precio_hora("p_ubi", ubi.precio_hora);
-        console.log(res);
-        if (res) {
-            //Ponemos la imagen y el precio de la ubicacion
-            var i = document.getElementById('fotoUbicacion');
-            var p = document.getElementById('precioUbicacion');
-            p.placeholder = ubi.precio_hora;
-            i.src = ubi.foto;
-            divFPUbicacion.style.display = "block";
-            //Ponemos la provincia de la ubicacion
-            poner_Provincia(ubi.direccionDTO.provincia);
-            //Creamos la lista para los caterings filtrados y los añdimos y vaciamos
-            var filteredCaterings = [];
-            vaciarSelect(selectCatering);
-            for (var i = 0; i < cateringList.length; i++) {
-                if (cateringList[i].empresaDTO.direccionDTO.provincia == ubi.direccionDTO.provincia) {
-                    filteredCaterings.push(cateringList[i]);
-                }
-            };
+        if (selectnAsitentes.value != 0) {
+            if (selectnAsitentes.value <= ubi.aforo) {
+                var res = calcular_precio_hora("p_ubi", ubi.precio_hora);
+                if (res) {
+                    //Ponemos la imagen y el precio de la ubicacion
+                    var i = document.getElementById('fotoUbicacion');
+                    var p = document.getElementById('precioUbicacion');
+                    var aforo = document.getElementById('aforoUbicacion');
+                    p.placeholder = ubi.precio_hora;
+                    i.src = ubi.foto;
+                    aforo.placeholder = ubi.aforo;
+                    divFPUbicacion.style.display = "block";
+                    //Ponemos la provincia de la ubicacion
+                    poner_Provincia(ubi.direccionDTO.provincia);
+                    //Creamos la lista para los caterings filtrados y los añdimos y vaciamos
+                    var filteredCaterings = [];
+                    vaciarSelect(selectCatering);
+                    for (var i = 0; i < cateringList.length; i++) {
+                        if (cateringList[i].empresaDTO.direccionDTO.provincia == ubi.direccionDTO.provincia) {
+                            filteredCaterings.push(cateringList[i]);
+                        }
+                    };
 
 
-            for (var i = 0; i < filteredCaterings.length; i++) {
-                var option = document.createElement('option');
-                option.value = filteredCaterings[i].id;
-                option.text = filteredCaterings[i].menu;
-                selectCatering.appendChild(option);
-            }
-            //Mostramos el div que contiene el select del Catering y le añadimos el eventListener al select
-            divCatering.style.display = "block";
-            selectCatering.addEventListener('change', function () {
-                if (this.value !== "0") {
-                    //Recogemos el objeto Decorado
-
-                    var c = buscarObjetoPorId(this.value, cateringList);
-                    var i = document.getElementById('fotoCatering');
-                    var p = document.getElementById('precioCatering');
-                    if (c) {
-                        //Recogemos el elemento con la imagen y el input 
-                        p.placeholder = c.precio;
-                        i.src = c.foto;
-                        //Añadimos el precio al precio final
-                        ponerDinero('pCatering', c.precio);
-                    } else {
-                        p.placeholder = "Error";
-                        i.alt = "Error";
+                    for (var i = 0; i < filteredCaterings.length; i++) {
+                        var option = document.createElement('option');
+                        option.value = filteredCaterings[i].id;
+                        option.text = filteredCaterings[i].menu;
+                        selectCatering.appendChild(option);
                     }
-                    divFPCatering.style.display = "block";
-                } else {
-                    //Quitamos el dinero
-                    quitarDinero('pCatering');
-                    //Quitamos el div
-                    divFPCatering.style.display = "none";
-                }
-            });
+                    //Mostramos el div que contiene el select del Catering y le añadimos el eventListener al select
+                    divCatering.style.display = "block";
+                    selectCatering.addEventListener('change', function () {
+                        if (this.value !== "0") {
+                            //Recogemos el objeto Decorado
 
-            //Decorado Filtrado
-            var filteredDecorados = [];
-            vaciarSelect(selectDecorado);
-            for (var i = 0; i < decoradoList.length; i++) {
-                console.log(decoradoList[i].empresaDTO.direccionDTO.provincia);
-                if (decoradoList[i].empresaDTO.direccionDTO.provincia == ubi.direccionDTO.provincia) {
-                    filteredDecorados.push(decoradoList[i]);
-                }
-            };
-
-            for (var i = 0; i < filteredDecorados.length; i++) {
-                var option = document.createElement('option');
-                option.value = filteredDecorados[i].id;
-                option.text = filteredDecorados[i].nombre;
-                selectDecorado.appendChild(option);
-            }
-            //Mostramos el div que contiene el select del Decorado
-            divDecorado.style.display = "block";
-            selectDecorado.addEventListener('change', function () {
-                if (this.value !== "0") {
-                    //Recogemos el objeto Decorado
-                    var d = buscarObjetoPorId(this.value, decoradoList);
-                    var i = document.getElementById('fotoDecorado');
-                    var p = document.getElementById('precioDecorado');
-                    if (d) {
-                        //Recogemos el elemento con la imagen y el input 
-                        p.placeholder = d.precio;
-                        i.src = d.foto;
-                        //Añadimos el precio al precio final
-                        ponerDinero('pDecorado', d.precio);
-                    } else {
-                        p.placeholder = "Error";
-                        i.alt = "Error";
-                    }
-                    divFPDecorado.style.display = "block";
-                } else {
-                    //Quitamos el dinero
-                    quitarDinero('pDecorado');
-                    //Quitamos la vista
-                    divFPDecorado.style.display = "none";
-                }
-            });
-
-            //Ocio Filtrado
-            var filteredOcios = [];
-            vaciarSelect(selectOcio);
-            for (var i = 0; i < ocioList.length; i++) {
-                console.log(ocioList[i].empresaDTO.direccionDTO.provincia);
-                if (ocioList[i].empresaDTO.direccionDTO.provincia == ubi.direccionDTO.provincia) {
-                    filteredOcios.push(ocioList[i]);
-                }
-            };
-
-            for (var i = 0; i < filteredOcios.length; i++) {
-                var option = document.createElement('option');
-                option.value = filteredOcios[i].id;
-                option.text = filteredOcios[i].nombre;
-                selectOcio.appendChild(option);
-            };
-            //Mostramos el div que contiene el select del Ocio
-            divOcio.style.display = "block";
-            selectOcio.addEventListener('change', function () {
-                if (this.value !== "0") {
-                    //Recogemos el objeto Decorado
-                    var o = buscarObjetoPorId(this.value, ocioList);
-                    var i = document.getElementById('fotoOcio');
-                    var p = document.getElementById('precioOcio');
-                    if (o) {
-                        //Recogemos el elemento con la imagen y el input 
-                        p.placeholder = o.precio_hora;
-                        i.src = o.foto;
-
-                        //Llamamos a la función para que calcule el precio
-                        var res2 = calcular_precio_hora("pOcio", o.precio_hora);
-
-                        if (res2) {
-                            divFPOcio.style.display = "block";
-
+                            var c = buscarObjetoPorId(this.value, cateringList);
+                            var i = document.getElementById('fotoCatering');
+                            var p = document.getElementById('precioCatering');
+                            if (c) {
+                                //Recogemos el elemento con la imagen y el input 
+                                p.placeholder = c.precio;
+                                i.src = c.foto;
+                                //Añadimos el precio al precio final
+                                ponerDineroCatering('pCatering', c.precio);
+                            } else {
+                                p.placeholder = "Error";
+                                i.alt = "Error";
+                            }
+                            divFPCatering.style.display = "block";
                         } else {
-                            selectOcio.value = 0;
+                            //Quitamos el dinero
+                            quitarDineroCatering('pCatering');
+                            //Quitamos el div
+                            divFPCatering.style.display = "none";
                         }
 
-                    } else {
-                        p.placeholder = "Error";
-                        i.alt = "Error";
-                        divFPOcio.style.display = "block";
-                    }
+                    });
 
+                    //Decorado Filtrado
+                    var filteredDecorados = [];
+                    vaciarSelect(selectDecorado);
+                    for (var i = 0; i < decoradoList.length; i++) {
+                        console.log(decoradoList[i].empresaDTO.direccionDTO.provincia);
+                        if (decoradoList[i].empresaDTO.direccionDTO.provincia == ubi.direccionDTO.provincia) {
+                            filteredDecorados.push(decoradoList[i]);
+                        }
+                    };
+
+                    for (var i = 0; i < filteredDecorados.length; i++) {
+                        var option = document.createElement('option');
+                        option.value = filteredDecorados[i].id;
+                        option.text = filteredDecorados[i].nombre;
+                        selectDecorado.appendChild(option);
+                    }
+                    //Mostramos el div que contiene el select del Decorado
+                    divDecorado.style.display = "block";
+                    selectDecorado.addEventListener('change', function () {
+                        if (this.value !== "0") {
+                            //Recogemos el objeto Decorado
+                            var d = buscarObjetoPorId(this.value, decoradoList);
+                            var i = document.getElementById('fotoDecorado');
+                            var p = document.getElementById('precioDecorado');
+                            if (d) {
+                                //Recogemos el elemento con la imagen y el input 
+                                p.placeholder = d.precio;
+                                i.src = d.foto;
+                                //Añadimos el precio al precio final
+                                ponerDinero('pDecorado', d.precio);
+                            } else {
+                                p.placeholder = "Error";
+                                i.alt = "Error";
+                            }
+                            divFPDecorado.style.display = "block";
+                        } else {
+                            //Quitamos el dinero
+                            quitarDinero('pDecorado');
+                            //Quitamos la vista
+                            divFPDecorado.style.display = "none";
+                        }
+                    });
+
+                    //Ocio Filtrado
+                    var filteredOcios = [];
+                    vaciarSelect(selectOcio);
+                    for (var i = 0; i < ocioList.length; i++) {
+                        console.log(ocioList[i].empresaDTO.direccionDTO.provincia);
+                        if (ocioList[i].empresaDTO.direccionDTO.provincia == ubi.direccionDTO.provincia) {
+                            filteredOcios.push(ocioList[i]);
+                        }
+                    };
+
+                    for (var i = 0; i < filteredOcios.length; i++) {
+                        var option = document.createElement('option');
+                        option.value = filteredOcios[i].id;
+                        option.text = filteredOcios[i].nombre;
+                        selectOcio.appendChild(option);
+                    };
+                    //Mostramos el div que contiene el select del Ocio
+                    divOcio.style.display = "block";
+                    selectOcio.addEventListener('change', function () {
+                        if (this.value !== "0") {
+                            //Recogemos el objeto Decorado
+                            var o = buscarObjetoPorId(this.value, ocioList);
+                            var i = document.getElementById('fotoOcio');
+                            var p = document.getElementById('precioOcio');
+                            if (o) {
+                                //Recogemos el elemento con la imagen y el input 
+                                p.placeholder = o.precio_hora;
+                                i.src = o.foto;
+
+                                //Llamamos a la función para que calcule el precio
+                                var res2 = calcular_precio_hora("pOcio", o.precio_hora);
+
+                                if (res2) {
+                                    divFPOcio.style.display = "block";
+
+                                } else {
+                                    selectOcio.value = 0;
+                                }
+
+                            } else {
+                                p.placeholder = "Error";
+                                i.alt = "Error";
+                                divFPOcio.style.display = "block";
+                            }
+
+                        } else {
+                            //Quitamos el precio del Ocibicaco
+                            quitar_precio_hora('pOcio');
+                            //No se enseña el div
+                            divFPOcio.style.display = "none";
+                        }
+                    });
                 } else {
-                    //Quitamos el precio del Ocibicaco
-                    quitar_precio_hora('pOcio');
-                    //No se enseña el div
-                    divFPOcio.style.display = "none";
+                    selectUbicacion.value = 0;
                 }
-            });
+            } else {
+                alert('El número de asistentes supera al aforo de esta ubicación');
+                selectnAsitentes.value = 0;
+                selectUbicacion.value = 0;
+            }
         } else {
+            alert('Elige el número de asistentes');
             selectUbicacion.value = 0;
+            selectnAsitentes.focus();
         }
+
     } else {
         var divProv = document.getElementById('provinciaShow');
         var divUbi = document.getElementById('ubicacionDiv');
@@ -541,12 +557,46 @@ function ponerDinero(s_object, precioN) {
     }
 }
 
+function ponerDineroCatering(s_object, precioN) {
+    //Recogemos el precio y se lo sumamos al precio final
+    var nAsistentes = document.getElementById('nAsistentes').value;
+    if (sessionStorage.getItem(s_object)) {
+        //Quitamos el precio del anterior producto
+        var p_anterior = sessionStorage.getItem(s_object);
+        var precio = document.getElementById('precioEvento');
+        var precioquitar = p_anterior * nAsistentes;
+        var precioNuevo = precioN * nAsistentes;
+        var p1 = (parseFloat(precio.value) - precioquitar) + precioNuevo;
+        precio.value = Number(p1.toFixed(2));
+        sessionStorage.setItem(s_object, precioN);
+    } else {
+        var precio = document.getElementById('precioEvento');
+        var precioNuevo = parseFloat(precioN) * parseInt(nAsistentes);
+        var p1 = (parseFloat(precio.value)) + precioNuevo;
+        precio.value = Number(p1.toFixed(2));
+        sessionStorage.setItem(s_object, precioN);
+    }
+}
+
 function quitarDinero(s_object) {
     if (sessionStorage.getItem(s_object)) {
         //Quitamos el precio del anterior producto
         var p_anterior = sessionStorage.getItem(s_object);
         var precio = document.getElementById('precioEvento');
         var p1 = (parseFloat(precio.value) - p_anterior);
+        precio.value = Number(p1.toFixed(2));
+        sessionStorage.removeItem(s_object);
+    }
+}
+
+function quitarDineroCatering(s_object) {
+    if (sessionStorage.getItem(s_object)) {
+        var nAsistentes = document.getElementById('nAsistentes').value;
+        //Quitamos el precio del anterior producto
+        var p_anterior = sessionStorage.getItem(s_object);
+        var precio = document.getElementById('precioEvento');
+        var precioNuevo = p_anterior * nAsistentes;
+        var p1 = (parseFloat(precio.value) - precioNuevo);
         precio.value = Number(p1.toFixed(2));
         sessionStorage.removeItem(s_object);
     }
@@ -559,6 +609,7 @@ function cambio_Tipo_Evento(tipoEvento, ubicacionList, ocioList) {
     quitarSession('pDecorado');
     quitarSession('pCatering');
     quitarSession('horas');
+    quitarSession('nAsistentes');
     //Dejamos todos los select a value 0 para que así el usuario los elija de nuevo.
     var selectUbi = document.getElementById('selectUbicacion');
     selectUbi.value = "0";
@@ -578,6 +629,8 @@ function cambio_Tipo_Evento(tipoEvento, ubicacionList, ocioList) {
     var divDecorado = document.getElementById('fotoPrecioDecorado');
     divDecorado.style.display = "none";
     //Dejamos el precio del evento a 0
+    var selectnAsitentes = document.getElementById('nAsistentes');
+    selectnAsitentes.value = 0;
     var precio = document.getElementById('precioEvento');
     precio.value = 0;
     //Escondemos la provincia
@@ -722,21 +775,21 @@ function edicion(eventoDTO, ubicacionList, cateringList, decoradoList, ocioList)
     var divFechas = document.getElementById('divFechas');
     divFechas.style.display = "block";
     var fI = document.getElementById('fechaInicio');
-    fI.addEventListener('change', function(){
+    fI.addEventListener('change', function () {
         var fF = document.getElementById('fechaFin');
-        if(new Date(this.value) > new Date()){
-            
-            if(eventoDTO.tipo == "Congreso" || eventoDTO.tipo == "Otros"){
+        if (new Date(this.value) > new Date()) {
+
+            if (eventoDTO.tipo == "Congreso" || eventoDTO.tipo == "Otros") {
                 fF.value = "";
             }
-        }else{
+        } else {
             alert('La fecha de Inicio tiene que ser superior a la actual');
             this.value = "";
-            if(eventoDTO.tipo == "Congreso" || eventoDTO.tipo == "Otros"){
+            if (eventoDTO.tipo == "Congreso" || eventoDTO.tipo == "Otros") {
                 fF.value = "";
             }
-            
-            
+
+
         }
 
     });
@@ -764,8 +817,10 @@ function edicion(eventoDTO, ubicacionList, cateringList, decoradoList, ocioList)
     //Mostrar los divs
     var iU = document.getElementById('fotoUbicacion');
     var pU = document.getElementById('precioUbicacion');
+    var aU = document.getElementById('aforoUbicacion');
     pU.placeholder = ubicacionDTO.precio_hora;
     iU.src = ubicacionDTO.foto;
+    aU.placeholder = ubicacionDTO.aforo;
     divFPUbicacion.style.display = "block";
     //Poner listas de los objetos
     //Ponemos la provincia de la ubicacion
@@ -905,28 +960,36 @@ function edicion(eventoDTO, ubicacionList, cateringList, decoradoList, ocioList)
 }
 
 function edicionCatering(id, cateringList, divFPCatering) {
-    if (id !== "0") {
-        //Recogemos el objeto Decorado
+    var selectnAsitentes = document.getElementById('nAsistentes');
+    if (selectnAsitentes.value != 0) {
+        if (id !== "0") {
+            //Recogemos el objeto Decorado
 
-        var c = buscarObjetoPorId(id, cateringList);
-        var i = document.getElementById('fotoCatering');
-        var p = document.getElementById('precioCatering');
-        if (c) {
-            //Recogemos el elemento con la imagen y el input 
-            p.placeholder = c.precio;
-            i.src = c.foto;
-            //Añadimos el precio al precio final
-            ponerDinero('pCatering', c.precio);
+            var c = buscarObjetoPorId(id, cateringList);
+            var i = document.getElementById('fotoCatering');
+            var p = document.getElementById('precioCatering');
+            if (c) {
+                //Recogemos el elemento con la imagen y el input 
+                p.placeholder = c.precio;
+                i.src = c.foto;
+                //Añadimos el precio al precio final
+                ponerDineroCatering('pCatering', c.precio);
+            } else {
+                p.placeholder = "Error";
+                i.alt = "Error";
+            }
+            divFPCatering.style.display = "block";
         } else {
-            p.placeholder = "Error";
-            i.alt = "Error";
+            //Quitamos el dinero
+            quitarDineroCatering('pCatering');
+            //Quitamos el div
+            divFPCatering.style.display = "none";
         }
-        divFPCatering.style.display = "block";
     } else {
-        //Quitamos el dinero
-        quitarDinero('pCatering');
-        //Quitamos el div
-        divFPCatering.style.display = "none";
+        alert('Tiene que indicar el número de asistentes antes de contratar el catering');
+        var selectCatering = document.getElementById('selectCatering');
+        selectCatering.value = 0;
+        selectnAsitentes.focus();
     }
 }
 
@@ -987,5 +1050,41 @@ function edicionOcio(id, ocioList, divFPOcio, selectOcio) {
         quitar_precio_hora('pOcio');
         //No se enseña el div
         divFPOcio.style.display = "none";
+    }
+}
+
+function nComprobar(nA, ubicacionList, cateringList) {
+    var selectUbicacion = document.getElementById('selectUbicacion');
+    if (selectUbicacion.value != 0) {
+        var ubi = buscarObjetoPorId(selectUbicacion.value, ubicacionList);
+        if (parseInt(nA) <= parseInt(ubi.aforo)) {
+            var selectCatering = document.getElementById('selectCatering');
+            if (selectCatering.value != 0) {
+                var precio = document.getElementById('precioEvento');
+                var cateringDTO = buscarObjetoPorId(selectCatering.value, cateringList);
+                if (sessionStorage.getItem('nAsistentes')) {
+                    var antiguos_asistentes = sessionStorage.getItem('nAsistentes');
+                    var nuevos_asistentes = parseInt(nA);
+                    var precioAntiguo = parseInt(antiguos_asistentes) * parseFloat(cateringDTO.precio);
+                    console.log(precioAntiguo);
+                    var p1 = parseFloat(precio.value) - precioAntiguo;
+                    var p2 = p1 + parseFloat((nuevos_asistentes * cateringDTO.precio));
+                    console.log(p1);
+                    console.log(p2);
+                    precio.value = p2;
+                    sessionStorage.setItem('nAsistentes', nuevos_asistentes);
+                } else {
+                    var nuevos_asistentes = parseInt(nA);
+                    var p1 = parseFloat(nuevos_asistentes * cateringDTO.precio);
+                    var precioAntiguo = parseFloat(precio.value);
+                    var precioNuevo = precioAntiguo + p1;
+                    precio.value = precioNuevo;
+                    sessionStorage.setItem('nAsistentes', nuevos_asistentes);
+                }
+            }
+        } else {
+            alert('El número de asistentes es mayor que el número de aforo permitido, porfavor reduce los asistentes o elge otra ubicación');
+            this.value = 0;
+        }
     }
 }

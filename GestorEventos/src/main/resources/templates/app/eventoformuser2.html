@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Evento Form</title>
+	<title>Formulario Evento</title>
 	<!-- Bootstrap-5.2.3 -->
 	<link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
 	<!-- Bootstrap-Icons -->
@@ -16,17 +16,19 @@
 
 <body>
 	<header>
-		<h1>
-			<strong>Event</strong><strong>App</strong>
-		</h1>
+		<h1><strong>Event</strong><strong>App</strong></h1>
 		<nav>
 			<div class="sidenav">
-				<a class="closebtn">&times;</a> <a
-					th:href="@{/admin/usuarios/{idUsuario}/eventos (idUsuario=${usuarioDTO.id})}">Volver</a>
+				<a class="closebtn">&times;</a>
+
+				<a th:href="@{/user}">Volver</a>
+
 			</div>
+
 			<div>
 				<img th:src="@{/media/img/menu.png}" alt="menu">
 			</div>
+
 		</nav>
 	</header>
 
@@ -34,7 +36,7 @@
 
 		<div class="container col-lg-8 p-4 rounded shadow bg-body mt-3 text-start">
 
-			<form th:action="@{/admin/usuarios/{idUsuario}/eventos/save (idUsuario=${usuarioDTO.id})}" method="POST"
+			<form th:action="@{/user/usuarios/{idUsuario}/eventos/save (idUsuario = ${usuarioDTO.id})}" method="POST"
 				th:object="${eventoDTO}" id="formulario">
 
 				<div class="mt-1 text-center">
@@ -44,14 +46,16 @@
 				<div class="mt-3" th:if="${errorMessage}" th:utext="${errorMessage}"></div>
 
 				<div class="mt-3 row" th:if="!${add}">
-					<label for="id" class="form-label col">Id</label> <input type="text" name="id"
-						class="form-control-plaintext col" id="id" th:field="*{id}" readonly />
+					<div class="col">
+						<label for="id" class="form-label col">Id</label> <input type="text" name="id"
+							class="form-control col" id="id" th:field="*{id}" readonly />
+					</div>
 				</div>
 
 				<div class="row mt-3">
 					<div class="col-4">
 						<label for="anfitrion" class="form-label">Anfitrion</label> <input readonly th:type="text"
-							name="anfitrion" class="form-control" id="anfitrion" th:field="${usuarioDTO.nombreUsuario}"
+							name="anfitrion" class="form-control" id="anfitrion" th:field="*{usuarioDTO.nombreUsuario}"
 							th:maxlength="40" />
 					</div>
 					<div class="col-8">
@@ -72,15 +76,13 @@
 						</select>
 					</div>
 				</div>
-
 				<div class="row mt-3">
 					<div>
 						<label for="nAsistentes" class="form-label">Nº Asistentes</label>
-						<input id="nAsistentes" th:fiels="*{n_asistentes}" name="nAsistentes" class="form-control"
+						<input id="nAsistentes" th:field="*{n_asistentes}" name="nAsistentes" class="form-control"
 							type="number">
 					</div>
 				</div>
-
 				<div id="divFechas" class="row mt-3" style="display: none;">
 					<div id="divFI" class="col-md">
 						<label for="fechaInicio" class="form-label">Fecha inicio</label> <input th:type="date"
@@ -97,8 +99,8 @@
 							th:maxlength="100" />
 					</div>
 					<div id="divNH" class="col-md" style="display: none;">
-						<label for="nHoras" class="form-label">Nº Horas</label>
-						<select id="nHoras" name="ubicacion" th:field="*{num_horas}" class="form-select">
+						<label for="nHoras" class="form-label">Número de Horas</label>
+						<select id="nHoras" name="ubicacion" th:field="*{num_horas}" class="form-select form-control">
 							<option selected value="0">Selecciona las Horas</option>
 							<option value="2">2</option>
 							<option value="4">4</option>
@@ -224,7 +226,7 @@
 					<div>
 						<label for="precioEvento" class="form-label col">Precio Final:</label> <input type="number"
 							name="precioEvento" step="0.01" readonly class="form-control col" id="precioEvento"
-							th:field="*{precio}" value="0" />
+							th:field="*{precio}" />
 					</div>
 				</div>
 
@@ -254,18 +256,18 @@
 		quitarSession('pCatering');
 		quitarSession('horas');
 		quitarSession('nAsistentes');
-		//Ponemos el precio por defecto a 0
-		document.getElementById('precioEvento').value = 0;
-
 		//Listas de los objetos
 		var ubicacionList = /*[[${listaUbicacionesDTO}]]*/[];
 		var cateringList = /*[[${listaCateringsDTO}]]*/[];
 		var decoradoList = /*[[${listaDecoradosDTO}]]*/[];
 		var ocioList = /*[[${listaOciosDTO}]]*/[];
+		//Objetos a recoger
+		var eventoDTO =/*[[${eventoDTO}]]*/{};
+
 		//Función para insertar la lista de ubicaciones
 		insertarUbicaciones(ubicacionList);
 
-		//Ponerle listener al número de asistentes
+		//Asistentes
 		var selectnAsistentes = document.getElementById('nAsistentes');
 		selectnAsistentes.addEventListener('change', function () {
 			nComprobar(this.value, ubicacionList, cateringList);
@@ -284,6 +286,8 @@
 
 		});
 
+		//Poner los valores del evento
+		edicion(eventoDTO, ubicacionList, cateringList, decoradoList, ocioList);
 
 
 	</script>

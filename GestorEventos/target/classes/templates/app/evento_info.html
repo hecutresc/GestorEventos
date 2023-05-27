@@ -50,31 +50,37 @@
                     <input readonly class="form-control" type="text" th:field="${eventoDTO.tipo}">
                 </div>
             </div>
+            <div class="row mt-3">
+                <div>
+                    <label for="nAsistentes" class="form-label">Nº Asistentes</label>
+                    <input id="nAsistentes" th:field="${eventoDTO.n_asistentes}" name="nAsistentes" class="form-control" type="number">
+                </div>
+            </div>
             <div th:if="${eventoDTO.tipo == 'Congreso' or eventoDTO.tipo == 'Otros'}" class="row mt-3">
-                <div id="divFI" class="col">
+                <div id="divFI" class="col-md">
                     <label for="fechaInicio" class="form-label">Fecha inicio</label> <input readonly th:type="date"
                         name="fechaInicio" class="form-control" id="fechaInicio" th:field="${eventoDTO.fechaInicio}"
                         th:maxlength="100" />
                 </div>
-                <div id="divFF" class="col">
+                <div id="divFF" class="col-md">
                     <label for="fechaFin" class="form-label">Fecha Fin</label> <input readonly th:type="date"
                         name="fechaFin" class="form-control" id="fechaFin" th:field="${eventoDTO.fechaFin}"
                         th:maxlength="100" />
                 </div>
             </div>
             <div th:if="${eventoDTO.tipo != 'Congreso' and eventoDTO.tipo != 'Otros'}" class="row mt-3">
-                <div id="divFI" class="col">
+                <div id="divFI" class="col-md">
                     <label for="fechaInicio" class="form-label">Fecha inicio</label> <input readonly th:type="date"
                         name="fechaInicio" class="form-control" id="fechaInicio" th:field="${eventoDTO.fechaInicio}"
                         th:maxlength="100" />
                 </div>
-                <div id="divHI" class="col">
+                <div id="divHI" class="col-md">
                     <label for="horaInicio" class="form-label">Hora Inicio</label> <input readonly th:type="time"
                         name="horaInicio" class="form-control" id="horaInicio" th:field="${eventoDTO.hora_inicio}"
                         th:maxlength="100" />
                 </div>
                 <div class="col">
-                    <label for="nHoras" class="form-label">Número de Horas</label>
+                    <label for="nHoras" class="form-label">Nº Horas</label>
                     <input readonly type="text" class="form-control" th:field="${eventoDTO.num_horas}">
 
                 </div>

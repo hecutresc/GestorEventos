@@ -46,15 +46,14 @@
 				<div class="mt-3 row" th:if="!${add}">
 					<div class="col">
 						<label for="id" class="form-label col">Id</label> <input type="text" name="id"
-						class="form-control col" id="id" th:field="*{id}" readonly />
+							class="form-control col" id="id" th:field="*{id}" readonly />
 					</div>
 				</div>
 
 				<div class="row mt-3">
 					<div class="col-4">
 						<label for="anfitrion" class="form-label">Anfitrion</label> <input readonly th:type="text"
-							name="anfitrion" class="form-control" id="anfitrion"
-							th:field="*{usuarioDTO.nombreUsuario}"
+							name="anfitrion" class="form-control" id="anfitrion" th:field="*{usuarioDTO.nombreUsuario}"
 							th:maxlength="40" />
 					</div>
 					<div class="col-8">
@@ -75,25 +74,31 @@
 						</select>
 					</div>
 				</div>
-
+				<div class="row mt-3">
+					<div>
+						<label for="nAsistentes" class="form-label">Nº Asistentes</label>
+						<input id="nAsistentes" th:field="*{n_asistentes}" name="nAsistentes" class="form-control"
+							type="number">
+					</div>
+				</div>
 				<div id="divFechas" class="row mt-3" style="display: none;">
-					<div id="divFI" class="col">
+					<div id="divFI" class="col-md">
 						<label for="fechaInicio" class="form-label">Fecha inicio</label> <input th:type="date"
 							name="fechaInicio" class="form-control" id="fechaInicio" th:field="*{fechaInicio}"
 							th:maxlength="100" />
 					</div>
-					<div id="divFF" class="col" style="display: none;">
+					<div id="divFF" class="col-md" style="display: none;">
 						<label for="fechaFin" class="form-label">Fecha Fin</label> <input th:type="date" name="fechaFin"
 							class="form-control" id="fechaFin" th:field="*{fechaFin}" th:maxlength="100" />
 					</div>
-					<div id="divHI" class="col" style="display: none;">
+					<div id="divHI" class="col-md" style="display: none;">
 						<label for="horaInicio" class="form-label">Hora Inicio</label> <input th:type="time"
 							name="horaInicio" class="form-control" id="horaInicio" th:field="*{hora_inicio}"
 							th:maxlength="100" />
 					</div>
-					<div id="divNH" class="col" style="display: none;">
+					<div id="divNH" class="col-md" style="display: none;">
 						<label for="nHoras" class="form-label">Número de Horas</label>
-						<select id="nHoras" name="ubicacion" th:field="*{num_horas}" class="form-select">
+						<select id="nHoras" name="ubicacion" th:field="*{num_horas}" class="form-select form-control">
 							<option selected value="0">Selecciona las Horas</option>
 							<option value="2">2</option>
 							<option value="4">4</option>
@@ -125,9 +130,18 @@
 						<img id="fotoUbicacion" class="formimage">
 					</div>
 					<div id="divPrecioUbicacion">
-						<label class="form-label col" for="precioUbicacion">Precio Ubicacion</label>
-						<input class="form-control col" readonly type="number" name="precioUbicacion"
-							id="precioUbicacion">
+						<div class="row mt-3">
+							<div class="col">
+								<label class="form-label" for="precioUbicacion">Precio Ubicacion</label>
+								<input class="form-control" readonly type="number" name="precioUbicacion"
+									id="precioUbicacion">
+							</div>
+							<div class="col">
+								<label class="form-label" for="aforoUbicacion">Aforo</label>
+								<input readonly id="aforoUbicacion" name="aforoUbicacion" class="form-control"
+									type="number">
+							</div>
+						</div>
 					</div>
 
 				</div>
@@ -209,8 +223,8 @@
 				<div id="divPrecioEvento" class="row mt-3">
 					<div>
 						<label for="precioEvento" class="form-label col">Precio Final:</label> <input type="number"
-						name="precioEvento" step="0.01" readonly class="form-control col" id="precioEvento" th:field="*{precio}"
-						 />
+							name="precioEvento" step="0.01" readonly class="form-control col" id="precioEvento"
+							th:field="*{precio}" />
 					</div>
 				</div>
 
@@ -239,20 +253,23 @@
 		quitarSession('pDecorado');
 		quitarSession('pCatering');
 		quitarSession('horas');
-
+		quitarSession('nAsistentes');
 		//Listas de los objetos
 		var ubicacionList = /*[[${listaUbicacionesDTO}]]*/[];
 		var cateringList = /*[[${listaCateringsDTO}]]*/[];
 		var decoradoList = /*[[${listaDecoradosDTO}]]*/[];
 		var ocioList = /*[[${listaOciosDTO}]]*/[];
-        //Objetos a recoger
-        var eventoDTO =/*[[${eventoDTO}]]*/{};
+		//Objetos a recoger
+		var eventoDTO =/*[[${eventoDTO}]]*/{};
 
 		//Función para insertar la lista de ubicaciones
 		insertarUbicaciones(ubicacionList);
 
-        
-        
+		//Asistentes
+		var selectnAsistentes = document.getElementById('nAsistentes');
+		selectnAsistentes.addEventListener('change', function () {
+			nComprobar(this.value, ubicacionList, cateringList);
+		});
 		//Función que controla las demas funciones en el archivo js
 		var selectUbicacion = document.getElementById('selectUbicacion');
 		selectUbicacion.addEventListener('change', function (e) {
