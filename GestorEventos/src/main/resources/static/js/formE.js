@@ -35,6 +35,7 @@ function listados(ubicacionList, cateringList, decoradoList, ocioList) {
     //Comprobar que el usuario a elegido tipo de Evento y horario y que el Nº de invitado es menor o igual al aforo
 
     if (ubi) {
+        //Comprobar que ha elegido el tipo de evento que quiere
         if (selectnAsitentes.value != 0) {
             if (selectnAsitentes.value <= ubi.aforo) {
                 var res = calcular_precio_hora("p_ubi", ubi.precio_hora);
@@ -251,7 +252,7 @@ function insertarUbicaciones(listaUbicaciones) {
 
 
 //Función para que según el tipo de evento muestre o no algunos parámetros
-function horario(tipo, ubicacionList, ocioList) {
+function horario(tipo, ubicacionList, ocioList, cateringList) {
     //Variables
     var divFechas = document.getElementById('divFechas');
     var divFF = document.getElementById('divFF');
@@ -298,7 +299,7 @@ function horario(tipo, ubicacionList, ocioList) {
             divFF.style.display = "block";
             var ff = document.getElementById('fechaFin');
             ff.addEventListener('change', function () {
-                ffinal(ff, ubicacionList, ocioList);
+                ffinal(ff, ubicacionList, ocioList, cateringList);
             });
             break;
         case 'Ponencia':
@@ -324,20 +325,20 @@ function horario(tipo, ubicacionList, ocioList) {
             divFF.style.display = "block";
             var ff = document.getElementById('fechaFin');
             ff.addEventListener('change', function () {
-                ffinal(ff, ubicacionList, ocioList);
+                ffinal(ff, ubicacionList, ocioList, cateringList);
             });
             break;
     }
 }
 
-function ffinal(element, ubicacionList, ocioList) {
+function ffinal(element, ubicacionList, ocioList, cateringList) {
     var fi = document.getElementById('fechaInicio');
     if (fi.value != "") {
         if (new Date(element.value) > new Date() && new Date(element.value) > new Date(fi.value)) {
             //Calcula en milisegundos
             var diferencia = new Date(element.value) - new Date(fi.value);
             // Calcular el número de horas redondeando hacia abajo
-            var horasNuevas = Math.floor(diferencia / (1000 * 60 * 60));
+            var horasNuevas = Math.floor((diferencia / (1000 * 60 * 60)) + 24);
             console.log(horasNuevas);
             var horasAntiguas = sessionStorage.getItem('horas');
             sessionStorage.setItem('horas', horasNuevas);
@@ -367,6 +368,33 @@ function ffinal(element, ubicacionList, ocioList) {
                 }
 
             }
+            //Se calcula el precio nuevo del catering
+            var selectCatering = document.getElementById('selectCatering');
+            if (selectCatering.value != 0) {
+                //Recogemos el catering
+                var catering = buscarObjetoPorId(selectCatering.value, cateringList);
+                var tipoEvento = document.getElementById('selectTipo').value;
+                if (tipoEvento == "Congreso" || tipoEvento == "Otros") {
+                    if (sessionStorage.getItem('dias')) {
+                        var diasAntiguos = parseInt(sessionStorage.getItem('dias'));
+                        var nAsistentes = parseInt(document.getElementById('nAsistentes').value);
+                        var precioCatering = parseFloat(catering.precio);
+                        var precioCateringAntiguo = (precioCatering * nAsistentes) * diasAntiguos;
+                        var precio = document.getElementById('precioEvento');
+                        var p1 = parseFloat(precio.value);
+                        //Sacamos los días
+                        var fechaInicio = new Date(document.getElementById("fechaInicio").value);
+                        var fechaFin = new Date(document.getElementById("fechaFin").value);
+                        var dias = calcularDiferenciaEnDias(fechaInicio, fechaFin);
+                        var precioCateringNuevo = (precioCatering * nAsistentes) * dias;
+                        var p2 = (p1 - precioCateringAntiguo) + precioCateringNuevo;
+                        precio.value = p2;
+                        sessionStorage.setItem('dias', dias);
+                    }
+                }
+            }
+
+            //Mirar si hay el catering
 
 
         } else {
@@ -437,7 +465,7 @@ function calcular_precio_hora(s_object, precio_hora) {
                         var diferencia = fechaFin - fechaInicio;
 
                         // Calcular el número de horas redondeando hacia abajo
-                        var horas = Math.floor(diferencia / (1000 * 60 * 60));
+                        var horas = Math.floor((diferencia / (1000 * 60 * 60)) + 24);
                         sessionStorage.setItem('horas', horas);
                         var pAnterior_total = p_anterior * horas;
                         var precioNuevo = precio_hora * horas;
@@ -560,22 +588,82 @@ function ponerDinero(s_object, precioN) {
 function ponerDineroCatering(s_object, precioN) {
     //Recogemos el precio y se lo sumamos al precio final
     var nAsistentes = document.getElementById('nAsistentes').value;
-    if (sessionStorage.getItem(s_object)) {
-        //Quitamos el precio del anterior producto
-        var p_anterior = sessionStorage.getItem(s_object);
-        var precio = document.getElementById('precioEvento');
-        var precioquitar = p_anterior * nAsistentes;
-        var precioNuevo = precioN * nAsistentes;
-        var p1 = (parseFloat(precio.value) - precioquitar) + precioNuevo;
-        precio.value = Number(p1.toFixed(2));
-        sessionStorage.setItem(s_object, precioN);
+
+    //Comprobamos el tipo de evento que es
+    var tipoEvento = document.getElementById('selectTipo').value;
+
+    if (tipoEvento == "Congreso" || tipoEvento == "Otros") {
+
+        if (sessionStorage.getItem(s_object)) {
+            //Quitamos el precio del anterior producto
+            var p_anterior = sessionStorage.getItem(s_object);
+            var precio = document.getElementById('precioEvento');
+            var precioquitar = p_anterior * nAsistentes;
+            var precioNuevo = precioN * nAsistentes;
+            var p1 = (parseFloat(precio.value) - precioquitar) + precioNuevo;
+            //Calculamos los días , recogemo los valores de los inputs
+            var fechaInicio = new Date(document.getElementById("fechaInicio").value);
+            var fechaFin = new Date(document.getElementById("fechaFin").value);
+            //Comprobamos que las fechas estan correctas
+            if (fechaInicio && fechaFin) {
+                if (fechaFin > fechaInicio) {
+                    //Calculamos los días
+                    var dias = calcularDiferenciaEnDias(fechaInicio, fechaFin);
+                    var p2 = p1 * dias;
+                    precio.value = Number(p2.toFixed(2));
+                    sessionStorage.setItem(s_object, precioN);
+                    sessionStorage.setItem("dias", dias);
+                } else {
+                    alert('La fecha de finalización debe ser superior que la de inicio');
+                }
+            } else {
+                alert('Tienes que elegir las fechas');
+            }
+
+        } else {
+            var precio = document.getElementById('precioEvento');
+            var precioNuevo = parseFloat(precioN) * parseInt(nAsistentes);
+            var p1 = (parseFloat(precio.value));
+            //Calculamos los dias
+            var fechaInicio = new Date(document.getElementById("fechaInicio").value);
+            var fechaFin = new Date(document.getElementById("fechaFin").value);
+            //Comprobamos que las fechas estan correctas
+            if (fechaInicio && fechaFin) {
+                if (fechaFin > fechaInicio) {
+                    //Calculamos los días
+                    var dias = calcularDiferenciaEnDias(fechaInicio, fechaFin);
+                    var p2 = precioNuevo * dias;
+                    var p3 = p1 + p2;
+                    precio.value = Number(p2.toFixed(2));
+                    sessionStorage.setItem(s_object, precioN);
+                    sessionStorage.setItem("dias", dias);
+                } else {
+                    alert('La fecha de finalización debe ser superior que la de inicio');
+                }
+            } else {
+                alert('Tienes que elegir las fechas');
+            }
+        }
     } else {
-        var precio = document.getElementById('precioEvento');
-        var precioNuevo = parseFloat(precioN) * parseInt(nAsistentes);
-        var p1 = (parseFloat(precio.value)) + precioNuevo;
-        precio.value = Number(p1.toFixed(2));
-        sessionStorage.setItem(s_object, precioN);
+        if (sessionStorage.getItem(s_object)) {
+            //Quitamos el precio del anterior producto
+            var p_anterior = sessionStorage.getItem(s_object);
+            var precio = document.getElementById('precioEvento');
+            var precioquitar = p_anterior * nAsistentes;
+            var precioNuevo = precioN * nAsistentes;
+            var p1 = (parseFloat(precio.value) - precioquitar) + precioNuevo;
+            precio.value = Number(p1.toFixed(2));
+            sessionStorage.setItem(s_object, precioN);
+        } else {
+            var precio = document.getElementById('precioEvento');
+            var precioNuevo = parseFloat(precioN) * parseInt(nAsistentes);
+            var p1 = (parseFloat(precio.value)) + precioNuevo;
+            precio.value = Number(p1.toFixed(2));
+            sessionStorage.setItem(s_object, precioN);
+        }
     }
+
+
 }
 
 function quitarDinero(s_object) {
@@ -590,19 +678,42 @@ function quitarDinero(s_object) {
 }
 
 function quitarDineroCatering(s_object) {
-    if (sessionStorage.getItem(s_object)) {
-        var nAsistentes = document.getElementById('nAsistentes').value;
-        //Quitamos el precio del anterior producto
-        var p_anterior = sessionStorage.getItem(s_object);
-        var precio = document.getElementById('precioEvento');
-        var precioNuevo = p_anterior * nAsistentes;
-        var p1 = (parseFloat(precio.value) - precioNuevo);
-        precio.value = Number(p1.toFixed(2));
-        sessionStorage.removeItem(s_object);
+
+    //Comprobamos el tipo de evento que es
+    var tipoEvento = document.getElementById('selectTipo').value;
+
+    if (tipoEvento == "Congreso" || tipoEvento == "Otros") {
+        if (sessionStorage.getItem(s_object)) {
+            var nAsistentes = document.getElementById('nAsistentes').value;
+            //Quitamos el precio del anterior producto
+            var p_anterior = sessionStorage.getItem(s_object);
+            var precio = document.getElementById('precioEvento');
+
+            //ConseguirNumero dias
+            var fechaInicio = new Date(document.getElementById("fechaInicio").value);
+            var fechaFin = new Date(document.getElementById("fechaFin").value);
+            var dias = calcularDiferenciaEnDias(fechaInicio, fechaFin);
+            var precioNuevo = (p_anterior * nAsistentes) * dias;
+            var p1 = (parseFloat(precio.value) - precioNuevo);
+            precio.value = Number(p1.toFixed(2));
+            sessionStorage.removeItem("dias");
+            sessionStorage.removeItem(s_object);
+        }
+    } else {
+        if (sessionStorage.getItem(s_object)) {
+            var nAsistentes = document.getElementById('nAsistentes').value;
+            //Quitamos el precio del anterior producto
+            var p_anterior = sessionStorage.getItem(s_object);
+            var precio = document.getElementById('precioEvento');
+            var precioNuevo = p_anterior * nAsistentes;
+            var p1 = (parseFloat(precio.value) - precioNuevo);
+            precio.value = Number(p1.toFixed(2));
+            sessionStorage.removeItem(s_object);
+        }
     }
 }
 
-function cambio_Tipo_Evento(tipoEvento, ubicacionList, ocioList) {
+function cambio_Tipo_Evento(tipoEvento, ubicacionList, ocioList, cateringList) {
     //Quitamos todos los session porque se ha cambiado el tipo de evento
     quitarSession('pOcio');
     quitarSession('p_ubi');
@@ -610,6 +721,7 @@ function cambio_Tipo_Evento(tipoEvento, ubicacionList, ocioList) {
     quitarSession('pCatering');
     quitarSession('horas');
     quitarSession('nAsistentes');
+    quitarSession('dias');
     //Dejamos todos los select a value 0 para que así el usuario los elija de nuevo.
     var selectUbi = document.getElementById('selectUbicacion');
     selectUbi.value = "0";
@@ -640,7 +752,7 @@ function cambio_Tipo_Evento(tipoEvento, ubicacionList, ocioList) {
     divProv.style.display = "none";
     //Quitamos todos los valores de las fechas/ horas
     var fInicio = document.getElementById('fechaInicio');
-    var fFinal = document.getElementById('fechaFinal');
+    var fFinal = document.getElementById('fechaFin');
     var hInicio = document.getElementById('horaInicio');
     var nHoras = document.getElementById('nHoras');
 
@@ -651,10 +763,11 @@ function cambio_Tipo_Evento(tipoEvento, ubicacionList, ocioList) {
             fInicio.addEventListener('change', function () {
                 if (new Date(this.value) > new Date()) {
                     //Comprobamos que la fecha final esta escogida
-                    var ff = document.getElementById('fechaFinal');
+                    var ff = document.getElementById('fechaFin');
+                    console.log('prehistoria');
                     if (ff) {
                         //Calcula en milisegundos
-                        var diferencia = new Date(element.value) - new Date(fi.value);
+                        var diferencia = new Date(ff.value) - new Date(fInicio.value);
                         // Calcular el número de horas redondeando hacia abajo
                         var horasNuevas = Math.floor(diferencia / (1000 * 60 * 60));
                         var horasAntiguas = sessionStorage.getItem('horas');
@@ -686,6 +799,32 @@ function cambio_Tipo_Evento(tipoEvento, ubicacionList, ocioList) {
 
                         }
 
+                        //Se calcula el precio nuevo del catering
+                        var selectCatering = document.getElementById('selectCatering');
+                        console.log('antes');
+                        if (selectCatering.value != 0) {
+                            //Recogemos el catering
+                            var catering = buscarObjetoPorId(selectCatering.value, cateringList);
+                            console.log('justp');
+                            if (sessionStorage.getItem('dias')) {
+                                console.log('entra');
+                                var diasAntiguos = parseInt(sessionStorage.getItem('dias'));
+                                var nAsistentes = parseInt(document.getElementById('nAsistentes').value);
+                                var precioCatering = parseFloat(catering.precio);
+                                var precioCateringAntiguo = (precioCatering * nAsistentes) * diasAntiguos;
+                                var precio = document.getElementById('precioEvento');
+                                var p1 = parseFloat(precio.value);
+                                //Sacamos los días
+                                var fechaInicio = new Date(document.getElementById("fechaInicio").value);
+                                var fechaFin = new Date(document.getElementById("fechaFin").value);
+                                var dias = calcularDiferenciaEnDias(fechaInicio, fechaFin);
+                                var precioCateringNuevo = (precioCatering * nAsistentes) * dias;
+                                var p2 = (p1 - precioCateringAntiguo) + precioCateringNuevo;
+                                precio.value = p2;
+                                sessionStorage.setItem('dias', dias);
+                            }
+
+                        }
                     }
                 } else {
                     fInicio.value = "";
@@ -1062,29 +1201,143 @@ function nComprobar(nA, ubicacionList, cateringList) {
             if (selectCatering.value != 0) {
                 var precio = document.getElementById('precioEvento');
                 var cateringDTO = buscarObjetoPorId(selectCatering.value, cateringList);
-                if (sessionStorage.getItem('nAsistentes')) {
-                    var antiguos_asistentes = sessionStorage.getItem('nAsistentes');
-                    var nuevos_asistentes = parseInt(nA);
-                    var precioAntiguo = parseInt(antiguos_asistentes) * parseFloat(cateringDTO.precio);
-                    console.log(precioAntiguo);
-                    var p1 = parseFloat(precio.value) - precioAntiguo;
-                    var p2 = p1 + parseFloat((nuevos_asistentes * cateringDTO.precio));
-                    console.log(p1);
-                    console.log(p2);
-                    precio.value = p2;
-                    sessionStorage.setItem('nAsistentes', nuevos_asistentes);
+                //Depende del evento cambiar el tipo de modo de poner el dinero
+                var tipoEvento = document.getElementById('selectTipo');
+                if (tipoEvento == "Congreso" || tipoEvento == "Otros") {
+                    if (sessionStorage.getItem('nAsistentes')) {
+                        var antiguos_asistentes = sessionStorage.getItem('nAsistentes');
+                        var nuevos_asistentes = parseInt(nA);
+                        //Recogemos las fechas
+                        var fechaInicio = new Date(document.getElementById("fechaInicio").value);
+                        var fechaFin = new Date(document.getElementById("fechaFin").value);
+                        var dias = calcularDiferenciaEnDias(fechaInicio, fechaFin);
+                        sessionStorage.setItem("dias", dias);
+                        //PrecioAntiguo por el numero de dias
+                        var precioAntiguo = (parseInt(antiguos_asistentes) * parseFloat(cateringDTO.precio)) * dias;
+                        var p1 = parseFloat(precio.value) - precioAntiguo;
+                        var p2 = p1 + parseFloat(((nuevos_asistentes * cateringDTO.precio)) * dias);
+                        precio.value = p2;
+                        sessionStorage.setItem('nAsistentes', nuevos_asistentes);
+                    } else {
+                        //Recogemos las fechas
+                        var fechaInicio = new Date(document.getElementById("fechaInicio").value);
+                        var fechaFin = new Date(document.getElementById("fechaFin").value);
+                        var dias = calcularDiferenciaEnDias(fechaInicio, fechaFin);
+                        var nuevos_asistentes = parseInt(nA);
+                        var p1 = parseFloat((nuevos_asistentes * cateringDTO.precio) * dias);
+                        var precioAntiguo = parseFloat(precio.value);
+                        var precioNuevo = precioAntiguo + p1;
+                        precio.value = precioNuevo;
+                        sessionStorage.setItem('nAsistentes', nuevos_asistentes);
+                        sessionStorage.setItem("dias", dias);
+                    }
                 } else {
-                    var nuevos_asistentes = parseInt(nA);
-                    var p1 = parseFloat(nuevos_asistentes * cateringDTO.precio);
-                    var precioAntiguo = parseFloat(precio.value);
-                    var precioNuevo = precioAntiguo + p1;
-                    precio.value = precioNuevo;
-                    sessionStorage.setItem('nAsistentes', nuevos_asistentes);
+                    if (sessionStorage.getItem('nAsistentes')) {
+                        var antiguos_asistentes = sessionStorage.getItem('nAsistentes');
+                        var nuevos_asistentes = parseInt(nA);
+                        var precioAntiguo = parseInt(antiguos_asistentes) * parseFloat(cateringDTO.precio);
+                        var p1 = parseFloat(precio.value) - precioAntiguo;
+                        var p2 = p1 + parseFloat((nuevos_asistentes * cateringDTO.precio));
+                        precio.value = p2;
+                        sessionStorage.setItem('nAsistentes', nuevos_asistentes);
+                    } else {
+                        var nuevos_asistentes = parseInt(nA);
+                        var p1 = parseFloat(nuevos_asistentes * cateringDTO.precio);
+                        var precioAntiguo = parseFloat(precio.value);
+                        var precioNuevo = precioAntiguo + p1;
+                        precio.value = precioNuevo;
+                        sessionStorage.setItem('nAsistentes', nuevos_asistentes);
+                    }
                 }
+
             }
         } else {
             alert('El número de asistentes es mayor que el número de aforo permitido, porfavor reduce los asistentes o elge otra ubicación');
             this.value = 0;
         }
     }
+}
+
+function validaciones() {
+    //Validamos que antes de que se envie el formulario esten los datos necesarios restantes
+
+    //Comprobar según el tipo de evento las horas
+    var evento = document.getElementById('selectTipo');
+    if (evento.value == 0) {
+        //
+        alert('¡Escoge el tipo de Evento que vayas a crear!');
+        evento.focus();
+    } else {
+        var nombre = document.getElementById('nombre');
+        if (nombre.value == null || nombre.value == "") {
+            alert('¡Inidica el nombre de tu evento!');
+            nombre.focus();
+        } else {
+            var nAsistentes = document.getElementById('nAsistentes');
+            if (nAsistentes.value == null || nAsistentes.value == 0) {
+                alert('¡Elige el número de asistentes de tu evento!');
+                nAsistentes.focus();
+            } else {
+                var ubicacion = document.getElementById('selectUbicacion');
+                if (ubicacion.value != 0) {
+                    if (evento.value == "Congreso" || evento.value == "Otros") {
+                        //Miramos que esten fecha Inicio y Fecha Fin
+                        var fInicio = document.getElementById('fechaInicio');
+                        var fFinal = document.getElementById('fechaFin');
+                        if (fInicio.value == null || fFinal.value == null) {
+                            alert('¡Tienes que elegir las fechas de tu Evento!');
+                            fFinal.focus();
+                        } else {
+                            document.querySelector("form").submit();
+                        }
+                    } else {
+                        var fInicio = document.getElementById('fechaInicio');
+                        var horaInicio = document.getElementById('horaInicio');
+                        var nHoras = document.getElementById('nHoras');
+                        let mensaje = "";
+
+                        if (fInicio.value == null || fInicio.value == "") {
+                            mensaje += "¡Elige la fecha de tu Evento!\n";
+                            fechaInicio.focus();
+                        }
+                        if (horaInicio.value == null || horaInicio.value == "") {
+                            mensaje += "¡Elige la hora de inicio de tu evento!\n";
+                            horaInicio.focus();
+                        }
+
+                        if (nHoras.value == 0 || nHoras == "") {
+                            mensaje += "¡Elige el número de horas que durará tu evento!";
+                            nHoras.focus();
+                        }
+
+                        if (mensaje.length > 0) {
+                            alert(mensaje);
+                        } else {
+                            console.log('nAsistentes');
+                            document.querySelector("form").submit();
+                        }
+                    }
+                } else {
+                    alert('Tienes que elegir la ubicación del Evento');
+                    ubicacion.focus();
+                }
+            }
+        }
+    }
+
+}
+
+function calcularDiferenciaEnDias(fecha1, fecha2) {
+
+    // Calcular la diferencia en milisegundos entre las dos fechas
+    var diferenciaEnMilisegundos = Math.abs(fecha2 - fecha1);
+
+    // Convertir la diferencia en días
+    var milisegundosEnUnDia = 24 * 60 * 60 * 1000;
+    var diferenciaEnDias = Math.floor(diferenciaEnMilisegundos / milisegundosEnUnDia);
+
+    // Sumar un día adicional
+    diferenciaEnDias += 1;
+
+    return parseInt(diferenciaEnDias);
 }

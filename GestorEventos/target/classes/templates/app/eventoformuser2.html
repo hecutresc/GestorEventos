@@ -256,6 +256,7 @@
 		quitarSession('pCatering');
 		quitarSession('horas');
 		quitarSession('nAsistentes');
+		quitarSession('dias');
 		//Listas de los objetos
 		var ubicacionList = /*[[${listaUbicacionesDTO}]]*/[];
 		var cateringList = /*[[${listaCateringsDTO}]]*/[];
@@ -286,6 +287,12 @@
 
 		});
 
+		//Comprobamos antes de mandarlo
+		var btnEnviar = document.getElementById('btnEnviar');
+		btnEnviar.addEventListener('click', function(e){
+			e.preventDefault();
+			validaciones();
+		});
 		//Poner los valores del evento
 		edicion(eventoDTO, ubicacionList, cateringList, decoradoList, ocioList);
 

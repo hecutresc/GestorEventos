@@ -20,6 +20,11 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.ToString;
 
@@ -64,7 +69,6 @@ public class Evento {
 
 	@ManyToOne
 	@JoinColumn(name = "id_ubicacion")
-	@ToString.Exclude
 	private Ubicacion ubicacion;
 
 	@ManyToOne

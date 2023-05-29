@@ -57,6 +57,7 @@
 					<div class="col-8">
 						<label for="nombre" class="form-label">Nombre</label> <input th:type="text" name="nombre"
 							class="form-control" id="nombre" th:field="*{nombre}" th:maxlength="40" />
+							<span style="color: red;" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
 					</div>
 				</div>
 				<div class="row mt-3">
@@ -70,14 +71,16 @@
 							<option value="Comunion">Comunión</option>
 							<option value="Otros">Otros</option>
 						</select>
+						<span style="color: red;" th:if="${#fields.hasErrors('tipo')}" th:errors="*{tipo}"></span>
 					</div>
 				</div>
 
 				<div class="row mt-3">
 					<div>
 						<label for="nAsistentes" class="form-label">Nº Asistentes</label>
-						<input id="nAsistentes" th:fiels="*{n_asistentes}" name="nAsistentes" class="form-control"
+						<input id="nAsistentes" th:field="*{n_asistentes}" name="nAsistentes" class="form-control"
 							type="number">
+							<span style="color: red;" th:if="${#fields.hasErrors('n_asistentes')}" th:errors="*{n_asistentes}"></span>
 					</div>
 				</div>
 
@@ -86,6 +89,7 @@
 						<label for="fechaInicio" class="form-label">Fecha inicio</label> <input th:type="date"
 							name="fechaInicio" class="form-control" id="fechaInicio" th:field="*{fechaInicio}"
 							th:maxlength="100" />
+							<span style="color: red;" th:if="${#fields.hasErrors('fechaInicio')}" th:errors="*{fechaInicio}"></span>
 					</div>
 					<div id="divFF" class="col-md" style="display: none;">
 						<label for="fechaFin" class="form-label">Fecha Fin</label> <input th:type="date" name="fechaFin"
@@ -117,6 +121,7 @@
 							<option selected value="0">Selecciona una
 								ubicación</option>
 						</select>
+						<span style="color: red;" th:if="${#fields.hasErrors('ubicacionDTO')}" th:errors="*{ubicacionDTO}"></span>
 					</div>
 					<div id="provinciaShow" class="col-4" style="display: none;">
 						<label for="provincia" class="form-label">Provincia:</label>
@@ -229,7 +234,7 @@
 				</div>
 
 				<div class="mt-4">
-					<input type="submit" th:value="${add} ? 'Añadir' : 'Actualizar'"
+					<input type="submit" id="btnEnviar" th:value="${add} ? 'Añadir' : 'Actualizar'"
 						class="btn btn-outline-success w-100" />
 				</div>
 
@@ -254,6 +259,7 @@
 		quitarSession('pCatering');
 		quitarSession('horas');
 		quitarSession('nAsistentes');
+		quitarSession('dias');
 		//Ponemos el precio por defecto a 0
 		document.getElementById('precioEvento').value = 0;
 
@@ -279,13 +285,17 @@
 		//Función para que según el tipo de evento te salgan distintos campos para la fecha
 		var selectTipo = document.getElementById('selectTipo');
 		selectTipo.addEventListener('change', function (e) {
-			horario(this.value, ubicacionList, ocioList);
-			cambio_Tipo_Evento(this.value, ubicacionList, ocioList);
+			horario(this.value, ubicacionList, ocioList, cateringList);
+			cambio_Tipo_Evento(this.value, ubicacionList, ocioList, cateringList);
 
 		});
 
-
-
+		//Comprobamos antes de mandarlo
+		var btnEnviar = document.getElementById('btnEnviar');
+		btnEnviar.addEventListener('click', function(e){
+			e.preventDefault();
+			validaciones();
+		});
 	</script>
 </body>
 

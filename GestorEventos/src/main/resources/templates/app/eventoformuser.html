@@ -253,6 +253,7 @@
 		quitarSession('pCatering');
 		quitarSession('horas');
 		quitarSession('nAsistentes');
+		quitarSession('dias');
 		//Ponemos el precio por defecto a 0
 		document.getElementById('precioEvento').value = 0;
 
@@ -283,7 +284,12 @@
 
 		});
 
-
+		//Comprobamos antes de mandarlo
+		var btnEnviar = document.getElementById('btnEnviar');
+		btnEnviar.addEventListener('click', function(e){
+			e.preventDefault();
+			validaciones();
+		});
 
 	</script>
 

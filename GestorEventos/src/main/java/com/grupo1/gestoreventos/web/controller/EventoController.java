@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +26,8 @@ import com.grupo1.gestoreventos.service.EventoService;
 import com.grupo1.gestoreventos.service.OcioService;
 import com.grupo1.gestoreventos.service.UbicacionService;
 import com.grupo1.gestoreventos.service.UsuarioService;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class EventoController {
@@ -121,7 +125,7 @@ public class EventoController {
 		// ModelAndView
 		ModelAndView mav = new ModelAndView("app/evento_info");
 		mav.addObject("eventoDTO", eventoDTO);
-		mav.addObject("usuarioDTO",usuarioDTO);
+		mav.addObject("usuarioDTO", usuarioDTO);
 		mav.addObject("cateringDTO", eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO());
 		mav.addObject("decoradoDTO", eventoDTO.getListaCateringubicacioneventoDTO().get(0).getDecoradoDTO());
 		mav.addObject("ocioDTO", eventoDTO.getListaCateringubicacioneventoDTO().get(0).getOcioDTO());
@@ -213,7 +217,7 @@ public class EventoController {
 		UsuarioDTO usuarioDTO = new UsuarioDTO();
 		usuarioDTO.setId(idUsuario);
 		usuarioDTO = usuarioService.findById(usuarioDTO);
-		
+
 		// Obtenemos el evento y lo pasamos al modelo para ser actualizado
 		EventoDTO eventoDTO = new EventoDTO();
 		eventoDTO.setId(idEvento);
@@ -223,7 +227,7 @@ public class EventoController {
 		eventoDTO.setCateringDTO(eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO());
 		eventoDTO.setDecoradoDTO(eventoDTO.getListaCateringubicacioneventoDTO().get(0).getDecoradoDTO());
 		eventoDTO.setOcioDTO(eventoDTO.getListaCateringubicacioneventoDTO().get(0).getOcioDTO());
-		
+
 		ModelAndView mav = new ModelAndView("app/eventoformuser2");
 		mav.addObject("usuarioDTO", usuarioDTO);
 		mav.addObject("eventoDTO", eventoDTO);
@@ -239,7 +243,7 @@ public class EventoController {
 	// Salvar eventos
 	@PostMapping("/admin/usuarios/{idUsuario}/eventos/save")
 	public ModelAndView save(@PathVariable("idUsuario") Long idUsuario,
-			@ModelAttribute("eventoDTO") EventoDTO eventoDTO) {
+			 @ModelAttribute("eventoDTO") @Valid EventoDTO eventoDTO, BindingResult bindingResult) {
 
 		log.info("ClienteController - save: Salvamos los datos del evento:" + eventoDTO.toString());
 
@@ -247,6 +251,29 @@ public class EventoController {
 		UsuarioDTO usuarioDTO = new UsuarioDTO();
 		usuarioDTO.setId(idUsuario);
 		usuarioDTO = usuarioService.findById(usuarioDTO);
+
+		// Comprobamos que todos los datos estan correctos
+		if (bindingResult.hasErrors() == true) {
+			ModelAndView mv = new ModelAndView();
+			mv.addObject("usuarioDTO", usuarioDTO);
+			mv.addObject("eventoDTO", eventoDTO);
+			mv.addObject("listaCateringsDTO", cateringService.findAll());
+			mv.addObject("listaUbicacionesDTO", ubicacionService.findAll());
+			mv.addObject("listaDecoradosDTO", decoradoService.findAll());
+			mv.addObject("listaOciosDTO", ocioService.findAll());
+			
+			if (eventoDTO.getId() != null) {
+				// Editar
+				mv.addObject("add", false);
+				mv.setViewName("app/eventoform2");
+				return mv;
+			} else {
+				// añadir
+				mv.addObject("add", true);
+				mv.setViewName("app/eventoform");
+				return mv;
+			}
+		}
 
 		eventoDTO.setUsuarioDTO(usuarioDTO);
 

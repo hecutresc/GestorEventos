@@ -8,6 +8,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.grupo1.gestoreventos.repository.entity.Evento;
+
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.ToString;
 
@@ -19,6 +25,8 @@ public class EventoDTO implements Serializable {
 	private Long id;
 
 	@DateTimeFormat(iso = ISO.DATE)
+	@NotNull(message = "¡La fecha de inicio no puede ser nula!")
+    @Future(message = "¡La fecha de inicio debe ser posterior a la fecha actual!")
 	private Date fechaInicio;
 
 	@DateTimeFormat(iso = ISO.DATE)
@@ -28,8 +36,11 @@ public class EventoDTO implements Serializable {
 	
 	private Long num_horas;
 
+	@NotEmpty(message = "¡El nombre del evento no puede estar vacío!")
 	private String nombre;
 	
+	@NotEmpty(message = "¡Tienes que elegir un tipo de evento!")
+	@Pattern(regexp = "^(?!0$).*", message = "¡Tienes que elegir un tipo de Evento!")
 	private String tipo;
 
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
@@ -40,6 +51,7 @@ public class EventoDTO implements Serializable {
 	private Long n_asistentes;
 
 	@ToString.Exclude
+    @NotNull(message = "¡La ubicación no puede ser nula!")
 	private UbicacionDTO ubicacionDTO;
 
 	@ToString.Exclude

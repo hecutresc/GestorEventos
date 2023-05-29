@@ -79,7 +79,7 @@
 
 					<div class="col">
           				<label for="claveAcceso" class="form-label">Clave acceso</label>
-         				<input type="text" name="claveAcceso" class="form-control" id="claveAcceso" th:field="*{claveAcceso}"/>
+         				<input type="password" name="claveAcceso" class="form-control" id="claveAcceso" th:field="*{claveAcceso}"/>
       	 			</div>
       	 		</div>
       	 							
@@ -175,11 +175,12 @@
 						</div>
 					</div>
 				</div>
+				<div class="mt-4">
+					<input type="submit" th:value="${add} ? 'Añadir' : 'Actualizar'" class="btn btn-outline-success w-100"/>
+				 </div>
 				</div>
       	 		
-      	 		<div class="mt-4">
-          			<input type="submit" th:value="${add} ? 'Añadir' : 'Actualizar'" class="btn btn-outline-success w-100"/>
-      	 		</div>
+      	 		
       	 	 
 			</form>
         </div>
