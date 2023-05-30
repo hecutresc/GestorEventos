@@ -7,6 +7,12 @@ import com.grupo1.gestoreventos.repository.entity.Catering;
 import com.grupo1.gestoreventos.repository.entity.Evento;
 import com.grupo1.gestoreventos.repository.entity.Ubicacion;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.ToString;
 
@@ -16,15 +22,22 @@ public class UbicacionDTO {
 
 	private Long id;
 
+	@NotEmpty(message = "¡Pon el nombre de la Ubicación!")
 	private String nombre;
 
+	@NotEmpty(message = "¡Pon el aforo de la Ubicación!")
+	@Pattern(regexp = "\\d+", message = "¡El aforo debe contener solo números enteros!")
 	private String aforo;
 	
 	private String foto;
 	
+	@NotNull(message = "¡Pon el precio por hora!")
+    @DecimalMin(value = "0.0", inclusive = false, message = "El precio por hora debe ser mayor que 0€")
+    @DecimalMax(value = "100000.0", inclusive = true, message = "El precio por hora no puede ser mayor a 100.000€")
 	private Float precio_hora;
 
 	@ToString.Exclude
+	@Valid
 	private DireccionDTO direccionDTO;
 	
 	@ToString.Exclude

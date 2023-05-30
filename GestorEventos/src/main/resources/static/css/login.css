@@ -67,7 +67,8 @@ form {
   margin: 0 auto;
   font-size: 1.5rem;
 
-  margin-top: 10rem;
+  margin-top: 5rem;
+  margin-bottom: 5rem;
   padding: 10px;
 
   width: 80vw;
@@ -131,7 +132,7 @@ form > div:last-child > label {
 
 footer{
 
-  position: absolute !important;
+  position: relative !important;
   bottom: 0;
 
   width: 100vw;
@@ -169,7 +170,7 @@ footer{
   }
 
   footer{
-    position: absolute !important;
+    position: relative !important;
     bottom: 0;
   }
 }
@@ -186,4 +187,7 @@ footer{
     width: 60%;
   }
 
+  main{
+    margin-bottom: 100px;
+  }
 }

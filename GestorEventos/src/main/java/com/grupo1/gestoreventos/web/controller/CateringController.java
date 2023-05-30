@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,8 @@ import com.grupo1.gestoreventos.model.dto.EventoDTO;
 import com.grupo1.gestoreventos.model.dto.UsuarioDTO;
 import com.grupo1.gestoreventos.service.CateringService;
 import com.grupo1.gestoreventos.service.EventoService;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class CateringController {
@@ -97,9 +100,33 @@ public class CateringController {
 	// Salvar clientes
 	@PostMapping("/admin/empresas/{idEmpresa}/caterings/save")
 	public ModelAndView save(@PathVariable("idEmpresa") Long idEmpresa,
-			@ModelAttribute("cateringDTO") CateringDTO cateringDTO, @RequestParam("archivo") MultipartFile foto) {
+			@Valid @ModelAttribute("cateringDTO") CateringDTO cateringDTO, BindingResult bindingResult,
+			@RequestParam("archivo") MultipartFile foto) {
 
 		log.info("ClienteController - save: Salvamos los datos del cliente:" + cateringDTO.toString());
+
+		// Seteamos la empresa al nuevo Catering
+		EmpresaDTO empresaDTO = new EmpresaDTO();
+		empresaDTO.setId(idEmpresa);
+		cateringDTO.setEmpresaDTO(empresaDTO);
+
+		if (bindingResult.hasErrors() == true) {
+			if (cateringDTO.getId() == null) {
+				ModelAndView mav = new ModelAndView("app/cateringform");
+				mav.addObject("empresaDTO", empresaDTO);
+				mav.addObject("cateringDTO", cateringDTO);
+				mav.addObject("add", true);
+
+				return mav;
+			} else {
+				ModelAndView mav = new ModelAndView("app/cateringform");
+				mav.addObject("empresaDTO", empresaDTO);
+				mav.addObject("cateringDTO", cateringDTO);
+				mav.addObject("add", false);
+
+				return mav;
+			}
+		}
 
 		// Guardamos la foto
 		if (cateringDTO.getId() == null) {
@@ -130,11 +157,6 @@ public class CateringController {
 			cateringDTO.setFoto("/imagesUbicaciones/" + foto.getOriginalFilename());
 		}
 
-		// Seteamos la empresa al nuevo Catering
-		EmpresaDTO empresaDTO = new EmpresaDTO();
-		empresaDTO.setId(idEmpresa);
-		cateringDTO.setEmpresaDTO(empresaDTO);
-
 		// Invocamos a la capa de servicios para que almacene los datos del cliente
 		cateringService.save(cateringDTO);
 
@@ -160,15 +182,15 @@ public class CateringController {
 		return mav;
 
 	}
-	
+
 	@GetMapping("/admin/empresas/{idEmpresa}/caterings/{idCatering}")
 	public ModelAndView findbyEmpresa(@PathVariable("idEmpresa") Long idEmpresa,
 			@PathVariable("idCatering") Long idCatering) {
-		log.info("CateringController - +info: Muestra más información del catering "+idCatering);
+		log.info("CateringController - +info: Muestra más información del catering " + idCatering);
 
 		EmpresaDTO empresaDTO = new EmpresaDTO();
 		empresaDTO.setId(idEmpresa);
-		
+
 		CateringDTO cateringDTO = new CateringDTO();
 		cateringDTO.setId(idCatering);
 		cateringDTO = cateringService.findById(cateringDTO);

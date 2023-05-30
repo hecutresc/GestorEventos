@@ -6,10 +6,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import javax.naming.Binding;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +28,8 @@ import com.grupo1.gestoreventos.model.dto.UbicacionDTO;
 import com.grupo1.gestoreventos.model.dto.UsuarioDTO;
 import com.grupo1.gestoreventos.service.EventoService;
 import com.grupo1.gestoreventos.service.UbicacionService;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class UbicacionController {
@@ -84,10 +89,26 @@ public class UbicacionController {
 
 	// Salvar clientes
 	@PostMapping("/admin/ubicaciones/save")
-	public ModelAndView save(@ModelAttribute("ubicacionDTO") UbicacionDTO ubicacionDTO, @RequestParam("archivo") MultipartFile foto) {
+	public ModelAndView save(@Valid @ModelAttribute("ubicacionDTO") UbicacionDTO ubicacionDTO, BindingResult bindingResult, @RequestParam("archivo") MultipartFile foto) {
 
 		log.info("UbicacionController - save: Salvamos los datos de la ubicaion:" + ubicacionDTO.toString());
 
+		//Comprobamos que no tiene fallos
+		if(bindingResult.hasErrors() == true) {
+			if(ubicacionDTO.getId() == null) {
+				ModelAndView mav = new ModelAndView("app/ubicacionform");
+				mav.addObject("ubicacionDTO", ubicacionDTO);
+				mav.addObject("add", true);
+				return mav;
+			}else {
+				ModelAndView mav = new ModelAndView("app/ubicacionform");
+				mav.addObject("ubicacionDTO", ubicacionDTO);
+				mav.addObject("add", false);
+
+				return mav;
+			}
+		}
+		
 		//Guardamos la foto
 		if (ubicacionDTO.getId() == null) {
 			try {

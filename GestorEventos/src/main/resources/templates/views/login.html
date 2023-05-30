@@ -35,21 +35,23 @@
 
   </header>
    
-  <form action="" method="post">
+  <main>
+    <form action="" method="post">
    
-    <h2>Inicia sesión</h2>
-
-      <div>
-        <input type="text" name="username" placeholder="Nombre de usuario">
-      </div>
-      <div>
-        <input type="password" name="password" placeholder="Contraseña">
-      </div>
-      <div>
-        <button type="submit">Iniciar sesión</button>
-        <label>¿No tienes cuenta? <a th:href="@{/register}">Registrate</a></label>
-      </div>
-    </form>
+      <h2>Inicia sesión</h2>
+  
+        <div>
+          <input type="text" name="username" placeholder="Nombre de usuario">
+        </div>
+        <div>
+          <input type="password" name="password" placeholder="Contraseña">
+        </div>
+        <div>
+          <button type="submit">Iniciar sesión</button>
+          <label>¿No tienes cuenta? <a th:href="@{/register}">Registrate</a></label>
+        </div>
+      </form>
+  </main>
 
     <footer>
       <p>Copyright <strong>Event</strong><strong>App</strong>, todos los derechos reservados.</p>

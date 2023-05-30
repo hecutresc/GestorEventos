@@ -15,83 +15,98 @@
   <header>
 
     <nav>
-     <div class="sidenav">
+      <div class="sidenav">
         <a class="closebtn">&times;</a>
         <a th:href="@{/login}">Iniciar Sesión</a>
         <a th:href="@{/register}">Registrarse</a>
         <a th:href="@{/}">Inicio</a>
       </div>
-      
+
       <div>
         <img th:src="@{/media/img/menu.png}" alt="menu">
         <p>
           <strong>Event</strong><strong>App</strong>
         </p>
       </div>
-  
+
     </nav>
 
 
   </header>
-   
+
   <form th:action="@{/register/save}" th:object=${usuarioDTO} method="post">
-   
+
     <div>
       <h2>Rellena tus datos</h2>
     </div>
-      <div>
-        <input type="text" name="first_name" th:field="*{nombre}" placeholder="Nombre">
-      </div>
-      <div>
-        <input type="text" name="last_name" th:field="*{apellidos}" placeholder="Apellidos">
-      </div>
-      <div>
-        <input type="text" name="nif" th:field="*{nif}" placeholder="NIF/NIE">
-      </div>
-      <div>
-        <input type="text" name="telephone" th:field="*{telefono}" placeholder="Teléfono">
-      </div>
-      <div>
-        <input type="text" name="street" th:field="*{direccionDTO.calle}" placeholder="Calle">
-      </div>
-      <div>
-        <input type="text" name="number" th:field="*{direccionDTO.numero}" placeholder="Nº">
-      </div>
-      <div>
-        <input type="text" name="city" th:field="*{direccionDTO.ciudad}" placeholder="Ciudad">
-      </div>
-      <div>
-        <input type="text" name="postal_code" th:field="*{direccionDTO.cp}" placeholder="Código postal">
-      </div>
-      <div>
-        <input type="email" name="email" th:field="*{email}" placeholder="Email">
-      </div>
-      <div>
-        <input type="email" name="email2" placeholder="Confirmar Email">
-      </div>
-      
-      <div>
-        <input type="text" name="username" th:field="*{nombreUsuario}" placeholder="Nombre de usuario">
-      </div>
-      <div>
-        <input type="password" name="password" th:field="*{claveAcceso}" placeholder="Contraseña">
-      </div>
-      <div>
-        <input type="password" name="password2" placeholder="Confirmar contraseña">
-      </div>
-      <div>
-        <button type="submit">Registrarse</button>
-        <label>¿Ya tienes cuenta? <a th:href="@{/login}">Inicia Sesión</a></label>
-      </div>
-    </form>
+    <div>
+      <input type="text" name="first_name" th:field="*{nombre}" placeholder="Nombre">
+      <span style="color: red;" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
+    </div>
+    <div>
+      <input type="text" name="last_name" th:field="*{apellidos}" placeholder="Apellidos">
+      <span style="color: red;" th:if="${#fields.hasErrors('apellidos')}" th:errors="*{apellidos}"></span>
+    </div>
+    <div>
+      <input type="text" name="nif" th:field="*{nif}" placeholder="NIF/NIE">
+      <span style="color: red;" th:if="${#fields.hasErrors('nif')}" th:errors="*{nif}"></span>
+    </div>
+    <div>
+      <input type="text" name="telephone" th:field="*{telefono}" placeholder="Teléfono">
+      <span style="color: red;" th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></span>
+    </div>
+    <div>
+      <input type="text" name="street" th:field="*{direccionDTO.calle}" placeholder="Calle">
+      <span style="color: red;" th:if="${#fields.hasErrors('direccionDTO.calle')}"
+        th:errors="*{direccionDTO.calle}"></span>
+    </div>
+    <div>
+      <input type="text" name="number" th:field="*{direccionDTO.numero}" placeholder="Nº">
+      <span style="color: red;" th:if="${#fields.hasErrors('direccionDTO.numero')}"
+        th:errors="*{direccionDTO.numero}"></span>
+    </div>
+    <div>
+      <input type="text" name="city" th:field="*{direccionDTO.ciudad}" placeholder="Ciudad">
+      <span style="color: red;" th:if="${#fields.hasErrors('direccionDTO.ciudad')}"
+        th:errors="*{direccionDTO.ciudad}"></span>
+    </div>
+    <div>
+      <input type="text" name="postal_code" th:field="*{direccionDTO.cp}" placeholder="Código postal">
+      <span style="color: red;" th:if="${#fields.hasErrors('direccionDTO.cp')}" th:errors="*{direccionDTO.cp}"></span>
+    </div>
+    <div>
+      <input id="email" type="email" name="email" th:field="*{email}" placeholder="Email">
+      <span style="color: red;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+    </div>
+    <div>
+      <input id="email2" type="email" name="email2" placeholder="Confirmar Email">
 
-    <footer>
-      <p>Copyright <strong>Event</strong><strong>App</strong> , todos los derechos reservados.</p>
-    </footer>
+    </div>
+    <div>
+      <input type="text" name="username" th:field="*{nombreUsuario}" placeholder="Nombre de usuario">
+      <span style="color: red;" th:if="${#fields.hasErrors('nombreUsuario')}" th:errors="*{nombreUsuario}"></span>
+    </div>
+    <div>
+      <input id="password" type="password" name="password" th:field="*{claveAcceso}" placeholder="Contraseña">
+      <span style="color: red;" th:if="${#fields.hasErrors('claveAcceso')}" th:errors="*{claveAcceso}"></span>
+    </div>
+    <div>
+      <input id="password2" type="password" name="password2" placeholder="Confirmar contraseña">
+    </div>
+    <div>
+      <button id="btnEnviar" type="submit">Registrarse</button>
+      <label>¿Ya tienes cuenta? <a th:href="@{/login}">Inicia Sesión</a></label>
+    </div>
+  </form>
 
+  <footer>
+    <p>Copyright <strong>Event</strong><strong>App</strong> , todos los derechos reservados.</p>
+  </footer>
 
-  <script th:src="@{/js/jquery-3.6.3.js}" ></script>
-  <script th:src="@{/js/script.js}" ></script>
+  <script th:src="@{/vendor/bootstrap-5.2.3/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/js/jquery-3.6.3.js}"></script>
+  <script th:src="@{/js/script.js}"></script>
+  <script th:src="@{/js/register.js}"></script>
 </body>
 
 </html>

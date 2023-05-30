@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import com.grupo1.gestoreventos.model.dto.EmpresaDTO;
 import com.grupo1.gestoreventos.service.EmpresaService;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class EmpresaController {
@@ -63,10 +66,23 @@ public class EmpresaController {
 	}
 
 	@PostMapping("/admin/empresas/save")
-	public ModelAndView save(@ModelAttribute("empresaDTO") EmpresaDTO empresaDTO) {
+	public ModelAndView save(@Valid @ModelAttribute("empresaDTO") EmpresaDTO empresaDTO, BindingResult bindingResult) {
 
 		log.info("EmpresasController - save: Salvamos los datos de la empresa:" + empresaDTO.toString());
 		
+		if(bindingResult.hasErrors() == true) {
+			if(empresaDTO.getId() == null) {
+				ModelAndView mav = new ModelAndView("app/empresaform");
+				mav.addObject("empresaDTO", empresaDTO);
+				mav.addObject("add", true);
+				return mav;
+			}else {
+				ModelAndView mav = new ModelAndView("app/empresaform");
+				mav.addObject("empresaDTO", empresaDTO);
+				mav.addObject("add", false);
+				return mav;
+			}
+		}
 		
 		// Invocamos a la capa de servicios para que almacene los datos del cliente
 		empresaService.save(empresaDTO);

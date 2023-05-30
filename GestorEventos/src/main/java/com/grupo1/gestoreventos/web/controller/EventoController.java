@@ -287,7 +287,7 @@ public class EventoController {
 	// Salvar eventos
 	@PostMapping("/user/usuarios/{idUsuario}/eventos/save")
 	public ModelAndView saveUser(@PathVariable("idUsuario") Long idUsuario,
-			@ModelAttribute("eventoDTO") EventoDTO eventoDTO) {
+			 @ModelAttribute("eventoDTO") EventoDTO eventoDTO) {
 
 		log.info("ClienteController - save: Salvamos los datos del evento:" + eventoDTO.toString());
 

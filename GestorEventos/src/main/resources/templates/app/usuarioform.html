@@ -46,11 +46,13 @@
       	 			<div class="col">
           				<label for="nombre" class="form-label">Nombre</label>
          				<input th:type="text" name="nombre" class="form-control" id="nombre" th:field="*{nombre}" th:maxlength="20"/>
+						 <span style="color: red;" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
       	 			</div>
       	 	
       	 			<div class="col">
           				<label for="apellidos" class="form-label">Apellidos</label>
          				<input th:type="text" name="apellidos" class="form-control" id="apellidos" th:field="*{apellidos}" th:maxlength="100"/>
+						 <span style="color: red;" th:if="${#fields.hasErrors('apellidos')}" th:errors="*{apellidos}"></span>
       	 			</div>
       	 		</div>
       	 	
@@ -58,28 +60,33 @@
 					<div class="col">
           				<label for="nif" class="form-label">NIF</label>
          				<input th:type="text" name="nif" class="form-control" id="nif" th:field="*{nif}" th:maxlength="9"/>
+						 <span style="color: red;" th:if="${#fields.hasErrors('nif')}" th:errors="*{nif}"></span>
       	 			</div>
       	 	
       	 			<div class="col">
           				<label for="telefono" class="form-label">Teléfono</label>
          				<input th:type="number" name="telefono" class="form-control" id="telefono" th:field="*{telefono}" th:min="0" th:max="999999999"/>
+						 <span style="color: red;" th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></span>
       	 			</div>
       	 		</div>
       	 		
       	 		<div class="mt-3">
           			<label for="email" class="form-label">Correo electrónico</label>
          			<input th:type="email" name="email" class="form-control" id="email" th:field="*{email}" th:maxlength="100"/>
+					 <span style="color: red;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
       	 		</div>
       	 	
       	 		<div class="row mt-3">
       	 			<div class="col">
           				<label for="nombreUsuario" class="form-label">Nombre usuario</label>
          				<input th:type="text" name="nombreUsuario" class="form-control" id="nombreUsuario" th:field="*{nombreUsuario}" th:maxlength="100"/>
+						 <span style="color: red;" th:if="${#fields.hasErrors('nombreUsuario')}" th:errors="*{nombreUsuario}"></span>
       	 			</div>
 
 					<div class="col">
           				<label for="claveAcceso" class="form-label">Clave acceso</label>
          				<input type="password" name="claveAcceso" class="form-control" id="claveAcceso" th:field="*{claveAcceso}"/>
+						 <span style="color: red;" th:if="${#fields.hasErrors('claveAcceso')}" th:errors="*{claveAcceso}"></span>
       	 			</div>
       	 		</div>
       	 							
@@ -94,12 +101,14 @@
 							<label for="dcalle" class="form-label">Calle</label> <input
 								th:type="text" name="dcalle" class="form-control" id="dcalle"
 								th:field="*{direccionDTO.calle}" />
+								<span style="color: red;" th:if="${#fields.hasErrors('direccionDTO.calle')}" th:errors="*{direccionDTO.calle}"></span>
 						</div>
 
 						<div class="col">
 							<label for="dnumero" class="form-label">Número</label> <input
 								th:type="number" name="dnumero" class="form-control"
 								id="dnumero" th:field="*{direccionDTO.numero}" th:min="0" />
+								<span style="color: red;" th:if="${#fields.hasErrors('direccionDTO.numero')}" th:errors="*{direccionDTO.numero}"></span>
 						</div>
 					</div>
 
@@ -108,12 +117,14 @@
 							<label for="dciudad" class="form-label">Ciudad</label> <input
 								th:type="text" name="dciudad" class="form-control" id="dciudad"
 								th:field="*{direccionDTO.ciudad}" />
+								<span style="color: red;" th:if="${#fields.hasErrors('direccionDTO.ciudad')}" th:errors="*{direccionDTO.ciudad}"></span>
 						</div>
 
 						<div class="col">
 							<label for="dcp" class="form-label">CP</label> <input
 								th:type="number" name="dcp" class="form-control" id="dcp"
 								th:field="*{direccionDTO.cp}" th:min="0" th:max="99999" />
+								<span style="color: red;" th:if="${#fields.hasErrors('direccionDTO.cp')}" th:errors="*{direccionDTO.cp}"></span>
 						</div>
 					</div>
 					<div class="row mt-3">
@@ -172,6 +183,7 @@
 								<option value="Zamora">Zamora</option>
 								<option value="Zaragoza">Zaragoza</option>
 							</select>
+							<span style="color: red;" th:if="${#fields.hasErrors('direccionDTO.provincia')}" th:errors="*{direccionDTO.provincia}"></span>
 						</div>
 					</div>
 				</div>
@@ -186,7 +198,7 @@
         </div>
     </main>
 
-	<script th:src="@{/vendor/bootstrap-5.2.3/js/bootstrap.bundle.min.js}" ></script>
+	<script th:src="@{/vendor/bootstrap-5.2.3/js/bootstrap.bundle.min.js}"></script>
   	<script th:src="@{/js/jquery-3.6.3.js}" ></script>
   	<script th:src="@{/js/script.js}" ></script>
 

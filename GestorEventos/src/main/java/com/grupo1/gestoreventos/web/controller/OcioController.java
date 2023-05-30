@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,8 @@ import com.grupo1.gestoreventos.model.dto.UsuarioDTO;
 import com.grupo1.gestoreventos.service.EmpresaService;
 import com.grupo1.gestoreventos.service.EventoService;
 import com.grupo1.gestoreventos.service.OcioService;
+
+import jakarta.validation.Valid;
 
 
 @Controller
@@ -104,7 +107,7 @@ public class OcioController {
 
 	// Save
 	@PostMapping("/admin/empresas/{idEmpresa}/ocios/save")
-	public ModelAndView save(@PathVariable("idEmpresa") Long idEmpresa, @ModelAttribute("ocioDTO") OcioDTO ocioDTO, @RequestParam("archivo") MultipartFile foto) {
+	public ModelAndView save(@PathVariable("idEmpresa") Long idEmpresa, @Valid @ModelAttribute("ocioDTO") OcioDTO ocioDTO, BindingResult bindingResult, @RequestParam("archivo") MultipartFile foto) {
 
 		log.info("OcioController - save: Salvamos los datos del ocio:" + ocioDTO.toString());
 
@@ -112,6 +115,25 @@ public class OcioController {
 		EmpresaDTO empresaDTO = new EmpresaDTO();
 		empresaDTO.setId(idEmpresa);
 		ocioDTO.setEmpresaDTO(empresaDTO);
+		// Comprobamos si hay errores
+		if(bindingResult.hasErrors() == true) {
+			if(ocioDTO.getId() == null) {
+				ModelAndView mav = new ModelAndView("app/ocioform");
+				mav.addObject("empresaDTO", empresaDTO);
+				mav.addObject("ocioDTO", ocioDTO);
+				mav.addObject("add", true);
+
+				return mav;
+			}else {
+				ModelAndView mav = new ModelAndView("app/ocioform");
+				mav.addObject("empresaDTO", empresaDTO);
+				mav.addObject("ocioDTO", ocioDTO);
+				mav.addObject("add", false);
+
+				return mav;
+			}
+		}
+		
 		if(ocioDTO.getId() == null) {
 			try {
 				Files.createDirectories(Paths.get("src/main/resources/static/images"));

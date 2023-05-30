@@ -60,12 +60,14 @@
 					<label for="menu" class="form-label">Nombre</label> <input
 						th:type="text" name="menu" class="form-control" id="menu"
 						th:field="*{nombre}" />
+						<span style="color: red;" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
 				</div>
 
 				<div class="col">
 					<label for="descripcion" class="form-label">Descripción</label> <input
 						th:type="text" name="descripcion" class="form-control"
 						id="descripcion" th:field="*{descripcion}"/>
+						<span style="color: red;" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
 				</div>
 
 				<div th:if="${decoradoDTO.foto != ' '}" class="mt-3">
@@ -83,6 +85,7 @@
 						th:type="number" name="precio_hora" step="0.01"
 						class="form-control" id="precio_hora" th:field="*{precio}"
 						th:min="0" />
+						<span style="color: red;" th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}"></span>
 				</div>
 
 				<div class="mt-4">

@@ -2,6 +2,7 @@ package com.grupo1.gestoreventos.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import com.grupo1.gestoreventos.model.dto.UbicacionDTO;
 import com.grupo1.gestoreventos.model.dto.UsuarioDTO;
 import com.grupo1.gestoreventos.service.DireccionService;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -137,7 +139,7 @@ public class DireccionController {
 
 	@PostMapping("/admin/usuarios/{idUsuario}/direccion/save")
 	public ModelAndView saveByUsuario(@PathVariable("idUsuario") Long idUsuario,
-			@ModelAttribute("direccionDTO") DireccionDTO direccionDTO) {
+			@Valid @ModelAttribute("direccionDTO") DireccionDTO direccionDTO, BindingResult bindingResult) {
 		log.info("DireccionController - saveByUsuario: Actualiza la direccion: " + direccionDTO.getId()
 				+ " del Usuario: " + idUsuario);
 
@@ -147,6 +149,15 @@ public class DireccionController {
 		 * VALIDACION
 		 */
 
+		if(bindingResult.hasErrors() == true) {
+			ModelAndView mv = new ModelAndView();
+			mv.setViewName("app/direccionform");
+			mv.addObject("direccionDTO", direccionDTO);
+			mv.addObject("usuarioDTO", usuarioDTO);
+			mv.addObject("tipo", "usuario");
+			return mv;
+		}
+		
 		direccionService.save(direccionDTO);
 
 		ModelAndView mv = new ModelAndView();

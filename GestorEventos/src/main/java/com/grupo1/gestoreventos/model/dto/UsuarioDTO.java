@@ -7,6 +7,10 @@ import java.util.stream.Collectors;
 
 import com.grupo1.gestoreventos.repository.entity.Usuario;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.ToString;
 
@@ -16,15 +20,28 @@ public class UsuarioDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
+	
+	@NotBlank(message = "¡El campo Nombre es obligatorio!")
 	private String nombre;
+	@NotBlank(message = "¡El campo Apellidos es obligatorio!")
 	private String apellidos;
+	@NotBlank(message = "¡El campo NIF es obligatorio!")
+	@Pattern(regexp = "[XYZxyz]?[0-9]{7,8}[A-Za-z]", message = "¡El campo NIF no es válido!")
 	private String nif;
+	@NotBlank(message = "¡El campo Teléfono es obligatorio!")
+	@Pattern(regexp = "\\d{9}", message = "El campo Teléfono no es válido")
 	private String telefono;
+	@NotBlank(message = "¡El campo Email es obligatorio!")
+	@Email(message = "El campo Email no es válido")
 	private String email;
+	@NotBlank(message = "¡El campo Nombre de Usuario es obligatorio!")
 	private String nombreUsuario;
+	@NotBlank(message = "¡El campo Clave de Acceso es obligatorio!")
+	@Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)[A-Za-z\\d]+$", message = "¡La contraseña tiene que tener al mínimo 8 carácteres, una mayúscula, una minúscula y un número!")
 	private String claveAcceso;
 
 	@ToString.Exclude
+	@Valid
 	private DireccionDTO direccionDTO;
 
 	@ToString.Exclude

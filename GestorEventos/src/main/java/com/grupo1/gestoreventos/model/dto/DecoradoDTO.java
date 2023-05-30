@@ -6,6 +6,9 @@ import java.util.List;
 
 import com.grupo1.gestoreventos.repository.entity.Decorado;
 
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.ToString;
 
@@ -19,12 +22,16 @@ public class DecoradoDTO implements Serializable{
 	
 	private Long id;
 	
+	@NotBlank(message = "¡El campo Nombre es obligatorio!")
 	private String nombre;
 	
+	@NotBlank(message = "¡El campo Descripción es obligatorio!")
 	private String descripcion;
 	
 	private String foto;
 	
+	@NotNull(message = "¡El campo Precio es obligatorio!")
+	@DecimalMin(value = "0.0", inclusive = true, message = "¡El precio debe ser mayor o igual a 0.0!")
 	private Float precio;
 	
 	@ToString.Exclude

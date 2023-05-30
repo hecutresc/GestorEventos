@@ -58,12 +58,14 @@
 						<label for="numero" class="form-label">Nombre</label> <input
 							th:type="text" name="numero" class="form-control" id="nombre"
 							th:field="*{nombre}" th:min="0" />
+							<span style="color: red;" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
 					</div>
 					
 					<div class="col">
-						<label for="calle" class="form-label">CIF</label> <input
-							th:type="text" name="calle" class="form-control" id="calle"
+						<label for="cif" class="form-label">CIF</label> <input
+							th:type="text" name="cif" class="form-control" id="cif"
 							th:field="*{cif}" th:maxlength="10" />
+							<span style="color: red;" th:if="${#fields.hasErrors('cif')}" th:errors="*{cif}"></span>
 					</div>
 
 				</div>
@@ -72,10 +74,12 @@
 					<div class="col">
 						<label class="form-label" for="email">Email Contacto</label>
 						<input th:type="email" name="email" class="form-control" id="email" th:field="*{email_contacto}">
+						<span style="color: red;" th:if="${#fields.hasErrors('email_contacto')}" th:errors="*{email_contacto}"></span>
 					</div>
 					<div class="col">
 						<label for="telefono" class="form-label">Teléfono</label>
 						<input type="number" name="telefono" id="telefono" class="form-control" th:field="*{telefono_contacto}" th:maxlength="9">
+						<span style="color: red;" th:if="${#fields.hasErrors('telefono_contacto')}" th:errors="*{telefono_contacto}"></span>
 					</div>
 				</div>
 
@@ -83,6 +87,7 @@
 					<div class="col">
 						<label for="web">Web</label>
 						<input type="text" name="web" id="web" class="form-control" th:field="*{web}">
+						<span style="color: red;" th:if="${#fields.hasErrors('web')}" th:errors="*{web}"></span>
 					</div>
 				</div>
 
@@ -95,12 +100,14 @@
 							<label for="dcalle" class="form-label">Calle</label> <input
 								th:type="text" name="dcalle" class="form-control" id="dcalle"
 								th:field="*{direccionDTO.calle}" />
+								<span style="color: red;" th:if="${#fields.hasErrors('direccionDTO.calle')}" th:errors="*{direccionDTO.calle}"></span>
 						</div>
 
 						<div class="col">
 							<label for="dnumero" class="form-label">Número</label> <input
 								th:type="number" name="dnumero" class="form-control"
 								id="dnumero" th:field="*{direccionDTO.numero}" th:min="0" />
+								<span style="color: red;" th:if="${#fields.hasErrors('direccionDTO.numero')}" th:errors="*{direccionDTO.numero}"></span>
 						</div>
 					</div>
 
@@ -111,12 +118,14 @@
 							<label for="dciudad" class="form-label">Ciudad</label> <input
 								th:type="text" name="dciudad" class="form-control" id="dciudad"
 								th:field="*{direccionDTO.ciudad}" />
+								<span style="color: red;" th:if="${#fields.hasErrors('direccionDTO.ciudad')}" th:errors="*{direccionDTO.ciudad}"></span>
 						</div>
 
 						<div class="col">
 							<label for="dcp" class="form-label">CP</label> <input
 								th:type="number" name="dcp" class="form-control" id="dcp"
 								th:field="*{direccionDTO.cp}" th:min="0" th:max="99999" />
+								<span style="color: red;" th:if="${#fields.hasErrors('direccionDTO.cp')}" th:errors="*{direccionDTO.cp}"></span>
 						</div>
 					</div>
 
@@ -176,6 +185,7 @@
 								<option value="Zamora">Zamora</option>
 								<option value="Zaragoza">Zaragoza</option>
 							</select>
+							<span style="color: red;" th:if="${#fields.hasErrors('direccionDTO.provincia')}" th:errors="*{direccionDTO.provincia}"></span>
 						</div>
 					</div>
 				</div>

@@ -2,7 +2,15 @@ package com.grupo1.gestoreventos.model.dto;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.hibernate.validator.constraints.URL;
+
 import com.grupo1.gestoreventos.repository.entity.Empresa;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.ToString;
 
@@ -11,13 +19,28 @@ import lombok.ToString;
 public class EmpresaDTO {
 
 	private Long id;
+	
+	@NotBlank(message = "¡El CIF es obligatorio!")
+	@Pattern(regexp = "[A-HJNP-SUVW]{1}\\d{7}[0-9A-J]{1}", message = "¡El CIF no es válido!")
 	private String cif;
+	
+	@NotBlank(message = "¡El nombre de la empresa es obligatorio!")
 	private String nombre;
+	
+    @NotBlank(message = "¡El email de contacto es obligatorio!")
+    @Email(message = "¡El email de contacto debe ser válido!")
 	private String email_contacto;
+    
+    @Pattern(regexp = "\\d{9}", message = "¡El teléfono de contacto debe tener 9 dígitos!")
+    @NotBlank(message = "¡El teléfono de contacto es obligatorio!")
 	private String telefono_contacto;
+    
+    @NotBlank(message = "¡La web es obligatoria!")
+    @URL(message = "¡La URL del sitio web debe ser válida!")
 	private String web;
 	
 	@ToString.Exclude
+	@Valid
 	private DireccionDTO direccionDTO;
 	@ToString.Exclude
 	private List<CateringDTO> listaCateringsDTO;

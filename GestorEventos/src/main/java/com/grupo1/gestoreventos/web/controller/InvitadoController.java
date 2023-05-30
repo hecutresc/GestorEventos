@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import com.grupo1.gestoreventos.model.dto.InvitadoDTO;
 import com.grupo1.gestoreventos.model.dto.UsuarioDTO;
 import com.grupo1.gestoreventos.service.InvitadoService;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -139,16 +141,41 @@ public class InvitadoController {
 	}
 
 	@PostMapping("/admin/usuarios/{idUsuario}/eventos/{idEvento}/invitados/save")
-	public ModelAndView save(@ModelAttribute("invitadoDTO") InvitadoDTO invitadoDTO,
+	public ModelAndView save(@Valid @ModelAttribute("invitadoDTO") InvitadoDTO invitadoDTO, BindingResult bindingResult,
 			@PathVariable("idUsuario") Long idUsuario, @PathVariable("idEvento") Long idEvento) {
 		log.info("InvitadoController - save: Guarda el invitado en el evento:" + idEvento);
 
 		/**
 		 * VALIDACIÓN
 		 */
-
 		EventoDTO eventoDTO = new EventoDTO(idEvento);
 		invitadoDTO.setEventoDTO(eventoDTO);
+		UsuarioDTO usuarioDTO = new UsuarioDTO();
+		usuarioDTO.setId(idUsuario);
+		
+		if(bindingResult.hasErrors() == true) {
+			if(invitadoDTO.getId() == null) {
+				ModelAndView mv = new ModelAndView();
+				mv.setViewName("app/invitadoform");
+				mv.addObject("usuarioDTO", usuarioDTO);
+				mv.addObject("eventoDTO", eventoDTO);
+				mv.addObject("invitadoDTO", invitadoDTO);
+				mv.addObject("add", true);
+
+				return mv;
+			}else {
+				ModelAndView mv = new ModelAndView();
+				mv.setViewName("app/invitadoform");
+				mv.addObject("usuarioDTO", usuarioDTO);
+				mv.addObject("eventoDTO", eventoDTO);
+				mv.addObject("invitadoDTO", invitadoDTO);
+				mv.addObject("add", false);
+
+				return mv;
+			}
+		}
+
+		
 
 		invitadoService.save(invitadoDTO);
 
@@ -159,7 +186,7 @@ public class InvitadoController {
 	}
 	
 	@PostMapping("/user/usuarios/{idUsuario}/eventos/{idEvento}/invitados/save")
-	public ModelAndView saveUser(@ModelAttribute("invitadoDTO") InvitadoDTO invitadoDTO,
+	public ModelAndView saveUser(@Valid @ModelAttribute("invitadoDTO") InvitadoDTO invitadoDTO,BindingResult bindingResult,
 			@PathVariable("idUsuario") Long idUsuario, @PathVariable("idEvento") Long idEvento) {
 		log.info("InvitadoController - save: Guarda el invitado en el evento:" + idEvento);
 
@@ -169,6 +196,30 @@ public class InvitadoController {
 
 		EventoDTO eventoDTO = new EventoDTO(idEvento);
 		invitadoDTO.setEventoDTO(eventoDTO);
+		UsuarioDTO usuarioDTO = new UsuarioDTO();
+		usuarioDTO.setId(idUsuario);
+		
+		if(bindingResult.hasErrors() == true) {
+			if(invitadoDTO.getId() == null) {
+				ModelAndView mv = new ModelAndView();
+				mv.setViewName("app/invitadoformuser");
+				mv.addObject("usuarioDTO", usuarioDTO);
+				mv.addObject("eventoDTO", eventoDTO);
+				mv.addObject("invitadoDTO", invitadoDTO);
+				mv.addObject("add", true);
+
+				return mv;
+			}else {
+				ModelAndView mv = new ModelAndView();
+				mv.setViewName("app/invitadoformuser");
+				mv.addObject("usuarioDTO", usuarioDTO);
+				mv.addObject("eventoDTO", eventoDTO);
+				mv.addObject("invitadoDTO", invitadoDTO);
+				mv.addObject("add", false);
+
+				return mv;
+			}
+		}
 
 		invitadoService.save(invitadoDTO);
 
