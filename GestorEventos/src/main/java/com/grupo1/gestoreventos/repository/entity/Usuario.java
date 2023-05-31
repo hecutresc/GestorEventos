@@ -1,8 +1,13 @@
 package com.grupo1.gestoreventos.repository.entity;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -60,7 +65,8 @@ public class Usuario {
 	private Set<Evento> listaEventos;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "usuario")
-	private Set<Rol> listaRoles;
+	@Fetch(FetchMode.JOIN)
+	private List<Rol> listaRoles;
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -82,7 +88,7 @@ public class Usuario {
 	public Usuario() {
 		super();
 		this.direccion = new Direccion();
-		this.listaRoles = new HashSet<Rol>();
+		this.listaRoles = new ArrayList<Rol>();
 		this.listaEventos = new HashSet<Evento>();
 	}
 

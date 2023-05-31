@@ -27,7 +27,6 @@ public class Rol {
 	
 	@ManyToOne
 	@JoinColumn(name = "id_usuario")
-	@ToString.Exclude
 	private Usuario usuario;
 
 	
@@ -49,11 +48,7 @@ public class Rol {
 		return Objects.hash(id);
 	}
 	
-	//Constructor
-	
-	public Rol() {
-		this.usuario = new Usuario();
-	}
+
 	
 	
 }

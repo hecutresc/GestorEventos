@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -166,22 +167,27 @@ public class UbicacionController {
 
 	@GetMapping("/user/usuarios/{idUsuario}/eventos/{idEvento}/ubicacion")
 	public ModelAndView findByEventoUser(@PathVariable("idUsuario") Long idUsuario,
-			@PathVariable("idEvento") Long idEvento) {
+			@PathVariable("idEvento") Long idEvento, @CookieValue(name = "userId", required = false) String userId) {
 		log.info("UbicacionController - findByEvento: Muestra la Ubicacion del Evento: " + idEvento);
+		if(idUsuario == Long.valueOf(userId)) {
+			UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
+			EventoDTO eventoDTO = new EventoDTO(idEvento);
+			eventoDTO = eventoService.findById(eventoDTO);
 
-		UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
-		EventoDTO eventoDTO = new EventoDTO(idEvento);
-		eventoDTO = eventoService.findById(eventoDTO);
+			UbicacionDTO ubicacionDTO = ubicacionService.findById(eventoDTO.getUbicacionDTO());
+			
+			ModelAndView mv = new ModelAndView();
+			mv.setViewName("app/ubicacionshowuser");
+			mv.addObject("usuarioDTO", usuarioDTO);
+			mv.addObject("eventoDTO", eventoDTO);
+			mv.addObject("ubicacionDTO", ubicacionDTO);
 
-		UbicacionDTO ubicacionDTO = ubicacionService.findById(eventoDTO.getUbicacionDTO());
+			return mv;
+		}else {
+			ModelAndView mav = new ModelAndView("errors/503");
+			return mav;
+		}
 		
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("app/ubicacionshowuser");
-		mv.addObject("usuarioDTO", usuarioDTO);
-		mv.addObject("eventoDTO", eventoDTO);
-		mv.addObject("ubicacionDTO", ubicacionDTO);
-
-		return mv;
 
 	}
 	

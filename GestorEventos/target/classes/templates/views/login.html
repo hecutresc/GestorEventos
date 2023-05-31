@@ -36,7 +36,7 @@
   </header>
    
   <main>
-    <form action="" method="post">
+    <form th:action="@{/login}" method="post">
    
       <h2>Inicia sesión</h2>
   
@@ -51,6 +51,7 @@
           <label>¿No tienes cuenta? <a th:href="@{/register}">Registrate</a></label>
         </div>
       </form>
+      
   </main>
 
     <footer>

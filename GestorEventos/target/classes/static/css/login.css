@@ -15,6 +15,18 @@ header {
   animation: mostrarElemento 1s forwards 0.3s;
 }
 
+main{
+  padding: 0!important;
+  margin-top: 40px;
+}
+
+main > p{
+  text-align: center;
+}
+
+form > div:nth-last-of-type() > label{
+  text-align: center;
+}
 nav{
   height: 100%;
 
@@ -66,9 +78,6 @@ form {
   display: grid;
   margin: 0 auto;
   font-size: 1.5rem;
-
-  margin-top: 5rem;
-  margin-bottom: 5rem;
   padding: 10px;
 
   width: 80vw;
@@ -132,7 +141,7 @@ form > div:last-child > label {
 
 footer{
 
-  position: relative !important;
+  position: absolute !important;
   bottom: 0;
 
   width: 100vw;
