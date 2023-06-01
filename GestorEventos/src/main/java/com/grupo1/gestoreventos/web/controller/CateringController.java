@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -227,22 +228,27 @@ public class CateringController {
 
 	@GetMapping("/user/usuarios/{idUsuario}/eventos/{idEvento}/catering")
 	public ModelAndView findByEventoUser(@PathVariable("idUsuario") Long idUsuario,
-			@PathVariable("idEvento") Long idEvento) {
+			@PathVariable("idEvento") Long idEvento, @CookieValue(name = "userId", required = false) String userId) {
 		log.info("CateringController - findByEvento: Muestra el Catering del Evento: " + idEvento);
+		if(idUsuario == Long.valueOf(userId)) {
+			UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
+			EventoDTO eventoDTO = new EventoDTO(idEvento);
+			eventoDTO = eventoService.findById(eventoDTO);
 
-		UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
-		EventoDTO eventoDTO = new EventoDTO(idEvento);
-		eventoDTO = eventoService.findById(eventoDTO);
+			CateringDTO cateringDTO = eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO();
 
-		CateringDTO cateringDTO = eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO();
+			ModelAndView mv = new ModelAndView();
+			mv.setViewName("app/cateringshowuser");
+			mv.addObject("usuarioDTO", usuarioDTO);
+			mv.addObject("eventoDTO", eventoDTO);
+			mv.addObject("cateringDTO", cateringDTO);
 
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("app/cateringshowuser");
-		mv.addObject("usuarioDTO", usuarioDTO);
-		mv.addObject("eventoDTO", eventoDTO);
-		mv.addObject("cateringDTO", cateringDTO);
-
-		return mv;
+			return mv;
+		}else {
+			ModelAndView mav = new ModelAndView("errors/503");
+			return mav;
+		}
+		
 
 	}
 

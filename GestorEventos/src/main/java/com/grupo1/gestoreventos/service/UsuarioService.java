@@ -10,6 +10,7 @@ public interface UsuarioService {
 	public UsuarioDTO findByUsername(UsuarioDTO UsuarioDTO);
 	public UsuarioDTO findById(UsuarioDTO UsuarioDTO);
 	public void save(UsuarioDTO UsuarioDTO);
+	public void save2(UsuarioDTO UsuarioDTO);
 	public void delete(UsuarioDTO UsuarioDTO);
 
 }

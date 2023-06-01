@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import com.grupo1.gestoreventos.repository.entity.Rol;
 import com.grupo1.gestoreventos.repository.entity.Usuario;
 
 import jakarta.validation.Valid;
@@ -45,6 +48,9 @@ public class UsuarioDTO implements Serializable {
 	private DireccionDTO direccionDTO;
 
 	@ToString.Exclude
+	private List<RolDTO> listaRolesDTO;
+	
+	@ToString.Exclude
 	private List<EventoDTO> listaEventosDTO;
 	
 
@@ -59,12 +65,12 @@ public class UsuarioDTO implements Serializable {
 		usuarioDTO.setNombreUsuario(usuario.getNombreUsuario());
 		usuarioDTO.setClaveAcceso(usuario.getClaveAcceso());
 		usuarioDTO.setDireccionDTO(DireccionDTO.convertToDTO(usuario.getDireccion()));
-		/*
-		 * List<EventoDTO> listaEventosDTO = usuario.getListaEventos().stream().map(p ->
-		 * EventoDTO.convertToDTO(p)) .collect(Collectors.toList());
-		 * 
-		 * usuarioDTO.setListaEventosDTO(listaEventosDTO);
-		 */
+		
+		for (int i = 0; i < usuario.getListaRoles().size(); i++) {
+			RolDTO rolDTO = RolDTO.converToDTO(usuario.getListaRoles().get(i), usuarioDTO);
+			usuarioDTO.getListaRolesDTO().add(rolDTO);
+			}
+		
 		return usuarioDTO;
 	}
 
@@ -77,13 +83,13 @@ public class UsuarioDTO implements Serializable {
 		usuario.setTelefono(usuarioDTO.getTelefono());
 		usuario.setEmail(usuarioDTO.getEmail());
 		usuario.setNombreUsuario(usuarioDTO.getNombreUsuario());
-		usuario.setClaveAcceso(usuarioDTO.getClaveAcceso());
-		
+		usuario.setClaveAcceso(new BCryptPasswordEncoder().encode(usuarioDTO.getClaveAcceso()));
 		usuario.setDireccion(DireccionDTO.convertToEntity(usuarioDTO.getDireccionDTO()));
 
-		// for (EventoDTO objeto : usuarioDTO.getListaEventosDTO()) {
-		// usuario.getListaEventos().add(EventoDTO.convertToEntity(objeto));
-		// }
+		for (int i = 0; i < usuarioDTO.getListaRolesDTO().size(); i++) {
+			Rol rol = RolDTO.converToEntity(usuarioDTO.getListaRolesDTO().get(i), usuario);
+			usuario.getListaRoles().add(rol);
+		}
 
 		return usuario;
 	}
@@ -92,6 +98,7 @@ public class UsuarioDTO implements Serializable {
 		super();
 		this.direccionDTO = new DireccionDTO();
 		this.listaEventosDTO = new ArrayList<EventoDTO>();
+		this.listaRolesDTO = new ArrayList<RolDTO>();
 	}
 
 	public UsuarioDTO(Long idUsuarioDTO) {
@@ -99,6 +106,7 @@ public class UsuarioDTO implements Serializable {
 		this.id = idUsuarioDTO;
 		this.direccionDTO = new DireccionDTO();
 		this.listaEventosDTO = new ArrayList<EventoDTO>();
+		this.listaRolesDTO = new ArrayList<RolDTO>();
 	}
 
 }

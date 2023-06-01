@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -66,19 +67,24 @@ public class EventoController {
 	}
 
 	@GetMapping("/user/usuarios/{idUsuario}/eventos")
-	public ModelAndView findAllByUsuarioUser(@PathVariable("idUsuario") Long idUsuario) {
+	public ModelAndView findAllByUsuarioUser(@PathVariable("idUsuario") Long idUsuario, @CookieValue(name = "userId", required = false) String userId) {
 		log.info("EventoController - findAllByUsuario: Muestra los eventos del usuario: " + idUsuario);
+		if(idUsuario == Long.valueOf(userId)) {
+			UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
 
-		UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
+			List<EventoDTO> eventosDTO = eventoService.findAllByUser(usuarioDTO);
 
-		List<EventoDTO> eventosDTO = eventoService.findAllByUser(usuarioDTO);
+			ModelAndView mv = new ModelAndView();
+			mv.setViewName("app/eventosuser");
+			mv.addObject("usuarioDTO", usuarioDTO);
+			mv.addObject("eventosDTO", eventosDTO);
 
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("app/eventosuser");
-		mv.addObject("usuarioDTO", usuarioDTO);
-		mv.addObject("eventosDTO", eventosDTO);
-
-		return mv;
+			return mv;
+		}else {
+			ModelAndView mav = new ModelAndView("errors/503");
+			return mav;
+		}
+		
 	}
 
 	@GetMapping("/admin/eventos")
@@ -156,24 +162,29 @@ public class EventoController {
 
 	// Alta de eventos desde usuario
 	@GetMapping({ "/user/usuarios/{idUsuario}/eventos/add" })
-	public ModelAndView addEvento(@PathVariable("idUsuario") Long idUsuario) {
+	public ModelAndView addEvento(@PathVariable("idUsuario") Long idUsuario, @CookieValue(name = "userId", required = false) String userId) {
 
 		log.info("EventoController - add: Anyadimos un nuevo evento " + idUsuario);
+		if(idUsuario == Long.valueOf(userId)) {
+			UsuarioDTO usuarioDTO = new UsuarioDTO();
+			usuarioDTO.setId(idUsuario);
+			usuarioDTO = usuarioService.findById(usuarioDTO);
 
-		UsuarioDTO usuarioDTO = new UsuarioDTO();
-		usuarioDTO.setId(idUsuario);
-		usuarioDTO = usuarioService.findById(usuarioDTO);
+			ModelAndView mav = new ModelAndView("app/eventoformuser");
+			mav.addObject("listaCateringsDTO", cateringService.findAll());
+			mav.addObject("listaUbicacionesDTO", ubicacionService.findAll());
+			mav.addObject("listaDecoradosDTO", decoradoService.findAll());
+			mav.addObject("listaOciosDTO", ocioService.findAll());
+			mav.addObject("usuarioDTO", usuarioDTO);
+			mav.addObject("eventoDTO", new EventoDTO());
+			mav.addObject("add", true);
 
-		ModelAndView mav = new ModelAndView("app/eventoformuser");
-		mav.addObject("listaCateringsDTO", cateringService.findAll());
-		mav.addObject("listaUbicacionesDTO", ubicacionService.findAll());
-		mav.addObject("listaDecoradosDTO", decoradoService.findAll());
-		mav.addObject("listaOciosDTO", ocioService.findAll());
-		mav.addObject("usuarioDTO", usuarioDTO);
-		mav.addObject("eventoDTO", new EventoDTO());
-		mav.addObject("add", true);
-
-		return mav;
+			return mav;
+		}else {
+			ModelAndView mav = new ModelAndView("errors/503");
+			return mav;
+		}
+		
 	}
 
 	// Actualizar la informacion de un evento desde admin
@@ -210,34 +221,40 @@ public class EventoController {
 
 	// Actualizar la informacion de un evento desde usuarios
 	@GetMapping("/user/usuarios/{idUsuario}/eventos/update/{idEvento}")
-	public ModelAndView updateUser(@PathVariable("idUsuario") Long idUsuario, @PathVariable("idEvento") Long idEvento) {
+	public ModelAndView updateUser(@PathVariable("idUsuario") Long idUsuario, @PathVariable("idEvento") Long idEvento, @CookieValue(name = "userId", required = false) String userId) {
 
 		log.info("ClienteController - update: Modificamos el evento: " + idEvento);
 
-		UsuarioDTO usuarioDTO = new UsuarioDTO();
-		usuarioDTO.setId(idUsuario);
-		usuarioDTO = usuarioService.findById(usuarioDTO);
+		if(idUsuario == Long.valueOf(userId)) {
+			UsuarioDTO usuarioDTO = new UsuarioDTO();
+			usuarioDTO.setId(idUsuario);
+			usuarioDTO = usuarioService.findById(usuarioDTO);
 
-		// Obtenemos el evento y lo pasamos al modelo para ser actualizado
-		EventoDTO eventoDTO = new EventoDTO();
-		eventoDTO.setId(idEvento);
-		eventoDTO = eventoService.findById(eventoDTO);
-		eventoDTO.setUsuarioDTO(usuarioDTO);
-		eventoDTO.setUbicacionDTO(eventoDTO.getListaCateringubicacioneventoDTO().get(0).getUbicacionDTO());
-		eventoDTO.setCateringDTO(eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO());
-		eventoDTO.setDecoradoDTO(eventoDTO.getListaCateringubicacioneventoDTO().get(0).getDecoradoDTO());
-		eventoDTO.setOcioDTO(eventoDTO.getListaCateringubicacioneventoDTO().get(0).getOcioDTO());
+			// Obtenemos el evento y lo pasamos al modelo para ser actualizado
+			EventoDTO eventoDTO = new EventoDTO();
+			eventoDTO.setId(idEvento);
+			eventoDTO = eventoService.findById(eventoDTO);
+			eventoDTO.setUsuarioDTO(usuarioDTO);
+			eventoDTO.setUbicacionDTO(eventoDTO.getListaCateringubicacioneventoDTO().get(0).getUbicacionDTO());
+			eventoDTO.setCateringDTO(eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO());
+			eventoDTO.setDecoradoDTO(eventoDTO.getListaCateringubicacioneventoDTO().get(0).getDecoradoDTO());
+			eventoDTO.setOcioDTO(eventoDTO.getListaCateringubicacioneventoDTO().get(0).getOcioDTO());
 
-		ModelAndView mav = new ModelAndView("app/eventoformuser2");
-		mav.addObject("usuarioDTO", usuarioDTO);
-		mav.addObject("eventoDTO", eventoDTO);
-		mav.addObject("listaCateringsDTO", cateringService.findAll());
-		mav.addObject("listaUbicacionesDTO", ubicacionService.findAll());
-		mav.addObject("listaDecoradosDTO", decoradoService.findAll());
-		mav.addObject("listaOciosDTO", ocioService.findAll());
-		mav.addObject("add", false);
+			ModelAndView mav = new ModelAndView("app/eventoformuser2");
+			mav.addObject("usuarioDTO", usuarioDTO);
+			mav.addObject("eventoDTO", eventoDTO);
+			mav.addObject("listaCateringsDTO", cateringService.findAll());
+			mav.addObject("listaUbicacionesDTO", ubicacionService.findAll());
+			mav.addObject("listaDecoradosDTO", decoradoService.findAll());
+			mav.addObject("listaOciosDTO", ocioService.findAll());
+			mav.addObject("add", false);
 
-		return mav;
+			return mav;
+		}else {
+			ModelAndView mav = new ModelAndView("errors/503");
+			return mav;
+		}
+		
 	}
 
 	// Salvar eventos
@@ -287,39 +304,50 @@ public class EventoController {
 	// Salvar eventos
 	@PostMapping("/user/usuarios/{idUsuario}/eventos/save")
 	public ModelAndView saveUser(@PathVariable("idUsuario") Long idUsuario,
-			 @ModelAttribute("eventoDTO") EventoDTO eventoDTO) {
+			 @ModelAttribute("eventoDTO") EventoDTO eventoDTO, @CookieValue(name = "userId", required = false) String userId) {
 
 		log.info("ClienteController - save: Salvamos los datos del evento:" + eventoDTO.toString());
+		if(idUsuario == Long.valueOf(userId)) {
+			UsuarioDTO usuarioDTO = new UsuarioDTO();
+			usuarioDTO.setId(idUsuario);
+			usuarioDTO = usuarioService.findById(usuarioDTO);
 
-		UsuarioDTO usuarioDTO = new UsuarioDTO();
-		usuarioDTO.setId(idUsuario);
-		usuarioDTO = usuarioService.findById(usuarioDTO);
+			eventoDTO.setUsuarioDTO(usuarioDTO);
 
-		eventoDTO.setUsuarioDTO(usuarioDTO);
+			eventoService.save(eventoDTO);
 
-		eventoService.save(eventoDTO);
+			// Redireccionamos para volver a invocar el metodo que escucha /eventos
+			ModelAndView mav = new ModelAndView("redirect:/user/usuarios/{idUsuario}/eventos");
 
-		// Redireccionamos para volver a invocar el metodo que escucha /eventos
-		ModelAndView mav = new ModelAndView("redirect:/user/usuarios/{idUsuario}/eventos");
-
-		return mav;
+			return mav;
+		}else {
+			ModelAndView mav = new ModelAndView("errors/503");
+			return mav;
+		}
+		
 
 	}
 
 	@GetMapping("/user/usuarios/{idUsuario}/eventos/delete/{idEvento}")
-	public ModelAndView deleteUser(@PathVariable("idUsuario") Long idUsuario, @PathVariable Long idEvento) {
+	public ModelAndView deleteUser(@PathVariable("idUsuario") Long idUsuario, @PathVariable Long idEvento, @CookieValue(name = "userId", required = false) String userId) {
 		// Eliminamos el evento
 		log.info("EventoController - delete: Elimina el evento " + idEvento);
-		EventoDTO eventoDTO = new EventoDTO();
-		eventoDTO.setId(idEvento);
+		if(idUsuario == Long.valueOf(userId)) {
+			EventoDTO eventoDTO = new EventoDTO();
+			eventoDTO.setId(idEvento);
 
-		// Llamamos al service
-		eventoService.delete(eventoDTO);
+			// Llamamos al service
+			eventoService.delete(eventoDTO);
 
-		// Volvemos a la vista principal
-		ModelAndView mav = new ModelAndView("redirect:/user/usuarios/{idUsuario}/eventos");
+			// Volvemos a la vista principal
+			ModelAndView mav = new ModelAndView("redirect:/user/usuarios/{idUsuario}/eventos");
 
-		return mav;
+			return mav;
+		}else {
+			ModelAndView mav = new ModelAndView("errors/503");
+			return mav;
+		}
+		
 
 	}
 

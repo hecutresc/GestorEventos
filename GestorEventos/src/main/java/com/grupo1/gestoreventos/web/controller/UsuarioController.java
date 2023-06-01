@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.grupo1.gestoreventos.model.dto.RolDTO;
 import com.grupo1.gestoreventos.model.dto.UsuarioDTO;
 import com.grupo1.gestoreventos.service.UsuarioService;
 
@@ -73,15 +74,15 @@ public class UsuarioController {
 		/**
 		 * VALIDACIÓN
 		 */
-		if(bindingResult.hasErrors() == true) {
-			if(usuarioDTO.getId() == null) {
+		if (bindingResult.hasErrors() == true) {
+			if (usuarioDTO.getId() == null) {
 				ModelAndView mv = new ModelAndView();
 				mv.setViewName("app/usuarioform");
 				mv.addObject("usuarioDTO", usuarioDTO);
 				mv.addObject("add", true);
 
 				return mv;
-			}else {
+			} else {
 				ModelAndView mv = new ModelAndView();
 				mv.setViewName("app/usuarioform");
 				mv.addObject("usuarioDTO", usuarioDTO);
@@ -111,7 +112,7 @@ public class UsuarioController {
 
 		return mv;
 	}
-	
+
 	@GetMapping("/admin/usuarios/{idUsuario}")
 	public ModelAndView findById(@PathVariable("idUsuario") Long idUsuario) {
 		log.info("UsuarioController - findById: Muestra el usuario: " + idUsuario);
@@ -126,7 +127,7 @@ public class UsuarioController {
 		return mv;
 	}
 
-	//Métodos Register
+	// Métodos Register
 	@GetMapping("/register")
 	public ModelAndView register() {
 		log.info("UsuarioController - register: Muestra el formulario de registro");
@@ -139,18 +140,20 @@ public class UsuarioController {
 	@PostMapping("/register/save")
 	public ModelAndView save2(@Valid @ModelAttribute("usuarioDTO") UsuarioDTO usuarioDTO, BindingResult bindingResult) {
 		log.info("UsuarioController - save: Salvamos los datos del usuario:" + usuarioDTO.toString());
-		if(bindingResult.hasErrors() == true) {
-			if(usuarioDTO.getId() == null) {
-				ModelAndView mav = new ModelAndView("views/register");
-				mav.addObject("usuarioDTO", usuarioDTO);
-				// retornamos
-				return mav;
-			}else {
-				
-			}
+		if (bindingResult.hasErrors() == true) {
+
+			ModelAndView mav = new ModelAndView("views/register");
+			mav.addObject("usuarioDTO", usuarioDTO);
+			// retornamos
+			return mav;
+
 		}
+		RolDTO rolDTO = new RolDTO();
+		rolDTO.setNombre("ROLE_USER");
+		rolDTO.setUsuarioDTO(usuarioDTO);
+		usuarioDTO.getListaRolesDTO().add(rolDTO);
 		// Invocamos a la capa de servicios para que almacene los datos del usuario
-		usuarioService.save(usuarioDTO);
+		usuarioService.save2(usuarioDTO);
 		// Redireccionamos para volver a invocar a la raiz
 		ModelAndView mav = new ModelAndView("redirect:/login");
 		return mav;

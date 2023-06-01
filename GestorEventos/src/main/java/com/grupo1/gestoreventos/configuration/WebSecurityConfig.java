@@ -23,7 +23,7 @@ public class WebSecurityConfig {
 	@Bean
 	public static SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests()
-				.requestMatchers("/", "/login", "/register", "/js/**", "/media/**", "/vendor/**", "/css/**").permitAll()
+				.requestMatchers("/", "/login", "/register/**", "/js/**", "/media/**", "/vendor/**", "/css/**").permitAll()
 				.requestMatchers("/admin/**").hasRole("ADMIN").requestMatchers("/user/**")
 				.hasRole("USER").anyRequest().authenticated().and().formLogin().loginPage("/login")
 				.defaultSuccessUrl("/userType").failureUrl("/login?error").permitAll().and().logout().logoutUrl("/logout").logoutSuccessUrl("/").invalidateHttpSession(true) // Invalida la sesión actual

@@ -117,4 +117,16 @@ public class UsuarioServiceImpl implements UserDetailsService, UsuarioService {
 			return null;
 		}
 	}
+
+	@Override
+	public void save2(UsuarioDTO usuarioDTO) {
+		// TODO Auto-generated method stub
+		log.info("UsuarioServiceImpl - save: Salvamos el Usuario: " + usuarioDTO.toString());
+
+		Usuario usuario = UsuarioDTO.convertToEntity(usuarioDTO);
+		Direccion direccion = usuario.getDireccion();
+		direccionRepository.save(direccion);
+		//Ponerle los roles al usuario
+		usuarioRepository.save(usuario);
+	}
 }

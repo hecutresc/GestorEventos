@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -233,22 +234,27 @@ public class OcioController {
 
 	@GetMapping("/user/usuarios/{idUsuario}/eventos/{idEvento}/ocio")
 	public ModelAndView findByEventoUser(@PathVariable("idUsuario") Long idUsuario,
-			@PathVariable("idEvento") Long idEvento) {
+			@PathVariable("idEvento") Long idEvento, @CookieValue(name = "userId", required = false) String userId) {
 		log.info("OcioController - findByEvento: Muestra el Ocio del Evento: " + idEvento);
+		if(idUsuario == Long.valueOf(userId)) {
+			UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
+			EventoDTO eventoDTO = new EventoDTO(idEvento);
+			eventoDTO = eventoService.findById(eventoDTO);
 
-		UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
-		EventoDTO eventoDTO = new EventoDTO(idEvento);
-		eventoDTO = eventoService.findById(eventoDTO);
+			OcioDTO ocioDTO = eventoDTO.getListaCateringubicacioneventoDTO().get(0).getOcioDTO();
 
-		OcioDTO ocioDTO = eventoDTO.getListaCateringubicacioneventoDTO().get(0).getOcioDTO();
+			ModelAndView mv = new ModelAndView();
+			mv.setViewName("app/ocioshowuser");
+			mv.addObject("usuarioDTO", usuarioDTO);
+			mv.addObject("eventoDTO", eventoDTO);
+			mv.addObject("ocioDTO", ocioDTO);
 
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("app/ocioshowuser");
-		mv.addObject("usuarioDTO", usuarioDTO);
-		mv.addObject("eventoDTO", eventoDTO);
-		mv.addObject("ocioDTO", ocioDTO);
-
-		return mv;
+			return mv;
+		}else {
+			ModelAndView mav = new ModelAndView("errors/503");
+			return mav;
+		}
+		
 
 	}
 

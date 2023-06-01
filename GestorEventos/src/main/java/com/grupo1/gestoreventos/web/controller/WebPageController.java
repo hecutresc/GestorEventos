@@ -30,10 +30,7 @@ public class WebPageController {
 	@Autowired
 	UsuarioService usuarioService;
 	
-	@GetMapping("/admin")
-	public String admin() {
-		return "app/admin";
-	}
+	
 	
 	
 	//Este tienes que ser sustituido por se
@@ -50,6 +47,10 @@ public class WebPageController {
 		
 	
 	}
+	@GetMapping("/admin")
+	public String admin() {
+		return "app/admin";
+	}
 	
 	@GetMapping("/userType")
 	public ModelAndView userType(@AuthenticationPrincipal User user, HttpServletResponse response) {
@@ -60,6 +61,7 @@ public class WebPageController {
         } else if (authorities.contains(new SimpleGrantedAuthority("ROLE_USER"))) {
         	UsuarioDTO usuarioDTO = new UsuarioDTO();
         	usuarioDTO.setNombreUsuario(user.getUsername());
+        	usuarioDTO = usuarioService.findByUsername(usuarioDTO);
         	ModelAndView mav = new ModelAndView("app/user");
         	mav.addObject("usuarioDTO", usuarioDTO);
         	//Metemos la cookie para que no pueda ver el contenido de otros usuarios
@@ -96,27 +98,7 @@ public class WebPageController {
     }
 
 
-
-
-
-
-
-
-
-
-	/*@GetMapping("/admin")
-    public ModelAndView adminPage() {
-        return new ModelAndView("app/admin");
-    }
-
-    @GetMapping("/user")
-    public ModelAndView userPage() {
-        return new ModelAndView("app/user");
-    }*/
-	/*@GetMapping("/register")
-	public String register() {
-		return "views/register";
-	}*/
+	
 
 
 }

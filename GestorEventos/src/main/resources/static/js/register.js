@@ -17,6 +17,7 @@ function antesEnvio(){
 
     if (email.value == email2.value) {
       if (password.value == password2.value) {
+        console.log('Hola ha entrado');
         document.querySelector("form").submit();
       } else {
         alert('¡Las contraseñas no coinciden!');

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -65,20 +66,25 @@ public class InvitadoController {
 	}
 
 	@GetMapping("/user/usuarios/{idUsuario}/eventos/{idEvento}/invitados/add")
-	public ModelAndView addUser(@PathVariable("idUsuario") Long idUsuario, @PathVariable("idEvento") Long idEvento) {
+	public ModelAndView addUser(@PathVariable("idUsuario") Long idUsuario, @PathVariable("idEvento") Long idEvento, @CookieValue(name = "userId", required = false) String userId) {
 		log.info("InvitadoController - add: Muestra el formulario para nuevo invitado");
+		if(idUsuario == Long.valueOf(userId)) {
+			UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
+			EventoDTO eventoDTO = new EventoDTO(idEvento);
 
-		UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
-		EventoDTO eventoDTO = new EventoDTO(idEvento);
+			ModelAndView mv = new ModelAndView();
+			mv.setViewName("app/invitadoformuser");
+			mv.addObject("usuarioDTO", usuarioDTO);
+			mv.addObject("eventoDTO", eventoDTO);
+			mv.addObject("invitadoDTO", new InvitadoDTO());
+			mv.addObject("add", true);
 
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("app/invitadoformuser");
-		mv.addObject("usuarioDTO", usuarioDTO);
-		mv.addObject("eventoDTO", eventoDTO);
-		mv.addObject("invitadoDTO", new InvitadoDTO());
-		mv.addObject("add", true);
-
-		return mv;
+			return mv;
+		}else {
+			ModelAndView mav = new ModelAndView("errors/503");
+			return mav;
+		}
+		
 	}
 	
 	@GetMapping("/admin/usuarios/{idUsuario}/eventos/{idEvento}/invitados/add")
@@ -121,23 +127,29 @@ public class InvitadoController {
 	
 	@GetMapping("/user/usuarios/{idUsuario}/eventos/{idEvento}/invitados/{idInvitado}/update")
 	public ModelAndView updateUser(@PathVariable("idUsuario") Long idUsuario, @PathVariable("idEvento") Long idEvento,
-			@PathVariable("idInvitado") Long idInvitado) {
+			@PathVariable("idInvitado") Long idInvitado, @CookieValue(name = "userId", required = false) String userId) {
 		log.info("InvitadoController - update: Muesta form actualizar para el invitado: " + idInvitado);
 
-		UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
-		EventoDTO eventoDTO = new EventoDTO(idEvento);
+		if(idUsuario == Long.valueOf(userId)) {
+			UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
+			EventoDTO eventoDTO = new EventoDTO(idEvento);
 
-		InvitadoDTO invitadoDTO = new InvitadoDTO(idInvitado);
-		invitadoDTO = invitadoService.findById(invitadoDTO);
+			InvitadoDTO invitadoDTO = new InvitadoDTO(idInvitado);
+			invitadoDTO = invitadoService.findById(invitadoDTO);
 
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("app/invitadoformuser");
-		mv.addObject("usuarioDTO", usuarioDTO);
-		mv.addObject("eventoDTO", eventoDTO);
-		mv.addObject("invitadoDTO", invitadoDTO);
-		mv.addObject("add", false);
+			ModelAndView mv = new ModelAndView();
+			mv.setViewName("app/invitadoformuser");
+			mv.addObject("usuarioDTO", usuarioDTO);
+			mv.addObject("eventoDTO", eventoDTO);
+			mv.addObject("invitadoDTO", invitadoDTO);
+			mv.addObject("add", false);
 
-		return mv;
+			return mv;
+		}else {
+			ModelAndView mav = new ModelAndView("errors/503");
+			return mav;
+		}
+		
 	}
 
 	@PostMapping("/admin/usuarios/{idUsuario}/eventos/{idEvento}/invitados/save")
@@ -187,61 +199,73 @@ public class InvitadoController {
 	
 	@PostMapping("/user/usuarios/{idUsuario}/eventos/{idEvento}/invitados/save")
 	public ModelAndView saveUser(@Valid @ModelAttribute("invitadoDTO") InvitadoDTO invitadoDTO,BindingResult bindingResult,
-			@PathVariable("idUsuario") Long idUsuario, @PathVariable("idEvento") Long idEvento) {
+			@PathVariable("idUsuario") Long idUsuario, @PathVariable("idEvento") Long idEvento, @CookieValue(name = "userId", required = false) String userId) {
 		log.info("InvitadoController - save: Guarda el invitado en el evento:" + idEvento);
 
-		/**
-		 * VALIDACIÓN
-		 */
+		if(idUsuario == Long.valueOf(userId)) {
+			/**
+			 * VALIDACIÓN
+			 */
 
-		EventoDTO eventoDTO = new EventoDTO(idEvento);
-		invitadoDTO.setEventoDTO(eventoDTO);
-		UsuarioDTO usuarioDTO = new UsuarioDTO();
-		usuarioDTO.setId(idUsuario);
-		
-		if(bindingResult.hasErrors() == true) {
-			if(invitadoDTO.getId() == null) {
-				ModelAndView mv = new ModelAndView();
-				mv.setViewName("app/invitadoformuser");
-				mv.addObject("usuarioDTO", usuarioDTO);
-				mv.addObject("eventoDTO", eventoDTO);
-				mv.addObject("invitadoDTO", invitadoDTO);
-				mv.addObject("add", true);
+			EventoDTO eventoDTO = new EventoDTO(idEvento);
+			invitadoDTO.setEventoDTO(eventoDTO);
+			UsuarioDTO usuarioDTO = new UsuarioDTO();
+			usuarioDTO.setId(idUsuario);
+			
+			if(bindingResult.hasErrors() == true) {
+				if(invitadoDTO.getId() == null) {
+					ModelAndView mv = new ModelAndView();
+					mv.setViewName("app/invitadoformuser");
+					mv.addObject("usuarioDTO", usuarioDTO);
+					mv.addObject("eventoDTO", eventoDTO);
+					mv.addObject("invitadoDTO", invitadoDTO);
+					mv.addObject("add", true);
 
-				return mv;
-			}else {
-				ModelAndView mv = new ModelAndView();
-				mv.setViewName("app/invitadoformuser");
-				mv.addObject("usuarioDTO", usuarioDTO);
-				mv.addObject("eventoDTO", eventoDTO);
-				mv.addObject("invitadoDTO", invitadoDTO);
-				mv.addObject("add", false);
+					return mv;
+				}else {
+					ModelAndView mv = new ModelAndView();
+					mv.setViewName("app/invitadoformuser");
+					mv.addObject("usuarioDTO", usuarioDTO);
+					mv.addObject("eventoDTO", eventoDTO);
+					mv.addObject("invitadoDTO", invitadoDTO);
+					mv.addObject("add", false);
 
-				return mv;
+					return mv;
+				}
 			}
+
+			invitadoService.save(invitadoDTO);
+
+			ModelAndView mv = new ModelAndView();
+			mv.setViewName("redirect:/user/usuarios/{idUsuario}/eventos/{idEvento}/invitados");
+
+			return mv;
+		}else {
+			ModelAndView mav = new ModelAndView("errors/503");
+			return mav;
 		}
-
-		invitadoService.save(invitadoDTO);
-
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("redirect:/user/usuarios/{idUsuario}/eventos/{idEvento}/invitados");
-
-		return mv;
+		
 	}
 
 	@GetMapping("/user/usuarios/{idUsuario}/eventos/{idEvento}/invitados/{idInvitado}/delete")
 	public ModelAndView deleteUser(@PathVariable("idUsuario") Long idUsuario, @PathVariable("idEvento") Long idEvento,
-			@PathVariable("idInvitado") Long idInvitado) {
+			@PathVariable("idInvitado") Long idInvitado, @CookieValue(name = "userId", required = false) String userId) {
 		log.info("InvitadoController - delete: Borra el invitado con ID: " + idInvitado);
 
-		InvitadoDTO invitadoDTO = new InvitadoDTO(idInvitado);
+		if(idUsuario == Long.valueOf(userId)) {
+			InvitadoDTO invitadoDTO = new InvitadoDTO(idInvitado);
 
-		invitadoService.deleteById(invitadoDTO);
+			invitadoService.deleteById(invitadoDTO);
 
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("redirect:/user/usuarios/{idUsuario}/eventos/{idEvento}/invitados");
+			ModelAndView mv = new ModelAndView();
+			mv.setViewName("redirect:/user/usuarios/{idUsuario}/eventos/{idEvento}/invitados");
 
-		return mv;
+			return mv;
+		}else {
+			ModelAndView mav = new ModelAndView("errors/503");
+			return mav;
+		}
+		
 	}
 	
 	@GetMapping("/admin/usuarios/{idUsuario}/eventos/{idEvento}/invitados/{idInvitado}/delete")
