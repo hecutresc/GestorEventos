@@ -261,7 +261,7 @@
 		var decoradoList = /*[[${listaDecoradosDTO}]]*/[];
 		var ocioList = /*[[${listaOciosDTO}]]*/[];
 		//Objetos a recoger
-		var eventoDTO =/*[[${eventoDTO}]]*/{};
+		var evento = /*[[${eventoDTO}]]*/ '';
 
 		//Función para insertar la lista de ubicaciones
 		insertarUbicaciones(ubicacionList);
@@ -285,14 +285,16 @@
 
 		});
 
+		//Poner los valores del evento
+		console.log('antes de entrar en edicion');
+		edicion(evento, ubicacionList, cateringList, decoradoList, ocioList);
 		//Comprobamos antes de mandarlo
 		var btnEnviar = document.getElementById('btnEnviar');
 		btnEnviar.addEventListener('click', function(e){
 			e.preventDefault();
 			validaciones();
 		});
-		//Poner los valores del evento
-		edicion(eventoDTO, ubicacionList, cateringList, decoradoList, ocioList);
+		
 
 
 	</script>

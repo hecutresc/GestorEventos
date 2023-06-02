@@ -231,7 +231,7 @@
 				</div>
 
 				<div class="mt-4">
-					<input type="submit" th:value="${add} ? 'Añadir' : 'Actualizar'"
+					<input type="submit" id="btnEnviar" th:value="${add} ? 'Añadir' : 'Actualizar'"
 						class="btn btn-outline-success w-100" />
 				</div>
 
@@ -263,7 +263,7 @@
 		var decoradoList = /*[[${listaDecoradosDTO}]]*/[];
 		var ocioList = /*[[${listaOciosDTO}]]*/[];
 		//Objetos a recoger
-		var eventoDTO =/*[[${eventoDTO}]]*/{};
+		var eventoDTO = /*[[${eventoDTO}]]*/{};
 
 		//Función para insertar la lista de ubicaciones
 		insertarUbicaciones(ubicacionList);
@@ -287,14 +287,15 @@
 
 		});
 
+		//Poner los valores del evento
+		edicion(eventoDTO, ubicacionList, cateringList, decoradoList, ocioList);
 		//Comprobamos antes de mandarlo
 		var btnEnviar = document.getElementById('btnEnviar');
 		btnEnviar.addEventListener('click', function(e){
 			e.preventDefault();
 			validaciones();
 		});
-		//Poner los valores del evento
-		edicion(eventoDTO, ubicacionList, cateringList, decoradoList, ocioList);
+		
 
 
 	</script>

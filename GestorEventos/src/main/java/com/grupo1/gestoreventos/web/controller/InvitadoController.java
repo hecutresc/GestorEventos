@@ -16,6 +16,7 @@ import com.grupo1.gestoreventos.model.dto.EventoDTO;
 import com.grupo1.gestoreventos.model.dto.InvitadoDTO;
 import com.grupo1.gestoreventos.model.dto.UsuarioDTO;
 import com.grupo1.gestoreventos.service.InvitadoService;
+import com.grupo1.gestoreventos.service.UsuarioService;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,9 @@ public class InvitadoController {
 	@Autowired
 	private InvitadoService invitadoService;
 
+	@Autowired
+	private UsuarioService usuarioService;
+	
 	@GetMapping("/admin/usuarios/{idUsuario}/eventos/{idEvento}/invitados")
 	public ModelAndView findAllByEvento(@PathVariable("idUsuario") Long idUsuario,
 			@PathVariable("idEvento") Long idEvento) {
@@ -48,28 +52,37 @@ public class InvitadoController {
 
 	@GetMapping("/user/usuarios/{idUsuario}/eventos/{idEvento}/invitados")
 	public ModelAndView findAllByEventoUser(@PathVariable("idUsuario") Long idUsuario,
-			@PathVariable("idEvento") Long idEvento) {
+			@PathVariable("idEvento") Long idEvento, @CookieValue(value = "JSESSIONID", defaultValue = "") String sessionId) {
 		log.info("InvitadoController - findAllByEvento: Muestra la lista de invitados del Evento: " + idEvento);
 
 		UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
-		EventoDTO eventoDTO = new EventoDTO(idEvento);
+		usuarioDTO = usuarioService.findById(usuarioDTO);
+		if(usuarioDTO.getCookie().equals(String.valueOf(sessionId))) {
+			EventoDTO eventoDTO = new EventoDTO(idEvento);
 
-		List<InvitadoDTO> listaInvitadosDTO = invitadoService.findAllByEvento(eventoDTO);
+			List<InvitadoDTO> listaInvitadosDTO = invitadoService.findAllByEvento(eventoDTO);
 
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("app/invitadosuser");
-		mv.addObject("usuarioDTO", usuarioDTO);
-		mv.addObject("eventoDTO", eventoDTO);
-		mv.addObject("listaInvitadosDTO", listaInvitadosDTO);
+			ModelAndView mv = new ModelAndView();
+			mv.setViewName("app/invitadosuser");
+			mv.addObject("usuarioDTO", usuarioDTO);
+			mv.addObject("eventoDTO", eventoDTO);
+			mv.addObject("listaInvitadosDTO", listaInvitadosDTO);
 
-		return mv;
+			return mv;
+		}else {
+			ModelAndView mav = new ModelAndView("errors/403");
+			return mav;
+		}
+		
 	}
 
 	@GetMapping("/user/usuarios/{idUsuario}/eventos/{idEvento}/invitados/add")
-	public ModelAndView addUser(@PathVariable("idUsuario") Long idUsuario, @PathVariable("idEvento") Long idEvento, @CookieValue(name = "userId", required = false) String userId) {
+	public ModelAndView addUser(@PathVariable("idUsuario") Long idUsuario, @PathVariable("idEvento") Long idEvento, @CookieValue(value = "JSESSIONID", defaultValue = "") String sessionId) {
 		log.info("InvitadoController - add: Muestra el formulario para nuevo invitado");
-		if(idUsuario == Long.valueOf(userId)) {
+		
 			UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
+			usuarioDTO = usuarioService.findById(usuarioDTO);
+		if(usuarioDTO.getCookie().equals(String.valueOf(sessionId))) {
 			EventoDTO eventoDTO = new EventoDTO(idEvento);
 
 			ModelAndView mv = new ModelAndView();
@@ -127,11 +140,11 @@ public class InvitadoController {
 	
 	@GetMapping("/user/usuarios/{idUsuario}/eventos/{idEvento}/invitados/{idInvitado}/update")
 	public ModelAndView updateUser(@PathVariable("idUsuario") Long idUsuario, @PathVariable("idEvento") Long idEvento,
-			@PathVariable("idInvitado") Long idInvitado, @CookieValue(name = "userId", required = false) String userId) {
+			@PathVariable("idInvitado") Long idInvitado, @CookieValue(value = "JSESSIONID", defaultValue = "") String sessionId) {
 		log.info("InvitadoController - update: Muesta form actualizar para el invitado: " + idInvitado);
-
-		if(idUsuario == Long.valueOf(userId)) {
 			UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
+			usuarioDTO = usuarioService.findById(usuarioDTO);
+		if(usuarioDTO.getCookie().equals(String.valueOf(sessionId))) {
 			EventoDTO eventoDTO = new EventoDTO(idEvento);
 
 			InvitadoDTO invitadoDTO = new InvitadoDTO(idInvitado);
@@ -199,18 +212,18 @@ public class InvitadoController {
 	
 	@PostMapping("/user/usuarios/{idUsuario}/eventos/{idEvento}/invitados/save")
 	public ModelAndView saveUser(@Valid @ModelAttribute("invitadoDTO") InvitadoDTO invitadoDTO,BindingResult bindingResult,
-			@PathVariable("idUsuario") Long idUsuario, @PathVariable("idEvento") Long idEvento, @CookieValue(name = "userId", required = false) String userId) {
+			@PathVariable("idUsuario") Long idUsuario, @PathVariable("idEvento") Long idEvento, @CookieValue(value = "JSESSIONID", defaultValue = "") String sessionId) {
 		log.info("InvitadoController - save: Guarda el invitado en el evento:" + idEvento);
-
-		if(idUsuario == Long.valueOf(userId)) {
 			/**
 			 * VALIDACIÓN
 			 */
 
 			EventoDTO eventoDTO = new EventoDTO(idEvento);
 			invitadoDTO.setEventoDTO(eventoDTO);
-			UsuarioDTO usuarioDTO = new UsuarioDTO();
-			usuarioDTO.setId(idUsuario);
+			UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
+			usuarioDTO = usuarioService.findById(usuarioDTO);
+			
+		if(usuarioDTO.getCookie().equals(String.valueOf(sessionId))) {
 			
 			if(bindingResult.hasErrors() == true) {
 				if(invitadoDTO.getId() == null) {
@@ -249,10 +262,12 @@ public class InvitadoController {
 
 	@GetMapping("/user/usuarios/{idUsuario}/eventos/{idEvento}/invitados/{idInvitado}/delete")
 	public ModelAndView deleteUser(@PathVariable("idUsuario") Long idUsuario, @PathVariable("idEvento") Long idEvento,
-			@PathVariable("idInvitado") Long idInvitado, @CookieValue(name = "userId", required = false) String userId) {
+			@PathVariable("idInvitado") Long idInvitado, @CookieValue(value = "JSESSIONID", defaultValue = "") String sessionId) {
 		log.info("InvitadoController - delete: Borra el invitado con ID: " + idInvitado);
 
-		if(idUsuario == Long.valueOf(userId)) {
+		UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
+		usuarioDTO = usuarioService.findById(usuarioDTO);
+		if(usuarioDTO.getCookie().equals(String.valueOf(sessionId))) {
 			InvitadoDTO invitadoDTO = new InvitadoDTO(idInvitado);
 
 			invitadoService.deleteById(invitadoDTO);

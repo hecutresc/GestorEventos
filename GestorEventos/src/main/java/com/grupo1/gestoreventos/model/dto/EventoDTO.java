@@ -91,6 +91,21 @@ public class EventoDTO implements Serializable {
 
 		return eventoDTO;
 	}
+	
+	public static EventoDTO switchEvento(EventoDTO eventoDTO) {
+		EventoDTO eventoDTO2 = new EventoDTO();
+		eventoDTO2.setId(eventoDTO.getId());
+		eventoDTO2.setFechaInicio(eventoDTO.getFechaInicio());
+		eventoDTO2.setFechaFin(eventoDTO.getFechaFin());
+		eventoDTO2.setHora_inicio(eventoDTO.getHora_inicio());
+		eventoDTO2.setNum_horas(eventoDTO.getNum_horas());
+		eventoDTO2.setNombre(eventoDTO.getNombre());
+		eventoDTO2.setTipo(eventoDTO.getTipo());
+		eventoDTO2.setCreacion(eventoDTO.getCreacion());
+		eventoDTO2.setPrecio(eventoDTO.getPrecio());
+		eventoDTO2.setN_asistentes(eventoDTO.getN_asistentes());
+		return eventoDTO2;
+	}
 
 	public static Evento convertToEntity(EventoDTO eventoDTO) {
 		Evento evento = new Evento();

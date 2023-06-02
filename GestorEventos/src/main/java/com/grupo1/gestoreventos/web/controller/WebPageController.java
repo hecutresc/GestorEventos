@@ -53,7 +53,7 @@ public class WebPageController {
 	}
 	
 	@GetMapping("/userType")
-	public ModelAndView userType(@AuthenticationPrincipal User user, HttpServletResponse response) {
+	public ModelAndView userType(@AuthenticationPrincipal User user, HttpServletResponse response, HttpServletRequest request) {
 		Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
         if (authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
         	ModelAndView mav = new ModelAndView("app/admin");
@@ -62,13 +62,15 @@ public class WebPageController {
         	UsuarioDTO usuarioDTO = new UsuarioDTO();
         	usuarioDTO.setNombreUsuario(user.getUsername());
         	usuarioDTO = usuarioService.findByUsername(usuarioDTO);
+        	HttpSession session = request.getSession();
+            
+            // Obtener el Java Session ID
+            String sessionId = session.getId();
+            usuarioDTO.setCookie(sessionId);
+            usuarioService.saveCookie(usuarioDTO);
+            
         	ModelAndView mav = new ModelAndView("app/user");
         	mav.addObject("usuarioDTO", usuarioDTO);
-        	//Metemos la cookie para que no pueda ver el contenido de otros usuarios
-        	// Crear y agregar la cookie con el ID del usuario
-            Cookie cookie = new Cookie("userId", String.valueOf(usuarioDTO.getId()));
-            cookie.setHttpOnly(true);
-            response.addCookie(cookie);
             return mav;
         }
         return null;
@@ -86,12 +88,6 @@ public class WebPageController {
 
         // Limpiar la autenticación actual
         SecurityContextHolder.clearContext();
-
-     // Eliminar la cookie
-        Cookie cookie = new Cookie("userId", null);
-        cookie.setMaxAge(0);
-        cookie.setPath("/");
-        response.addCookie(cookie);
         
         // Redirigir al inicio o a otra página de tu elección después del cierre de sesión
         return "redirect:/";

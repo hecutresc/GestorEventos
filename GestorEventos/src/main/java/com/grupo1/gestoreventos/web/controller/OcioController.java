@@ -29,6 +29,7 @@ import com.grupo1.gestoreventos.model.dto.UsuarioDTO;
 import com.grupo1.gestoreventos.service.EmpresaService;
 import com.grupo1.gestoreventos.service.EventoService;
 import com.grupo1.gestoreventos.service.OcioService;
+import com.grupo1.gestoreventos.service.UsuarioService;
 
 import jakarta.validation.Valid;
 
@@ -48,6 +49,9 @@ public class OcioController {
 	
 	@Autowired
 	private EmpresaService empresaService;
+	
+	@Autowired
+	private UsuarioService usuarioService;
 
 	// Métodos del controlador
 
@@ -234,10 +238,11 @@ public class OcioController {
 
 	@GetMapping("/user/usuarios/{idUsuario}/eventos/{idEvento}/ocio")
 	public ModelAndView findByEventoUser(@PathVariable("idUsuario") Long idUsuario,
-			@PathVariable("idEvento") Long idEvento, @CookieValue(name = "userId", required = false) String userId) {
+			@PathVariable("idEvento") Long idEvento,  @CookieValue(value = "JSESSIONID", defaultValue = "") String sessionId) {
 		log.info("OcioController - findByEvento: Muestra el Ocio del Evento: " + idEvento);
-		if(idUsuario == Long.valueOf(userId)) {
 			UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
+			usuarioDTO = usuarioService.findById(usuarioDTO);
+		if(usuarioDTO.getCookie().equals(String.valueOf(sessionId))) {
 			EventoDTO eventoDTO = new EventoDTO(idEvento);
 			eventoDTO = eventoService.findById(eventoDTO);
 
@@ -251,7 +256,7 @@ public class OcioController {
 
 			return mv;
 		}else {
-			ModelAndView mav = new ModelAndView("errors/503");
+			ModelAndView mav = new ModelAndView("errors/403");
 			return mav;
 		}
 		

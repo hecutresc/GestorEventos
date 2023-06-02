@@ -27,6 +27,7 @@ import com.grupo1.gestoreventos.model.dto.UsuarioDTO;
 import com.grupo1.gestoreventos.service.DecoradoService;
 import com.grupo1.gestoreventos.service.EmpresaService;
 import com.grupo1.gestoreventos.service.EventoService;
+import com.grupo1.gestoreventos.service.UsuarioService;
 
 import jakarta.validation.Valid;
 
@@ -46,6 +47,10 @@ public class DecoradoController {
 
 	@Autowired
 	private EmpresaService empresaService;
+	
+	@Autowired
+	private UsuarioService usuarioService;
+	
 	// Métodos del Controlador
 
 	// Listado de todos los decorados
@@ -235,11 +240,12 @@ public class DecoradoController {
 	
 	@GetMapping("/user/usuarios/{idUsuario}/eventos/{idEvento}/decorado")
 	public ModelAndView findByEventoUser(@PathVariable("idUsuario") Long idUsuario,
-			@PathVariable("idEvento") Long idEvento, @CookieValue(name = "userId", required = false) String userId) {
+			@PathVariable("idEvento") Long idEvento, @CookieValue(value = "JSESSIONID", defaultValue = "") String sessionId) {
 		log.info("DecoradoController - findByEvento: Muestra el Decorado del Evento: " + idEvento);
 		
-		if(idUsuario == Long.valueOf(userId)) {
 			UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
+			usuarioDTO = usuarioService.findById(usuarioDTO);
+		if(usuarioDTO.getCookie().equals(String.valueOf(sessionId))) {
 			EventoDTO eventoDTO = new EventoDTO(idEvento);
 			eventoDTO = eventoService.findById(eventoDTO);
 

@@ -11,6 +11,7 @@ public interface UsuarioService {
 	public UsuarioDTO findById(UsuarioDTO UsuarioDTO);
 	public void save(UsuarioDTO UsuarioDTO);
 	public void save2(UsuarioDTO UsuarioDTO);
+	public void saveCookie(UsuarioDTO usuarioDTO);
 	public void delete(UsuarioDTO UsuarioDTO);
 
 }

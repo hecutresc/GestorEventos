@@ -42,6 +42,8 @@ public class UsuarioDTO implements Serializable {
 	@NotBlank(message = "¡El campo Clave de Acceso es obligatorio!")
 	@Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)[A-Za-z\\d]+$", message = "¡La contraseña tiene que tener al mínimo 8 carácteres, una mayúscula, una minúscula y un número!")
 	private String claveAcceso;
+	
+	private String cookie;
 
 	@ToString.Exclude
 	@Valid
@@ -63,6 +65,7 @@ public class UsuarioDTO implements Serializable {
 		usuarioDTO.setTelefono(usuario.getTelefono());
 		usuarioDTO.setEmail(usuario.getEmail());
 		usuarioDTO.setNombreUsuario(usuario.getNombreUsuario());
+		usuarioDTO.setCookie(usuario.getCookie());
 		usuarioDTO.setClaveAcceso(usuario.getClaveAcceso());
 		usuarioDTO.setDireccionDTO(DireccionDTO.convertToDTO(usuario.getDireccion()));
 		
@@ -83,7 +86,29 @@ public class UsuarioDTO implements Serializable {
 		usuario.setTelefono(usuarioDTO.getTelefono());
 		usuario.setEmail(usuarioDTO.getEmail());
 		usuario.setNombreUsuario(usuarioDTO.getNombreUsuario());
+		usuario.setCookie(usuarioDTO.getCookie());
 		usuario.setClaveAcceso(new BCryptPasswordEncoder().encode(usuarioDTO.getClaveAcceso()));
+		usuario.setDireccion(DireccionDTO.convertToEntity(usuarioDTO.getDireccionDTO()));
+
+		for (int i = 0; i < usuarioDTO.getListaRolesDTO().size(); i++) {
+			Rol rol = RolDTO.converToEntity(usuarioDTO.getListaRolesDTO().get(i), usuario);
+			usuario.getListaRoles().add(rol);
+		}
+
+		return usuario;
+	}
+	
+	public static Usuario convertToEntity2(UsuarioDTO usuarioDTO) {
+		Usuario usuario = new Usuario();
+		usuario.setId(usuarioDTO.getId());
+		usuario.setNombre(usuarioDTO.getNombre());
+		usuario.setApellidos(usuarioDTO.getApellidos());
+		usuario.setNif(usuarioDTO.getNif());
+		usuario.setTelefono(usuarioDTO.getTelefono());
+		usuario.setEmail(usuarioDTO.getEmail());
+		usuario.setNombreUsuario(usuarioDTO.getNombreUsuario());
+		usuario.setCookie(usuarioDTO.getCookie());
+		usuario.setClaveAcceso(usuarioDTO.getClaveAcceso());
 		usuario.setDireccion(DireccionDTO.convertToEntity(usuarioDTO.getDireccionDTO()));
 
 		for (int i = 0; i < usuarioDTO.getListaRolesDTO().size(); i++) {
@@ -96,6 +121,7 @@ public class UsuarioDTO implements Serializable {
 
 	public UsuarioDTO() {
 		super();
+		this.cookie = "";
 		this.direccionDTO = new DireccionDTO();
 		this.listaEventosDTO = new ArrayList<EventoDTO>();
 		this.listaRolesDTO = new ArrayList<RolDTO>();
@@ -104,6 +130,7 @@ public class UsuarioDTO implements Serializable {
 	public UsuarioDTO(Long idUsuarioDTO) {
 		super();
 		this.id = idUsuarioDTO;
+		this.cookie = "";
 		this.direccionDTO = new DireccionDTO();
 		this.listaEventosDTO = new ArrayList<EventoDTO>();
 		this.listaRolesDTO = new ArrayList<RolDTO>();

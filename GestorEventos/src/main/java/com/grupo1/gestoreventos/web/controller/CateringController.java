@@ -26,6 +26,7 @@ import com.grupo1.gestoreventos.model.dto.EventoDTO;
 import com.grupo1.gestoreventos.model.dto.UsuarioDTO;
 import com.grupo1.gestoreventos.service.CateringService;
 import com.grupo1.gestoreventos.service.EventoService;
+import com.grupo1.gestoreventos.service.UsuarioService;
 
 import jakarta.validation.Valid;
 
@@ -41,6 +42,9 @@ public class CateringController {
 
 	@Autowired
 	private EventoService eventoService;
+	
+	@Autowired
+	private UsuarioService usuarioService;
 
 	@GetMapping("/admin/empresas/{idEmpresa}/caterings")
 	public ModelAndView findByEmpresa(@PathVariable("idEmpresa") Long idEmpresa) {
@@ -228,10 +232,12 @@ public class CateringController {
 
 	@GetMapping("/user/usuarios/{idUsuario}/eventos/{idEvento}/catering")
 	public ModelAndView findByEventoUser(@PathVariable("idUsuario") Long idUsuario,
-			@PathVariable("idEvento") Long idEvento, @CookieValue(name = "userId", required = false) String userId) {
+			@PathVariable("idEvento") Long idEvento, @CookieValue(value = "JSESSIONID", defaultValue = "") String sessionId) {
 		log.info("CateringController - findByEvento: Muestra el Catering del Evento: " + idEvento);
-		if(idUsuario == Long.valueOf(userId)) {
+		
 			UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
+			usuarioDTO = usuarioService.findById(usuarioDTO);
+		if(usuarioDTO.getCookie().equals(String.valueOf(sessionId))) {
 			EventoDTO eventoDTO = new EventoDTO(idEvento);
 			eventoDTO = eventoService.findById(eventoDTO);
 

@@ -91,10 +91,10 @@ public class UsuarioServiceImpl implements UserDetailsService, UsuarioService {
 		Usuario usuario = usuarioRepository.findByNombreUsuario(username);
 
 		if (usuario != null) {
-			
+
 			List<GrantedAuthority> listaPermisos = new ArrayList<GrantedAuthority>();
 			List<Rol> listaRoles = new ArrayList<>(usuario.getListaRoles());
-			
+
 			for (Rol rol : listaRoles) {
 				listaPermisos.add(new SimpleGrantedAuthority(rol.getNombre()));
 			}
@@ -126,7 +126,16 @@ public class UsuarioServiceImpl implements UserDetailsService, UsuarioService {
 		Usuario usuario = UsuarioDTO.convertToEntity(usuarioDTO);
 		Direccion direccion = usuario.getDireccion();
 		direccionRepository.save(direccion);
-		//Ponerle los roles al usuario
+		// Ponerle los roles al usuario
 		usuarioRepository.save(usuario);
+	}
+
+	@Override
+	public void saveCookie(UsuarioDTO usuarioDTO) {
+		// TODO Auto-generated method stub
+		log.info("UsuarioServiceImpl - save: Salvamos el Usuario: " + usuarioDTO.toString());
+
+		Usuario usuario = UsuarioDTO.convertToEntity2(usuarioDTO);
+		usuarioRepository.updateCookieById(usuario.getId(),usuario.getCookie());
 	}
 }

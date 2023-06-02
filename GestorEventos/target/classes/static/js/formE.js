@@ -600,7 +600,7 @@ function ponerDineroCatering(s_object, precioN) {
             var precio = document.getElementById('precioEvento');
             var precioquitar = p_anterior * nAsistentes;
             var precioNuevo = precioN * nAsistentes;
-            var p1 = (parseFloat(precio.value) - precioquitar) + precioNuevo;
+            var p1 = (parseFloat(precio.value) - precioquitar);
             //Calculamos los días , recogemo los valores de los inputs
             var fechaInicio = new Date(document.getElementById("fechaInicio").value);
             var fechaFin = new Date(document.getElementById("fechaFin").value);
@@ -610,7 +610,8 @@ function ponerDineroCatering(s_object, precioN) {
                     //Calculamos los días
                     var dias = calcularDiferenciaEnDias(fechaInicio, fechaFin);
                     var p2 = p1 * dias;
-                    precio.value = Number(p2.toFixed(2));
+                    var p3 = p1 + p2;
+                    precio.value = Number(p3.toFixed(2));
                     sessionStorage.setItem(s_object, precioN);
                     sessionStorage.setItem("dias", dias);
                 } else {
@@ -632,9 +633,11 @@ function ponerDineroCatering(s_object, precioN) {
                 if (fechaFin > fechaInicio) {
                     //Calculamos los días
                     var dias = calcularDiferenciaEnDias(fechaInicio, fechaFin);
-                    var p2 = precioNuevo * dias;
+                    var p2 = precioNuevo * parseInt(dias);
+                    console.log(p1);
+                    console.log(p2);
                     var p3 = p1 + p2;
-                    precio.value = Number(p2.toFixed(2));
+                    precio.value = Number(p3.toFixed(2));
                     sessionStorage.setItem(s_object, precioN);
                     sessionStorage.setItem("dias", dias);
                 } else {
@@ -911,6 +914,7 @@ function poner_Provincia(provincia) {
 
 function edicion(eventoDTO, ubicacionList, cateringList, decoradoList, ocioList) {
     //Se nos pasan objetos y según el tipo de evento que sea tendremos que mostrar o no divs
+    console.log('Entra');
     var divFechas = document.getElementById('divFechas');
     divFechas.style.display = "block";
     var fI = document.getElementById('fechaInicio');
@@ -947,6 +951,7 @@ function edicion(eventoDTO, ubicacionList, cateringList, decoradoList, ocioList)
     }
     horario(eventoDTO.tipo, ubicacionList, ocioList);
 
+    console.log('antes de poner la ubicacion');
     //Poner las listas de los añadidos según la provincia
     var ubicacionDTO = buscarObjetoPorId(eventoDTO.ubicacionDTO.id, ubicacionList);
     var selectUbicacion = document.getElementById("selectUbicacion");

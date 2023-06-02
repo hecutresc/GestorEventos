@@ -29,6 +29,7 @@ import com.grupo1.gestoreventos.model.dto.UbicacionDTO;
 import com.grupo1.gestoreventos.model.dto.UsuarioDTO;
 import com.grupo1.gestoreventos.service.EventoService;
 import com.grupo1.gestoreventos.service.UbicacionService;
+import com.grupo1.gestoreventos.service.UsuarioService;
 
 import jakarta.validation.Valid;
 
@@ -41,6 +42,9 @@ public class UbicacionController {
 	// Objetos Autowired
 	@Autowired
 	private UbicacionService ubicacionService;
+	
+	@Autowired
+	private UsuarioService usuarioService;
 	
 	@Autowired
 	private EventoService eventoService;
@@ -167,10 +171,11 @@ public class UbicacionController {
 
 	@GetMapping("/user/usuarios/{idUsuario}/eventos/{idEvento}/ubicacion")
 	public ModelAndView findByEventoUser(@PathVariable("idUsuario") Long idUsuario,
-			@PathVariable("idEvento") Long idEvento, @CookieValue(name = "userId", required = false) String userId) {
+			@PathVariable("idEvento") Long idEvento, @CookieValue(value = "JSESSIONID", defaultValue = "") String sessionId) {
 		log.info("UbicacionController - findByEvento: Muestra la Ubicacion del Evento: " + idEvento);
-		if(idUsuario == Long.valueOf(userId)) {
 			UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
+			usuarioDTO = usuarioService.findById(usuarioDTO);
+		if(usuarioDTO.getCookie().equals(String.valueOf(sessionId))) {
 			EventoDTO eventoDTO = new EventoDTO(idEvento);
 			eventoDTO = eventoService.findById(eventoDTO);
 
@@ -184,7 +189,7 @@ public class UbicacionController {
 
 			return mv;
 		}else {
-			ModelAndView mav = new ModelAndView("errors/503");
+			ModelAndView mav = new ModelAndView("errors/403");
 			return mav;
 		}
 		

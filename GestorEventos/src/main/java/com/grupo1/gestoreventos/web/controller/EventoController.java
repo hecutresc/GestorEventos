@@ -67,10 +67,13 @@ public class EventoController {
 	}
 
 	@GetMapping("/user/usuarios/{idUsuario}/eventos")
-	public ModelAndView findAllByUsuarioUser(@PathVariable("idUsuario") Long idUsuario, @CookieValue(name = "userId", required = false) String userId) {
+	public ModelAndView findAllByUsuarioUser(@PathVariable("idUsuario") Long idUsuario,
+			@CookieValue(value = "JSESSIONID", defaultValue = "") String sessionId) {
 		log.info("EventoController - findAllByUsuario: Muestra los eventos del usuario: " + idUsuario);
-		if(idUsuario == Long.valueOf(userId)) {
-			UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
+		UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
+		usuarioDTO = usuarioService.findById(usuarioDTO);
+
+		if (usuarioDTO.getCookie().equals(String.valueOf(sessionId))) {
 
 			List<EventoDTO> eventosDTO = eventoService.findAllByUser(usuarioDTO);
 
@@ -80,11 +83,11 @@ public class EventoController {
 			mv.addObject("eventosDTO", eventosDTO);
 
 			return mv;
-		}else {
-			ModelAndView mav = new ModelAndView("errors/503");
+		} else {
+			ModelAndView mav = new ModelAndView("errors/403");
 			return mav;
 		}
-		
+
 	}
 
 	@GetMapping("/admin/eventos")
@@ -162,14 +165,14 @@ public class EventoController {
 
 	// Alta de eventos desde usuario
 	@GetMapping({ "/user/usuarios/{idUsuario}/eventos/add" })
-	public ModelAndView addEvento(@PathVariable("idUsuario") Long idUsuario, @CookieValue(name = "userId", required = false) String userId) {
+	public ModelAndView addEvento(@PathVariable("idUsuario") Long idUsuario,
+			@CookieValue(value = "JSESSIONID", defaultValue = "") String sessionId) {
 
 		log.info("EventoController - add: Anyadimos un nuevo evento " + idUsuario);
-		if(idUsuario == Long.valueOf(userId)) {
-			UsuarioDTO usuarioDTO = new UsuarioDTO();
-			usuarioDTO.setId(idUsuario);
-			usuarioDTO = usuarioService.findById(usuarioDTO);
-
+		UsuarioDTO usuarioDTO = new UsuarioDTO();
+		usuarioDTO.setId(idUsuario);
+		usuarioDTO = usuarioService.findById(usuarioDTO);
+		if (usuarioDTO.getCookie().equals(String.valueOf(sessionId))) {
 			ModelAndView mav = new ModelAndView("app/eventoformuser");
 			mav.addObject("listaCateringsDTO", cateringService.findAll());
 			mav.addObject("listaUbicacionesDTO", ubicacionService.findAll());
@@ -180,11 +183,11 @@ public class EventoController {
 			mav.addObject("add", true);
 
 			return mav;
-		}else {
+		} else {
 			ModelAndView mav = new ModelAndView("errors/503");
 			return mav;
 		}
-		
+
 	}
 
 	// Actualizar la informacion de un evento desde admin
@@ -206,7 +209,8 @@ public class EventoController {
 		eventoDTO.setCateringDTO(eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO());
 		eventoDTO.setDecoradoDTO(eventoDTO.getListaCateringubicacioneventoDTO().get(0).getDecoradoDTO());
 		eventoDTO.setOcioDTO(eventoDTO.getListaCateringubicacioneventoDTO().get(0).getOcioDTO());
-
+		eventoDTO.getUsuarioDTO().getListaRolesDTO().get(0).setUsuarioDTO(null);
+		eventoDTO.setListaCateringubicacioneventoDTO(null);
 		ModelAndView mav = new ModelAndView("app/eventoform2");
 		mav.addObject("usuarioDTO", usuarioDTO);
 		mav.addObject("eventoDTO", eventoDTO);
@@ -221,15 +225,16 @@ public class EventoController {
 
 	// Actualizar la informacion de un evento desde usuarios
 	@GetMapping("/user/usuarios/{idUsuario}/eventos/update/{idEvento}")
-	public ModelAndView updateUser(@PathVariable("idUsuario") Long idUsuario, @PathVariable("idEvento") Long idEvento, @CookieValue(name = "userId", required = false) String userId) {
+	public ModelAndView updateUser(@PathVariable("idUsuario") Long idUsuario, @PathVariable("idEvento") Long idEvento,
+			@CookieValue(value = "JSESSIONID", defaultValue = "") String sessionId) {
 
 		log.info("ClienteController - update: Modificamos el evento: " + idEvento);
 
-		if(idUsuario == Long.valueOf(userId)) {
-			UsuarioDTO usuarioDTO = new UsuarioDTO();
-			usuarioDTO.setId(idUsuario);
-			usuarioDTO = usuarioService.findById(usuarioDTO);
+		UsuarioDTO usuarioDTO = new UsuarioDTO();
+		usuarioDTO.setId(idUsuario);
+		usuarioDTO = usuarioService.findById(usuarioDTO);
 
+		if (usuarioDTO.getCookie().equals(String.valueOf(sessionId))) {
 			// Obtenemos el evento y lo pasamos al modelo para ser actualizado
 			EventoDTO eventoDTO = new EventoDTO();
 			eventoDTO.setId(idEvento);
@@ -239,7 +244,8 @@ public class EventoController {
 			eventoDTO.setCateringDTO(eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO());
 			eventoDTO.setDecoradoDTO(eventoDTO.getListaCateringubicacioneventoDTO().get(0).getDecoradoDTO());
 			eventoDTO.setOcioDTO(eventoDTO.getListaCateringubicacioneventoDTO().get(0).getOcioDTO());
-
+			eventoDTO.getUsuarioDTO().getListaRolesDTO().get(0).setUsuarioDTO(null);
+			eventoDTO.setListaCateringubicacioneventoDTO(null);
 			ModelAndView mav = new ModelAndView("app/eventoformuser2");
 			mav.addObject("usuarioDTO", usuarioDTO);
 			mav.addObject("eventoDTO", eventoDTO);
@@ -250,17 +256,17 @@ public class EventoController {
 			mav.addObject("add", false);
 
 			return mav;
-		}else {
-			ModelAndView mav = new ModelAndView("errors/503");
+		} else {
+			ModelAndView mav = new ModelAndView("errors/403");
 			return mav;
 		}
-		
+
 	}
 
 	// Salvar eventos
 	@PostMapping("/admin/usuarios/{idUsuario}/eventos/save")
 	public ModelAndView save(@PathVariable("idUsuario") Long idUsuario,
-			 @ModelAttribute("eventoDTO") @Valid EventoDTO eventoDTO, BindingResult bindingResult) {
+			@ModelAttribute("eventoDTO") @Valid EventoDTO eventoDTO, BindingResult bindingResult) {
 
 		log.info("ClienteController - save: Salvamos los datos del evento:" + eventoDTO.toString());
 
@@ -278,7 +284,7 @@ public class EventoController {
 			mv.addObject("listaUbicacionesDTO", ubicacionService.findAll());
 			mv.addObject("listaDecoradosDTO", decoradoService.findAll());
 			mv.addObject("listaOciosDTO", ocioService.findAll());
-			
+
 			if (eventoDTO.getId() != null) {
 				// Editar
 				mv.addObject("add", false);
@@ -304,14 +310,15 @@ public class EventoController {
 	// Salvar eventos
 	@PostMapping("/user/usuarios/{idUsuario}/eventos/save")
 	public ModelAndView saveUser(@PathVariable("idUsuario") Long idUsuario,
-			 @ModelAttribute("eventoDTO") EventoDTO eventoDTO, @CookieValue(name = "userId", required = false) String userId) {
+			@ModelAttribute("eventoDTO") EventoDTO eventoDTO,
+			@CookieValue(value = "JSESSIONID", defaultValue = "") String sessionId) {
 
 		log.info("ClienteController - save: Salvamos los datos del evento:" + eventoDTO.toString());
-		if(idUsuario == Long.valueOf(userId)) {
-			UsuarioDTO usuarioDTO = new UsuarioDTO();
-			usuarioDTO.setId(idUsuario);
-			usuarioDTO = usuarioService.findById(usuarioDTO);
+		UsuarioDTO usuarioDTO = new UsuarioDTO();
+		usuarioDTO.setId(idUsuario);
+		usuarioDTO = usuarioService.findById(usuarioDTO);
 
+		if (usuarioDTO.getCookie().equals(String.valueOf(sessionId))) {
 			eventoDTO.setUsuarioDTO(usuarioDTO);
 
 			eventoService.save(eventoDTO);
@@ -320,19 +327,21 @@ public class EventoController {
 			ModelAndView mav = new ModelAndView("redirect:/user/usuarios/{idUsuario}/eventos");
 
 			return mav;
-		}else {
+		} else {
 			ModelAndView mav = new ModelAndView("errors/503");
 			return mav;
 		}
-		
 
 	}
 
 	@GetMapping("/user/usuarios/{idUsuario}/eventos/delete/{idEvento}")
-	public ModelAndView deleteUser(@PathVariable("idUsuario") Long idUsuario, @PathVariable Long idEvento, @CookieValue(name = "userId", required = false) String userId) {
+	public ModelAndView deleteUser(@PathVariable("idUsuario") Long idUsuario, @PathVariable Long idEvento,
+			@CookieValue(value = "JSESSIONID", defaultValue = "") String sessionId) {
 		// Eliminamos el evento
 		log.info("EventoController - delete: Elimina el evento " + idEvento);
-		if(idUsuario == Long.valueOf(userId)) {
+		UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
+		usuarioDTO = usuarioService.findById(usuarioDTO);
+		if (usuarioDTO.getCookie().equals(String.valueOf(sessionId))) {
 			EventoDTO eventoDTO = new EventoDTO();
 			eventoDTO.setId(idEvento);
 
@@ -343,11 +352,10 @@ public class EventoController {
 			ModelAndView mav = new ModelAndView("redirect:/user/usuarios/{idUsuario}/eventos");
 
 			return mav;
-		}else {
+		} else {
 			ModelAndView mav = new ModelAndView("errors/503");
 			return mav;
 		}
-		
 
 	}
 

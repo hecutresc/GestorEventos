@@ -53,8 +53,8 @@ public class Usuario {
 	@Column(name = "clave_acceso")
 	private String claveAcceso;
 
-	@Column(name = "activo")
-	private int activo;
+	@Column(name ="cookie")
+	private String cookie;
 
 	@ManyToOne
 	@JoinColumn(name = "id_direccion")
@@ -87,6 +87,7 @@ public class Usuario {
 
 	public Usuario() {
 		super();
+		this.cookie ="";
 		this.direccion = new Direccion();
 		this.listaRoles = new ArrayList<Rol>();
 		this.listaEventos = new HashSet<Evento>();
