@@ -119,7 +119,7 @@ form > div {
   align-items: center;
 }
 
-form > div > input {
+form > div > input, select {
   width: 80%;
 
   height: 70px;
@@ -178,55 +178,58 @@ form > div:last-child > button {
     margin-top: 20px;
   }
 
-  form > div > input{
+  form > div > input, select{
     width: 100%;
     font-size: 1.2rem;
   }
 
-  form > div:nth-child(1){
+  form > div:nth-of-type(1){
     grid-column: 1/-1;
   }
-  form > div:nth-child(2){
+  form > div:nth-of-type(2){
     grid-column: span 3;
   }
-  form > div:nth-child(3){
-    grid-column: span 3;
+  form > div:nth-of-type(3){
+    grid-column: span 5;
   }
-  form > div:nth-child(4){
+  form > div:nth-of-type(4){
     grid-column: span 2;
   }
   form > div:nth-of-type(5){
     grid-column: span 2;
   }
   form > div:nth-of-type(6){
-    grid-column: span 4;
+    grid-column: span 6;
   }
   form > div:nth-of-type(7){
-    grid-column: span 1;
-  }
-  form > div:nth-of-type(8){
-    grid-column: span 3;
-  }
-  form > div:nth-of-type(9){
     grid-column: span 2;
   }
+  form > div:nth-of-type(8){
+    grid-column: span 4;
+  }
+  form > div:nth-of-type(9){
+    grid-column: span 3;
+  }
   form > div:nth-of-type(10){
-    grid-column: span 5;
+    grid-column: span 3;
   }
   form > div:nth-of-type(11){
     grid-column: span 5;
   }
   form > div:nth-of-type(12){
-    grid-column: span 4;
+    grid-column: span 5;
   }
   form > div:nth-of-type(13){
-    grid-column: span 3;
+    grid-column: span 2;
   }
   form > div:nth-of-type(14){
-    grid-column: span 3;
+    grid-column: span 4;
   }
   form > div:nth-of-type(15){
-    grid-column: 1/-1;
+    grid-column: span 4;
+  }
+  form > div:nth-of-type(16) {
+    grid-column: 1/-1; /* Nuevo div ocupa todas las columnas */
   }
 
   footer{

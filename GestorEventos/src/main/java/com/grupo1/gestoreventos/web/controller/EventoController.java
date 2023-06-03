@@ -140,6 +140,33 @@ public class EventoController {
 		mav.addObject("ocioDTO", eventoDTO.getListaCateringubicacioneventoDTO().get(0).getOcioDTO());
 		return mav;
 	}
+	
+	@GetMapping("/user/usuarios/{idUsuario}/eventos/{idEvento}")
+	public ModelAndView showEventosuser2(@PathVariable("idUsuario") Long idUsuario,
+			@PathVariable("idEvento") Long idEvento, @CookieValue(value = "JSESSIONID", defaultValue = "") String sessionId) {
+		// Recogemos el evento
+		UsuarioDTO usuarioDTO = new UsuarioDTO();
+		usuarioDTO.setId(idUsuario);
+		usuarioDTO = usuarioService.findById(usuarioDTO);
+		if(usuarioDTO.getCookie().equals(String.valueOf(sessionId))) {
+			EventoDTO eventoDTO = new EventoDTO();
+			eventoDTO.setId(idEvento);
+			eventoDTO = eventoService.findById(eventoDTO);
+			
+			// ModelAndView
+			ModelAndView mav = new ModelAndView("app/eventouser_info");
+			mav.addObject("eventoDTO", eventoDTO);
+			mav.addObject("usuarioDTO", usuarioDTO);
+			mav.addObject("cateringDTO", eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO());
+			mav.addObject("decoradoDTO", eventoDTO.getListaCateringubicacioneventoDTO().get(0).getDecoradoDTO());
+			mav.addObject("ocioDTO", eventoDTO.getListaCateringubicacioneventoDTO().get(0).getOcioDTO());
+			return mav;
+		}else {
+			ModelAndView mav = new ModelAndView("errors/403");
+			return mav;
+		}
+		
+	}
 
 	// Alta de eventos desde administrador
 	@GetMapping({ "/admin/usuarios/{idUsuario}/eventos/add" })

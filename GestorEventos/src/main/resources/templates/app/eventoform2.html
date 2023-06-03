@@ -229,7 +229,7 @@
 				</div>
 
 				<div class="mt-4">
-					<input type="submit" th:value="${add} ? 'Añadir' : 'Actualizar'"
+					<input type="submit" id="btnEnviar" th:value="${add} ? 'Añadir' : 'Actualizar'"
 						class="btn btn-outline-success w-100" />
 				</div>
 
@@ -284,10 +284,7 @@
 			cambio_Tipo_Evento(this.value, ubicacionList, ocioList);
 
 		});
-
-		//Poner los valores del evento
-		console.log('antes de entrar en edicion');
-		edicion(evento, ubicacionList, cateringList, decoradoList, ocioList);
+		
 		//Comprobamos antes de mandarlo
 		var btnEnviar = document.getElementById('btnEnviar');
 		btnEnviar.addEventListener('click', function(e){
@@ -295,7 +292,8 @@
 			validaciones();
 		});
 		
-
+		//Poner los valores del evento
+		edicion(evento, ubicacionList, cateringList, decoradoList, ocioList);
 
 	</script>
 </body>
