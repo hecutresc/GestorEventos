@@ -16,6 +16,8 @@ public interface EventoService {
 	public void deleteById(EventoDTO eventoDTO);
 
 	public void delete(EventoDTO eventoDTO);
+	
+	public void pagar(EventoDTO eventoDTO);
 
 	public List<EventoDTO> findAllByUser(UsuarioDTO usuarioDTO);
 

@@ -49,6 +49,8 @@ public class EventoDTO implements Serializable {
 	private Float precio;
 	
 	private Long n_asistentes;
+	
+	private Long pagado;
 
 	@ToString.Exclude
     @NotNull(message = "¡La ubicación no puede ser nula!")
@@ -86,6 +88,7 @@ public class EventoDTO implements Serializable {
 		eventoDTO.setCreacion(evento.getCreacion());
 		eventoDTO.setPrecio(evento.getPrecio());
 		eventoDTO.setN_asistentes(evento.getN_asistentes());
+		eventoDTO.setPagado(evento.getPagado());
 		eventoDTO.setUbicacionDTO(UbicacionDTO.convertToDTO(evento.getUbicacion()));
 		eventoDTO.setUsuarioDTO(UsuarioDTO.convertToDTO(evento.getUsuario()));
 
@@ -103,6 +106,7 @@ public class EventoDTO implements Serializable {
 		eventoDTO2.setTipo(eventoDTO.getTipo());
 		eventoDTO2.setCreacion(eventoDTO.getCreacion());
 		eventoDTO2.setPrecio(eventoDTO.getPrecio());
+		eventoDTO2.setPagado(eventoDTO.getPagado());
 		eventoDTO2.setN_asistentes(eventoDTO.getN_asistentes());
 		return eventoDTO2;
 	}
@@ -118,12 +122,14 @@ public class EventoDTO implements Serializable {
 		evento.setTipo(eventoDTO.getTipo());
 		evento.setCreacion(eventoDTO.getCreacion());
 		evento.setPrecio(eventoDTO.getPrecio());
+		evento.setPagado(eventoDTO.getPagado());
 		evento.setN_asistentes(eventoDTO.getN_asistentes());
 		return evento;
 	}
 
 	public EventoDTO() {
 		super();
+		this.pagado = 0L;
 		this.listaInvitadosDTO = new ArrayList<InvitadoDTO>();
 		this.listaCateringubicacioneventoDTO = new ArrayList<CateringUbicacionEventoDTO>();
 		this.ubicacionDTO = new UbicacionDTO();
@@ -135,6 +141,7 @@ public class EventoDTO implements Serializable {
 	public EventoDTO(Long id) {
 		super();
 		this.id = id;
+		this.pagado = 0L;
 		this.listaInvitadosDTO = new ArrayList<InvitadoDTO>();
 		this.listaCateringubicacioneventoDTO = new ArrayList<CateringUbicacionEventoDTO>();
 		this.ubicacionDTO = new UbicacionDTO();

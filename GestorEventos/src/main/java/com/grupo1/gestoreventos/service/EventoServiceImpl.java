@@ -175,4 +175,14 @@ public class EventoServiceImpl implements EventoService {
 
 	}
 
+	@Override
+	public void pagar(EventoDTO eventoDTO) {
+		// TODO Auto-generated method stub
+		Optional<Evento> evento = eventoRepository.findById(eventoDTO.getId());
+
+		if (evento.isPresent()) {
+			eventoRepository.pagar(evento.get().getId(), 1L);
+		}
+	}
+
 }

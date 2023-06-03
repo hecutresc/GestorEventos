@@ -52,6 +52,9 @@ public class Evento {
 	
 	@Column(name = "n_asistentes")
 	private Long n_asistentes;
+	
+	@Column(name = "pagado")
+	private Long pagado;
 
 	@Column(name = "fecha_inicio")
 	@Temporal(TemporalType.DATE)
@@ -103,6 +106,7 @@ public class Evento {
 
 	public Evento() {
 		super();
+		this.pagado = 0L;
 		this.listaInvitados = new HashSet<Invitado>();
 		this.listaCateringUbicacionEvento = new HashSet<CateringUbicacionEvento>();
 	}

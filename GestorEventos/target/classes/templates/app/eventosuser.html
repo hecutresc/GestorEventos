@@ -43,6 +43,7 @@
                 <tr>
                     <th>Nombre Evento</th> 
                     <th>+Info</th>
+                    <th>Pagar</th>
                     <th>Editar</th>
                     <th>Borrar</th>
                 </tr>
@@ -51,6 +52,7 @@
                 <tr th:each="evento : ${eventosDTO}">
                     <td th:text="${evento.nombre}"></td>
                     <td><a th:href="@{/user/usuarios/{idUsuario}/eventos/{idEvento} (idUsuario=${usuarioDTO.id}, idEvento=${evento.id})}">+Info</a></td>
+                    <td><a th:if="${evento.pagado == 0}" th:href="@{/user/usuarios/{idUsuario}/eventos/{idEvento}/pay (idUsuario=${usuarioDTO.id}, idEvento=${evento.id})}"><span class="bi bi-currency-euro" role="img" title="Pagar"></span></a></td>
                     <td><a th:href="@{/user/usuarios/{idUsuario}/eventos/update/{idEvento}(idUsuario=${usuarioDTO.id}, idEvento=${evento.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
                     <td><a th:href="@{/user/usuarios/{idUsuario}/eventos/delete/{idEvento}(idUsuario=${usuarioDTO.id}, idEvento=${evento.id})}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
                 </tr>

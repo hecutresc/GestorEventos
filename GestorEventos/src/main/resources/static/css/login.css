@@ -6,6 +6,14 @@
   }
 }
 
+body {
+  min-width: 360px;
+  min-height: 100vh;
+  height: auto;
+  background: linear-gradient(0deg, rgba(248,206,38,1) 0%, rgba(234,242,251,1) 100%);
+  background-size: cover; 
+}
+
 header {
   height: 140px;
 
@@ -16,8 +24,10 @@ header {
 }
 
 main{
+  height: auto;
   padding: 0!important;
   margin-top: 40px;
+  margin-bottom: 30px;
 }
 
 main > p{
@@ -94,7 +104,6 @@ form {
   font-family: "Bree Serif";
 
   text-align: center;
-
   opacity: 0;
   animation: mostrarElemento 1s forwards 0.8s;
 }
@@ -141,23 +150,16 @@ form > div:last-child > label {
 
 footer{
 
-  position: absolute !important;
+  position: relative !important;
   bottom: 0;
-
   width: 100vw;
-
-  margin-top: 100px;
-
   flex-shrink: 0;
   padding: 10px;
-
   display: flex;
   align-items: center;
   text-align: center;
-
   color: white;
   font-size: 1.5rem;
-
   background-color: #212529;
   animation: mostrarElemento 1s forwards 1s;
 }
@@ -166,7 +168,11 @@ footer{
 @media (min-width: 460px) {
 
   header{
-    margin-bottom: 100px;
+    margin-bottom: auto;
+  }
+
+  main{
+    height: auto;
   }
 
   form{
@@ -187,7 +193,11 @@ footer{
 @media (min-width: 800px) {
 
   header{
-    margin-bottom: 100px;
+    margin-bottom: auto;
+  }
+
+  main{
+    height: auto;
   }
 
   form{
@@ -196,7 +206,8 @@ footer{
     width: 60%;
   }
 
-  main{
-    margin-bottom: 100px;
+  footer{
+    position: relative !important;
+    bottom: 0;
   }
 }
