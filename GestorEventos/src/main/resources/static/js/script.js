@@ -9,7 +9,7 @@ function openNav() {
     document.querySelector("header > nav > div").style.width = "250px";
     //document.querySelector("header > nav > div").style.zIndex = "1";
     if(document.getElementsByTagName("table").length > 0){
-        document.getElementsByTagName("table")[0].style.zIndex = "0"; // Agregado
+        document.getElementsByTagName("table")[0].style.zIndex = "-1"; // Agregado
     }
     
     document.getElementsByTagName("main")[0].style.zIndex = "-1"; // Cambiado
@@ -21,7 +21,10 @@ function closeNav() {
     document.querySelector("header > nav > div").style.width = "0";
 
     setTimeout(function() {
-        document.getElementsByTagName("table")[0].style.zIndex = "0";
+        if(document.getElementsByTagName("table").length > 0){
+            document.getElementsByTagName("table")[0].style.zIndex = "0";
+        }
+        
         document.getElementsByTagName("main")[0].style.zIndex = "0";
     }, 800);
 

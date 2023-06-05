@@ -54,16 +54,21 @@
                     <td><a th:href="@{/user/usuarios/{idUsuario}/eventos/{idEvento} (idUsuario=${usuarioDTO.id}, idEvento=${evento.id})}">+Info</a></td>
                     <td><a th:if="${evento.pagado == 0}" th:href="@{/user/usuarios/{idUsuario}/eventos/{idEvento}/pay (idUsuario=${usuarioDTO.id}, idEvento=${evento.id})}"><span class="bi bi-currency-euro" role="img" title="Pagar"></span></a></td>
                     <td><a th:href="@{/user/usuarios/{idUsuario}/eventos/update/{idEvento}(idUsuario=${usuarioDTO.id}, idEvento=${evento.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
-                    <td><a th:href="@{/user/usuarios/{idUsuario}/eventos/delete/{idEvento}(idUsuario=${usuarioDTO.id}, idEvento=${evento.id})}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
+                    <script th:inline="javascript">
+                        var idEvento = /*[[${evento.id}]]*/ null;
+                        var idUsuario = /*[[${usuarioDTO.id}]]*/ null;
+                      </script>
+                    <td><a th:href="@{/user/usuarios/{idUsuario}/eventos/delete/{idEvento}(idUsuario=${usuarioDTO.id}, idEvento=${evento.id})}" onclick="confirmarBorrado(event)"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
                 </tr>
             </tbody>
         </table>
 
     </main>
-
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script th:src="@{/vendor/bootstrap-5.2.3/js/bootstrap.bundle.min.js}" ></script>
     <script th:src="@{/js/jquery-3.6.3.js}" ></script>
   	<script th:src="@{/js/script.js}" ></script>
+  	<script th:src="@{/js/sweet.js}" ></script>
 </body>
 
 </html>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>EventApp</title>
     <!-- Bootstrap-Icons -->
     <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
     <!-- General CSS -->
@@ -15,7 +15,7 @@
 
 <body>
     <header>
-        <h1>Bienvenid@, usuario</h1>
+        <h1 th:text="'Bienvenid@, '+${usuarioDTO.nombreUsuario}"></h1>
         <nav>
             <div class="sidenav">
                 <a class="closebtn">&times;</a>

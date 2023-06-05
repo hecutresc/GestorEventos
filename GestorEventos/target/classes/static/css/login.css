@@ -25,9 +25,10 @@ header {
 
 main{
   height: auto;
+  position: relative;
   padding: 0!important;
-  margin-top: 40px;
-  margin-bottom: 30px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 main > p{
@@ -36,6 +37,9 @@ main > p{
 
 form > div:nth-last-of-type() > label{
   text-align: center;
+}
+header > nav{
+  margin-top: auto !important;
 }
 nav{
   height: 100%;
@@ -150,8 +154,8 @@ form > div:last-child > label {
 
 footer{
 
-  position: relative !important;
-  bottom: 0;
+  position: absolute !important;
+  bottom: 0 !important;
   width: 100vw;
   flex-shrink: 0;
   padding: 10px;
@@ -164,11 +168,14 @@ footer{
   animation: mostrarElemento 1s forwards 1s;
 }
 
-
 @media (min-width: 460px) {
 
   header{
     margin-bottom: auto;
+  }
+
+  header > nav{
+    margin-top: auto !important;
   }
 
   main{
@@ -176,7 +183,6 @@ footer{
   }
 
   form{
-    position: absolute;
     left: 0;
     top: 0;
 
@@ -185,8 +191,7 @@ footer{
   }
 
   footer{
-    position: relative !important;
-    bottom: 0;
+    position: absolute !important;
   }
 }
 
@@ -194,6 +199,10 @@ footer{
 
   header{
     margin-bottom: auto;
+  }
+
+  header > nav{
+    margin-top: auto !important;
   }
 
   main{
@@ -207,7 +216,7 @@ footer{
   }
 
   footer{
-    position: relative !important;
+    position: absolute !important;
     bottom: 0;
   }
 }

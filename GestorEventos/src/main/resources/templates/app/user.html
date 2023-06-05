@@ -15,7 +15,7 @@
 
 <body>
     <header>
-        <h1>Bienvenid@, <span th:text="${usuario.nombreUsuario}"></span></h1>
+        <h1 th:text="'Bienvenid@, '+${usuarioDTO.nombreUsuario}"></h1>
         <nav>
             <div class="sidenav">
                 <a class="closebtn">&times;</a>

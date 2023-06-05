@@ -1,0 +1,15 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+body {
+    min-width: 360px;
+    min-height: 100vh;
+    height: auto;
+    background: linear-gradient(0deg, rgba(248,206,38,1) 0%, rgba(234,242,251,1) 100%);
+    background-size: cover; 
+    text-align: center;
+}

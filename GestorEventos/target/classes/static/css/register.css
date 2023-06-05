@@ -47,6 +47,9 @@ nav > div + div {
   width: 85%;  
 }
 
+main{
+  position: relative;
+}
 p:first-of-type{
   color: #261831;
 }

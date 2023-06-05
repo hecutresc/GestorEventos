@@ -6,10 +6,16 @@
   }
 }
 
+body{
+  background-image: url("/media/img/imagen2.jpeg");
+  background-size: cover;
+
+}
+
 header {
   height: 140px;
   width: 100vw;
-
+  
   opacity: 0;
   animation: mostrarElemento 1s forwards 0.3s;
 }
@@ -120,22 +126,15 @@ main > div > a{
 
 }
 
-video{
-  object-fit: cover;
+header > div:last-of-type{
+  display: none;
 }
-
 footer{
   position: absolute !important;
   bottom: 0;
 }
 
-header > div:last-of-type{
-  position: absolute;
 
-  left: 0;
-  top: 0;
-  z-index: -1;
-}
 
 @media (min-width: 800px) {
   
@@ -149,7 +148,23 @@ header > div:last-of-type{
     text-shadow: 0 0 5px #f8a826;
     transition: 0.2s;
   }
+  header{
+    position: relative;
+  }
   
+  header > div:last-of-type{
+    position: absolute;
+    display: block;
+    left: 0;
+    top: 0;
+    z-index: -1;
+  }
+
+  video{
+    
+    object-fit: cover;
+  }
+
   footer{
     position: absolute !important;
     bottom: 0;
