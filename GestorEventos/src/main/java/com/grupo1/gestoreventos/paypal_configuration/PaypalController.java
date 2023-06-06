@@ -54,15 +54,15 @@ public class PaypalController {
 			orderDTO.setDescription("Payment of the event: "+eventoDTO.getNombre());
 			orderDTO.setIntent("Sale");
 			orderDTO.setMethod("paypal");
+			orderDTO.setIdEvento(idEvento);
 			orderDTO.setPrice(Double.valueOf(eventoDTO.getPrecio()));
 			//Se hace el pago o se intenta
 			try {
 				Payment payment = paypalService.createPayment(orderDTO.getPrice(), orderDTO.getCurrency(), orderDTO.getMethod(),
-						orderDTO.getIntent(), orderDTO.getDescription(), "http://localhost:8888/" + CANCEL_URL,
+						orderDTO.getIntent(), orderDTO.getDescription(), orderDTO.getIdEvento(),"http://localhost:8888/" + CANCEL_URL,
 						"http://localhost:8888/" + SUCCESS_URL);
 				for(Links link:payment.getLinks()) {
 					if(link.getRel().equals("approval_url")) {
-						eventoService.pagar(eventoDTO);
 						return "redirect:"+link.getHref();
 					}
 				}
@@ -102,6 +102,9 @@ public class PaypalController {
 	            System.out.println(payment.toJSON());
 	            if (payment.getState().equals("approved")) {
 	            	//Cambiamos la pantalla de visualización
+	            	Long idEvento = Long.parseLong(payment.getTransactions().get(0).getCustom());
+	            	EventoDTO eventoDTO = new EventoDTO(idEvento);
+	            	eventoService.pagar(eventoDTO);
 	            	mav.setViewName("paypal/succes");
 	                return mav;
 	            }

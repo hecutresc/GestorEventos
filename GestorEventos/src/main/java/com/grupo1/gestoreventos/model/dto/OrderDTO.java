@@ -11,6 +11,7 @@ public class OrderDTO {
 	private String currency;
 	private String method;
 	private String intent;
+	private Long idEvento;
 	private String description;
 	
 	public OrderDTO() {

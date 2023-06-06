@@ -28,7 +28,8 @@ public class PaypalService {
 			String currency, 
 			String method,
 			String intent,
-			String description, 
+			String description,
+			Long idEvento, 
 			String cancelUrl, 
 			String successUrl) throws PayPalRESTException{
 		Amount amount = new Amount();
@@ -37,6 +38,7 @@ public class PaypalService {
 		amount.setTotal(String.format("%.2f", total));
 
 		Transaction transaction = new Transaction();
+		transaction.setCustom(String.valueOf(idEvento));
 		transaction.setDescription(description);
 		transaction.setAmount(amount);
 
