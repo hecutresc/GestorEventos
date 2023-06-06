@@ -136,10 +136,10 @@ public class CateringController {
 		// Guardamos la foto
 		if (cateringDTO.getId() == null) {
 			try {
-				Files.createDirectories(Paths.get("src/main/resources/static/imagesUbicaciones"));
+				Files.createDirectories(Paths.get("src/main/resources/static/imagesCaterings"));
 
 				byte[] bytes = foto.getBytes();
-				Path ruta = Paths.get("src/main/resources/static/imagesUbicaciones/" + foto.getOriginalFilename());
+				Path ruta = Paths.get("src/main/resources/static/imagesCaterings/" + foto.getOriginalFilename());
 
 				Files.write(ruta, bytes);
 			} catch (IOException e) {
@@ -149,17 +149,17 @@ public class CateringController {
 			cateringDTO.setFoto("/imagesUbicaciones/" + foto.getOriginalFilename());
 		} else if (cateringDTO.getId() != null && foto.getOriginalFilename() != "") {
 			try {
-				Files.createDirectories(Paths.get("src/main/resources/static/imagesUbicaciones"));
+				Files.createDirectories(Paths.get("src/main/resources/static/imagesCaterings"));
 
 				byte[] bytes = foto.getBytes();
-				Path ruta = Paths.get("src/main/resources/static/imagesUbicaciones/" + foto.getOriginalFilename());
+				Path ruta = Paths.get("src/main/resources/static/imagesCaterings/" + foto.getOriginalFilename());
 
 				Files.write(ruta, bytes);
 			} catch (IOException e) {
 				// TODO: handle exception
 				e.printStackTrace();
 			}
-			cateringDTO.setFoto("/imagesUbicaciones/" + foto.getOriginalFilename());
+			cateringDTO.setFoto("/imagesCaterings/" + foto.getOriginalFilename());
 		}
 
 		// Invocamos a la capa de servicios para que almacene los datos del cliente

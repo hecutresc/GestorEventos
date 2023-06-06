@@ -49,6 +49,7 @@ nav > div + div {
 
 main{
   position: relative;
+  height: auto !important;;
 }
 p:first-of-type{
   color: #261831;
@@ -175,6 +176,10 @@ form > div:last-child > button {
 	body{
     height: auto;
     min-height: 100vh;
+  }
+
+  main{
+    height: auto !important;
   }
 
   form{

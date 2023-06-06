@@ -174,7 +174,7 @@
 
 				<div th:if="${ubicacionDTO.foto != ' '}" class="row mt-3">
 					<div>
-						<img alt="*Imagen de la ubicacion*" th:src="*{foto}">
+						<img alt="*Imagen de la ubicacion*" class="formimage" th:src="*{foto}">
 					<input th:field="*{foto}" name="foto" id="foto" readonly hidden />
 					</div>
 				</div>
@@ -182,7 +182,7 @@
 				<div class="row mt-3">
 					<div>
 						<label for="archivo" class="form-label">Foto</label> <input th:type="file" th:name="archivo"
-						class="form-control formimage" id="archivo" />
+						class="form-control" id="archivo" />
 					</div>
 				</div>
 				<div class="mt-4">

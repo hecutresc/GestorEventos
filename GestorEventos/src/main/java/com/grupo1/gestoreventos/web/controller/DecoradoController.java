@@ -152,7 +152,7 @@ public class DecoradoController {
 				// TODO: handle exception
 				e.printStackTrace();
 			}
-			decoradoDTO.setFoto("/images/" + foto.getOriginalFilename());
+			decoradoDTO.setFoto("/imagesDecorados/" + foto.getOriginalFilename());
 		} else if (decoradoDTO.getId() != null && foto.getOriginalFilename() != "") {
 			try {
 				Files.createDirectories(Paths.get("src/main/resources/static/imagesDecorados"));
