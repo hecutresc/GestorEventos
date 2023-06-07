@@ -151,19 +151,7 @@ footer{
   header{
     position: relative;
   }
-  
-  header > div:last-of-type{
-    position: absolute;
-    display: block;
-    left: 0;
-    top: 0;
-    z-index: -1;
-  }
 
-  video{
-    
-    object-fit: cover;
-  }
 
   footer{
     position: absolute !important;
