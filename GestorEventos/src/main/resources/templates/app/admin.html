@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/x-icon" th:href="@{/favicon/favicon.ico}">
 	<title>Panel de Administracion</title>
 	<!-- Bootstrap-Icons -->
 	<link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
@@ -19,7 +20,7 @@
 		<nav>
 			<div class="sidenav">
 				<a class="closebtn">&times;</a>
-				<a th:href="@{/}">Logout</a>
+				<a th:href="@{/logout}">Logout</a>
 			</div>
 
 			<div>
@@ -66,14 +67,14 @@
 					<p class="text-title">Desconexión</p>
 					<p class="text-body">Salir de la aplicación</p>
 				</div>
-				<a class="card-button" th:href="@{/}">Salir</a>
+				<a class="card-button" th:href="@{/logout}">Salir</a>
 			</div>
 		</div>
 
 
 
 	</main>
-
+	<script th:src="@{/vendor/bootstrap-5.2.3/js/bootstrap.bundle.min.js}"></script>
 	<script th:src="@{/js/jquery-3.6.3.js}"></script>
 	<script th:src="@{/js/script.js}"></script>
 

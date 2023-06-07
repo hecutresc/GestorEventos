@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
+import org.hibernate.type.TrueFalseConverter;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,6 +20,11 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.ToString;
 
@@ -35,18 +43,35 @@ public class Evento {
 
 	@Column(name = "nombre")
 	private String nombre;
+	
+	@Column(name = "tipo")
+	private String tipo;
+	
+	@Column(name= "precio")
+	private Float precio;
+	
+	@Column(name = "n_asistentes")
+	private Long n_asistentes;
+	
+	@Column(name = "pagado")
+	private Long pagado;
 
 	@Column(name = "fecha_inicio")
 	@Temporal(TemporalType.DATE)
 	private Date fechaInicio;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "fecha_fin")
+	@Column(name = "fecha_fin", nullable = true)
 	private Date fechaFin;
+	
+	@Column(name = "hora_inicio", nullable = true)
+	private String hora_incio;
+	
+	@Column(name = "num_horas", nullable = true)
+	private Long num_horas;
 
 	@ManyToOne
 	@JoinColumn(name = "id_ubicacion")
-	@ToString.Exclude
 	private Ubicacion ubicacion;
 
 	@ManyToOne
@@ -81,6 +106,7 @@ public class Evento {
 
 	public Evento() {
 		super();
+		this.pagado = 0L;
 		this.listaInvitados = new HashSet<Invitado>();
 		this.listaCateringUbicacionEvento = new HashSet<CateringUbicacionEvento>();
 	}

@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+	<link rel="icon" type="image/x-icon" th:href="@{/favicon/favicon.ico}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${add} ? 'Nuevo invitado' : 'Actualizar invitado'"></title>
     <!-- Bootstrap-5.2.3 -->
@@ -51,16 +52,19 @@
       	 		<div class="mt-3">
           			<label for="email" class="form-label">Email</label>
          			<input th:type="email" name="email" class="form-control" id="email" th:field="*{email}" th:maxlength="20"/>
+					 <span style="color: red;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
       	 		</div>
       	 	
       	 		<div class="mt-3">
           			<label for="token" class="form-label">Token</label>
          			<input th:type="text" name="token" class="form-control" id="token" th:field="*{token}" th:maxlength="100"/>
+					 <span style="color: red;" th:if="${#fields.hasErrors('token')}" th:errors="*{token}"></span>
       	 		</div>
       	 	
 				<div class="mt-3">
           			<label for="asistencia" class="form-label">Asistencia</label>
          			<input th:type="number" name="asistencia" class="form-control" id="asistencia" th:field="*{asistencia}" th:min="0" th:max="1"/>
+					 <span style="color: red;" th:if="${#fields.hasErrors('asistencia')}" th:errors="*{asistencia}"></span>
       	 		</div>
       	 	
       	 		<div class="mt-4">
@@ -73,9 +77,6 @@
 
     </main>
 
-    <footer>
-
-    </footer>
 
 	<script th:src="@{/vendor/bootstrap-5.2.3/js/bootstrap.bundle.min.js}" ></script>
   	<script th:src="@{/js/jquery-3.6.3.js}" ></script>

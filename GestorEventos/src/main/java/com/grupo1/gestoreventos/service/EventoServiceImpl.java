@@ -18,7 +18,9 @@ import com.grupo1.gestoreventos.repository.dao.CateringUbicacionEventoRepository
 import com.grupo1.gestoreventos.repository.dao.EventoRepository;
 import com.grupo1.gestoreventos.repository.entity.Catering;
 import com.grupo1.gestoreventos.repository.entity.CateringUbicacionEvento;
+import com.grupo1.gestoreventos.repository.entity.Decorado;
 import com.grupo1.gestoreventos.repository.entity.Evento;
+import com.grupo1.gestoreventos.repository.entity.Ocio;
 import com.grupo1.gestoreventos.repository.entity.Ubicacion;
 import com.grupo1.gestoreventos.repository.entity.Usuario;
 
@@ -68,8 +70,15 @@ public class EventoServiceImpl implements EventoService {
 		Ubicacion ubicacion = new Ubicacion();
 		ubicacion.setId(eventoDTO.getUbicacionDTO().getId());
 
+		//Tratamos con objetos que pueden estar o no en el evento
 		Catering catering = new Catering();
 		catering.setId(eventoDTO.getCateringDTO().getId());
+		
+		Decorado decorado = new Decorado();
+		decorado.setId(eventoDTO.getDecoradoDTO().getId());
+		
+		Ocio ocio = new Ocio();
+		ocio.setId(eventoDTO.getOcioDTO().getId());
 
 		Evento evento = EventoDTO.convertToEntity(eventoDTO);
 		evento.setCreacion(new Date());
@@ -78,10 +87,28 @@ public class EventoServiceImpl implements EventoService {
 		
 		evento = eventoRepository.save(evento);
 
+		//Creamo el objeto
 		CateringUbicacionEvento cue = new CateringUbicacionEvento();
 		cue.setEvento(evento);
 		cue.setUbicacion(ubicacion);
-		cue.setCatering(catering);
+		if(eventoDTO.getCateringDTO().getId() != 0) {
+			cue.setCatering(catering);
+		}else {
+			cue.setCatering(null);
+		}
+		
+		if(eventoDTO.getOcioDTO().getId() != 0) {
+			cue.setOcio(ocio);
+		}else {
+			cue.setOcio(null);
+		}
+		
+		if(eventoDTO.getDecoradoDTO().getId() != 0) {
+			cue.setDecorado(decorado);
+		}else {
+			cue.setDecorado(null);
+		}
+		
 		
 		if (!as.isEmpty()) {
 			Optional<CateringUbicacionEvento> cueA = cateringUbicacionEventoRepository.findById(as.get(0).getId());
@@ -146,6 +173,16 @@ public class EventoServiceImpl implements EventoService {
 
 		return eventosDTO;
 
+	}
+
+	@Override
+	public void pagar(EventoDTO eventoDTO) {
+		// TODO Auto-generated method stub
+		Optional<Evento> evento = eventoRepository.findById(eventoDTO.getId());
+
+		if (evento.isPresent()) {
+			eventoRepository.pagar(evento.get().getId(), 1L);
+		}
 	}
 
 }

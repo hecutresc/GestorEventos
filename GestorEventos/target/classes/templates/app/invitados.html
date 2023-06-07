@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon/favicon.ico}">
     <title>Invitados</title>
     <!-- Bootstrap-Icons -->
     <link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
@@ -17,7 +18,7 @@
         <nav>
             <div class="sidenav">
               <a class="closebtn">&times;</a>
-              <a th:href="@{/admin/usuarios/{idUsuario}/eventos (idUsuario=${usuarioDTO.id})}">Volver</a>
+              <a th:href="@{/admin/usuarios/{idUsuario}/eventos/{idEvento} (idUsuario=${usuarioDTO.id}, idEvento=${eventoDTO.id})}">Volver</a>
               <a th:href="@{/admin/usuarios/{idUsuario}/eventos/{idEvento}/invitados/add (idUsuario=${usuarioDTO.id}, idEvento=${eventoDTO.id})}">Añadir Invitado</a>
             </div>
             
@@ -59,10 +60,6 @@
         </table>
 
     </main>
-
-    <footer>
-
-    </footer>
 
     <script th:src="@{/js/jquery-3.6.3.js}" ></script>
   <script th:src="@{/js/script.js}" ></script>

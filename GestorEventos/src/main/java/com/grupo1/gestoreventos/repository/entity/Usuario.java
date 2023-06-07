@@ -1,8 +1,13 @@
 package com.grupo1.gestoreventos.repository.entity;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -27,9 +32,6 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "tipo")
-	private int tipo;
-
 	@Column(name = "nombre")
 	private String nombre;
 
@@ -51,8 +53,8 @@ public class Usuario {
 	@Column(name = "clave_acceso")
 	private String claveAcceso;
 
-	@Column(name = "activo")
-	private int activo;
+	@Column(name ="cookie")
+	private String cookie;
 
 	@ManyToOne
 	@JoinColumn(name = "id_direccion")
@@ -62,6 +64,10 @@ public class Usuario {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "usuario")
 	private Set<Evento> listaEventos;
 
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "usuario")
+	@Fetch(FetchMode.JOIN)
+	private List<Rol> listaRoles;
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -81,7 +87,9 @@ public class Usuario {
 
 	public Usuario() {
 		super();
+		this.cookie ="";
 		this.direccion = new Direccion();
+		this.listaRoles = new ArrayList<Rol>();
 		this.listaEventos = new HashSet<Evento>();
 	}
 

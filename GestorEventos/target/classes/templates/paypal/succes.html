@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon/favicon.ico}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago Correcto</title>
+    <!-- Bootstrap-5.2.3 -->
+	<link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
+	<!-- Bootstrap-Icons -->
+	<link rel="stylesheet" th:href="@{/vendor/bootstrap-5.2.3/css/bootstrap.min.css}">
+  <link th:href="@{/css/paypal.css}" rel="stylesheet">
+</head>
+<body>
+    <div>
+        <h2>¡Se ha realizado su pago con éxito!</h2>
+        <a class="btn btn-outline-success" style="margin-top: 10px;" th:href="@{/userType}">Volver al Inicio</a>
+    </div>
+    <script th:src="@{/vendor/bootstrap-5.2.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

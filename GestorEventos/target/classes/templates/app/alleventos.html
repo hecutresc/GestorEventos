@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon/favicon.ico}">
     <title>Eventos</title>
    <!-- Bootstrap-5.2.3 -->
     <link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
@@ -40,33 +41,21 @@
         
             <thead>
                 <tr>
-                    <th>Show</th>
                     <th>Nombre</th>
-                	<th>Usuario Creador</th> 
-                    <th>Fecha Creación</th>
-                    <th>Fecha Inicio</th>
-                    <th>Fecha Fin</th>
+                    <th>+Info</th>
                     <th>Borrar</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="evento : ${eventosDTO}">
-                    <td><a th:text="${evento.id}" th:href="@{/admin/eventos/{idEvento}/show (idEvento=${evento.id})}"></a></td>
                     <td th:text="${evento.nombre}"></td>
-                    <td th:text="${evento.usuarioDTO.nombreUsuario}"></td>
-                    <td th:text="${#dates.format(evento.creacion, 'dd/MM/yyyy HH:mm')}"></td>
-                    <td th:text="${#dates.format(evento.fechaInicio, 'dd/MM/yyyy')}"></td>
-                    <td th:text="${#dates.format(evento.fechaFin, 'dd/MM/yyyy')}"></td>
+                    <td><a th:href="@{/admin/eventos/{idEvento}/show (idEvento=${evento.id})}">+Info</a></td>
                     <td><a th:href="@{/admin/eventos/delete/{idEvento} (idEvento=${evento.id})}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
                 </tr>
             </tbody>
         </table>
 
     </main>
-
-    <footer>
-
-    </footer>
 
 	<script th:src="@{/vendor/bootstrap-5.2.3/js/bootstrap.bundle.min.js}" ></script>
     <script th:src="@{/js/jquery-3.6.3.js}" ></script>

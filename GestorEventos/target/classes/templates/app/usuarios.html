@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon/favicon.ico}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Usuarios</title>
     <!-- Bootstrap-Icons -->
@@ -37,9 +38,8 @@
         <table th:if="${!usuariosDTO.isEmpty()}">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Nombre de Usuario</th>
-                    <th>Email</th>
+                  <th>Nombre</th>
+                    <th>+Info</th>
                     <th>Eventos</th>
                     <th>Direccion</th>
                     <th>Editar</th>
@@ -48,9 +48,8 @@
             </thead>
             <tbody>
                 <tr th:each="usuario : ${usuariosDTO}">
-                    <td><a th:href="@{/admin/usuarios/{idUsuario} (idUsuario=${usuario.id})}" th:text="${usuario.id}"></a></td>
-                    <td th:text="${usuario.nombreUsuario}"></td>
-                    <td th:text="${usuario.email}"></td>
+                  <td th:text="${usuario.nombreUsuario}"></td>
+                  <td><a th:href="@{/admin/usuarios/{idUsuario} (idUsuario=${usuario.id})}" th:text="${usuario.id}"></a></td>
                     <td><a th:href="@{/admin/usuarios/{idUsuario}/eventos (idUsuario=${usuario.id})}">Eventos</a></td>
                     <td><a th:href="@{/admin/usuarios/{idUsuario}/direccion (idUsuario=${usuario.id})}"><span class="bi bi-geo-alt-fill" role="img" title="Modificar"></span></a></td>
                     <td><a th:href="@{/admin/usuarios/{idUsuario}/update (idUsuario=${usuario.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
@@ -60,10 +59,6 @@
         </table>
 
     </main>
-
-    <footer>
-
-    </footer>
 
   <script th:src="@{/js/jquery-3.6.3.js}" ></script>
   <script th:src="@{/js/script.js}" ></script>

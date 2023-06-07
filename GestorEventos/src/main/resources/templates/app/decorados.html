@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon/favicon.ico}">
+    <title>Panel de Administración</title>
+    <!-- Bootstrap-Icons -->
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
+    <!-- General CSS -->
+    <link th:href="@{/css/app.css}" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <h1>Panel de Administración</h1>
+        <nav>
+            <div class="sidenav">
+                <a class="closebtn">&times;</a>
+                <a th:href="@{/admin/empresas/{idEmpresa} (idEmpresa=${empresaDTO.id})}">Volver</a>
+                <a th:href="@{/admin/empresas/{idEmpresa}/decorados/add (idEmpresa=${empresaDTO.id})}">Añadir Decorado</a>
+            </div>
+            <div>
+           		<img th:src="@{/media/img/menu.png}" alt="menu">
+            </div>
+        </nav>
+    </header>
+
+    <main>
+
+        <h2>Decorados de la Empresa</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Precio(€)</th>
+                    <th>+ Info</th>
+                    <th>Editar</th>
+                    <th>Borrar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="decoradoDTO : ${listaDecoradoDTO}">
+                    <td th:text="${decoradoDTO.nombre}">...</td>
+                    <td th:text="${decoradoDTO.precio}">...</td>
+                    <td><a th:href="@{/admin/empresas/{idEmpresa}/decorados/{idDecorado} (idEmpresa=${empresaDTO.id}, idDecorado=${decoradoDTO.id})}">+Info</a></td>
+                    <td><a th:href="@{/admin/empresas/{idEmpresa}/decorados/update/{idDecorado} (idEmpresa=${empresaDTO.id}, idDecorado=${decoradoDTO.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
+                    <td><a th:href="@{/admin/empresas/{idEmpresa}/decorados/delete/{idDecorado} (idEmpresa=${empresaDTO.id}, idDecorado=${decoradoDTO.id})}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+
+
+      <script th:src="@{/js/jquery-3.6.3.js}" ></script>
+  <script th:src="@{/js/script.js}" ></script>
+
+</body>
+
+</html>

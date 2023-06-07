@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon/favicon.ico}">
     <title>Direccion</title>
     <!-- Bootstrap-Icons -->
     <link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
@@ -37,7 +38,6 @@
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Calle</th>
                     <th>Número</th>
                     <th>Ciudad</th>
@@ -47,7 +47,6 @@
             </thead>
             <tbody>
                 <tr>
-                    <td th:text="${direccionDTO.id}"></td>
                     <td th:text="${direccionDTO.calle}"></td>
                     <td th:text="${direccionDTO.numero}"></td>
                     <td th:text="${direccionDTO.ciudad}"></td>
@@ -70,10 +69,6 @@
         </table>
 
     </main>
-
-    <footer>
-
-    </footer>
 
   <script th:src="@{/js/jquery-3.6.3.js}" ></script>
   <script th:src="@{/js/script.js}" ></script>

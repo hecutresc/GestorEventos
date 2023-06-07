@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon/favicon.ico}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración</title>
+    <!-- Bootstrap-Icons -->
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap-5.2.3/css/bootstrap.min.css}">
+    <!-- General CSS -->
+    <link th:href="@{/css/app.css}" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <h1>Panel de Administración</h1>
+        <nav>
+            <div class="sidenav">
+                <a class="closebtn">&times;</a>
+                <a th:href="@{/admin/empresas}">Volver</a>
+            </div>
+            <div>
+                <img th:src="@{/media/img/menu.png}" alt="menu">
+            </div>
+        </nav>
+    </header>
+
+    <main>
+
+
+        <div class="container col-lg-8 p-4 rounded shadow bg-body text-start">
+            <div class="mt-1 text-center">
+                <h2 class="h2 rounded">Mas Información de la Empresa</h2>
+            </div>
+            <div class="row mt-3">
+                <label class="form-label">Nombre</label>
+                <input class="form-control" th:field="${empresaDTO.nombre}" readonly type="text">
+            </div>
+            <div class="row mt-3">
+                <label class="form-label">CIF</label>
+                <input class="form-control" th:field="${empresaDTO.cif}" readonly type="text">
+            </div>
+            <div class="row mt-3">
+                <label class="form-label">Email de Contacto</label>
+                <input class="form-control" th:field="${empresaDTO.email_contacto}" readonly type="text">
+            </div>
+
+            <div class="row mt-3">
+                <label class="form-label">Telefono de Contacto</label>
+                <input readonly class="form-control" type="number" th:field="${empresaDTO.telefono_contacto}">
+            </div>
+            <div class="row mt-3">
+                <label class="form-label">Página Web</label>
+                <input readonly class="form-control" type="number" th:field="${empresaDTO.telefono_contacto}">
+            </div>
+            <div class="row mt-3">
+                <div class="col">
+                    <label for="dcalle" class="form-label">Calle</label> <input readonly th:type="text" name="dcalle"
+                        class="form-control" id="dcalle" th:field="${empresaDTO.direccionDTO.calle}" />
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col">
+                    <label for="dnumero" class="form-label">Número</label> <input readonly th:type="number" name="dnumero"
+                        class="form-control" id="dnumero" th:field="${empresaDTO.direccionDTO.numero}" th:min="0" />
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col">
+                    <label for="dciudad" class="form-label">Ciudad</label> <input readonly th:type="text" name="dciudad"
+                        class="form-control" id="dciudad" th:field="${empresaDTO.direccionDTO.ciudad}" />
+                </div>
+            </div>
+
+            <div class="col mt-3">
+                <div class="col">
+                    <label for="dcp" class="form-label">CP</label> <input readonly th:type="number" name="dcp"
+                        class="form-control" id="dcp" th:field="${empresaDTO.direccionDTO.cp}" th:min="0"
+                        th:max="99999" />
+                </div>
+                <div class="col">
+                    <label class="form-label" for="provincia">Provincia</label>
+                    <input readonly type="text" class="form-control" th:field="${empresaDTO.direccionDTO.provincia}">
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col">
+                    <a class="btn btn-outline-success w-100" th:href="@{/admin/empresas/{idEmpresa}/caterings (idEmpresa=${empresaDTO.id})}">Caterings</a>
+                </div>
+                <div class="col">
+                    <a class="btn btn-outline-success w-100" th:href="@{/admin/empresas/{idEmpresa}/decorados (idEmpresa=${empresaDTO.id})}">Decorados</a>
+                </div>
+                <div class="col">
+                    <a class="btn btn-outline-success w-100" th:href="@{/admin/empresas/{idEmpresa}/ocios (idEmpresa=${empresaDTO.id})}">Ocios</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <script th:src="@{/vendor/bootstrap-5.2.3/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/jquery-3.6.3.js}"></script>
+    <script th:src="@{/js/script.js}"></script>
+
+</body>
+
+</html>

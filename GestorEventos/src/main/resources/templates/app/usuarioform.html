@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/x-icon" th:href="@{/favicon/favicon.ico}">
     <title th:text="${add} ? 'Nuevo usuario' : 'Actualizar usuario'"></title>
     <!-- Bootstrap-5.2.3 -->
     <link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
@@ -46,11 +47,13 @@
       	 			<div class="col">
           				<label for="nombre" class="form-label">Nombre</label>
          				<input th:type="text" name="nombre" class="form-control" id="nombre" th:field="*{nombre}" th:maxlength="20"/>
+						 <span style="color: red;" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
       	 			</div>
       	 	
       	 			<div class="col">
           				<label for="apellidos" class="form-label">Apellidos</label>
          				<input th:type="text" name="apellidos" class="form-control" id="apellidos" th:field="*{apellidos}" th:maxlength="100"/>
+						 <span style="color: red;" th:if="${#fields.hasErrors('apellidos')}" th:errors="*{apellidos}"></span>
       	 			</div>
       	 		</div>
       	 	
@@ -58,28 +61,33 @@
 					<div class="col">
           				<label for="nif" class="form-label">NIF</label>
          				<input th:type="text" name="nif" class="form-control" id="nif" th:field="*{nif}" th:maxlength="9"/>
+						 <span style="color: red;" th:if="${#fields.hasErrors('nif')}" th:errors="*{nif}"></span>
       	 			</div>
       	 	
       	 			<div class="col">
           				<label for="telefono" class="form-label">Teléfono</label>
          				<input th:type="number" name="telefono" class="form-control" id="telefono" th:field="*{telefono}" th:min="0" th:max="999999999"/>
+						 <span style="color: red;" th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></span>
       	 			</div>
       	 		</div>
       	 		
       	 		<div class="mt-3">
           			<label for="email" class="form-label">Correo electrónico</label>
          			<input th:type="email" name="email" class="form-control" id="email" th:field="*{email}" th:maxlength="100"/>
+					 <span style="color: red;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
       	 		</div>
       	 	
       	 		<div class="row mt-3">
       	 			<div class="col">
           				<label for="nombreUsuario" class="form-label">Nombre usuario</label>
          				<input th:type="text" name="nombreUsuario" class="form-control" id="nombreUsuario" th:field="*{nombreUsuario}" th:maxlength="100"/>
+						 <span style="color: red;" th:if="${#fields.hasErrors('nombreUsuario')}" th:errors="*{nombreUsuario}"></span>
       	 			</div>
 
 					<div class="col">
           				<label for="claveAcceso" class="form-label">Clave acceso</label>
-         				<input type="text" name="claveAcceso" class="form-control" id="claveAcceso" th:field="*{claveAcceso}"/>
+         				<input type="password" name="claveAcceso" class="form-control" id="claveAcceso" th:field="*{claveAcceso}"/>
+						 <span style="color: red;" th:if="${#fields.hasErrors('claveAcceso')}" th:errors="*{claveAcceso}"></span>
       	 			</div>
       	 		</div>
       	 							
@@ -94,12 +102,14 @@
 							<label for="dcalle" class="form-label">Calle</label> <input
 								th:type="text" name="dcalle" class="form-control" id="dcalle"
 								th:field="*{direccionDTO.calle}" />
+								<span style="color: red;" th:if="${#fields.hasErrors('direccionDTO.calle')}" th:errors="*{direccionDTO.calle}"></span>
 						</div>
 
 						<div class="col">
 							<label for="dnumero" class="form-label">Número</label> <input
 								th:type="number" name="dnumero" class="form-control"
 								id="dnumero" th:field="*{direccionDTO.numero}" th:min="0" />
+								<span style="color: red;" th:if="${#fields.hasErrors('direccionDTO.numero')}" th:errors="*{direccionDTO.numero}"></span>
 						</div>
 					</div>
 
@@ -108,25 +118,88 @@
 							<label for="dciudad" class="form-label">Ciudad</label> <input
 								th:type="text" name="dciudad" class="form-control" id="dciudad"
 								th:field="*{direccionDTO.ciudad}" />
+								<span style="color: red;" th:if="${#fields.hasErrors('direccionDTO.ciudad')}" th:errors="*{direccionDTO.ciudad}"></span>
 						</div>
 
 						<div class="col">
 							<label for="dcp" class="form-label">CP</label> <input
 								th:type="number" name="dcp" class="form-control" id="dcp"
 								th:field="*{direccionDTO.cp}" th:min="0" th:max="99999" />
+								<span style="color: red;" th:if="${#fields.hasErrors('direccionDTO.cp')}" th:errors="*{direccionDTO.cp}"></span>
+						</div>
+					</div>
+					<div class="row mt-3">
+						<div class="col">
+							<label class="form-label" for="provincia">Provincia</label>
+							<select class="form-select" th:field="*{direccionDTO.provincia}" name="provincia" id="provincia" >
+								<option selected hidden="true" value="0">Selecciona una Provincia</option>
+								<option value="Alava">Álava</option>
+								<option value="Albacete">Albacete</option>
+								<option value="Alicante">Alicante</option>
+								<option value="Almeria">Almeria</option>
+								<option value="Asturias">Asturias</option>
+								<option value="Avila">Ávila</option>
+								<option value="Badajoz">Badajoz</option>
+								<option value="Barcelona">Barcelona</option>
+								<option value="Burgos">Burgos</option>
+								<option value="Caceres">Cáceres</option>
+								<option value="Cadiz">Cádiz</option>
+								<option value="Cantabria">Cantabria</option>
+								<option value="Castellon">Castellón</option>
+								<option value="Ciudad Real">Ciudad Real</option>
+								<option value="Cordoba">Córdoba</option>
+								<option value="Cuenca">Cuenca</option>
+								<option value="Gerona">Gerona</option>
+								<option value="Granada">Granada</option>
+								<option value="Guadalajara">Guadalajara</option>
+								<option value="Guipuzcoa">Guipúzcoa</option>
+								<option value="Huelva">Huelva</option>
+								<option value="Huesca">Huesca</option>
+								<option value="Islas Baleares">Islas Baleares</option>
+								<option value="Jaen">Jaén</option>
+								<option value="La Coruña">La Coruña</option>
+								<option value="La Rioja">La Rioja</option>
+								<option value="Las Palmas">Las Palmas</option>
+								<option value="Leon">León</option>
+								<option value="Lerida">Lérida</option>
+								<option value="Lugo">Lugo</option>
+								<option value="Madrid">Madrid</option>
+								<option value="Malaga">Málaga</option>
+								<option value="Murcia">Murcia</option>
+								<option value="Navarra">Navarra</option>
+								<option value="Orense">Orense</option>
+								<option value="Palencia">Palencia</option>
+								<option value="Pontevedra">Pontevedra</option>
+								<option value="Salamanca">Salamanca</option>
+								<option value="Santa Cruz de Tenerife">Santa Cruz de Tenerife</option>
+								<option value="Segovia">Segovia</option>
+								<option value="Sevilla">Sevilla</option>
+								<option value="Soria">Soria</option>
+								<option value="Tarragona">Tarragona</option>
+								<option value="Teruel">Teruel</option>
+								<option value="Toledo">Toledo</option>
+								<option value="Valencia">Valencia</option>
+								<option value="Valladolid">Valladolid</option>
+								<option value="Vizcaya">Vizcaya</option>
+								<option value="Zamora">Zamora</option>
+								<option value="Zaragoza">Zaragoza</option>
+							</select>
+							<span style="color: red;" th:if="${#fields.hasErrors('direccionDTO.provincia')}" th:errors="*{direccionDTO.provincia}"></span>
 						</div>
 					</div>
 				</div>
+				<div class="mt-4">
+					<input type="submit" th:value="${add} ? 'Añadir' : 'Actualizar'" class="btn btn-outline-success w-100"/>
+				 </div>
+				</div>
       	 		
-      	 		<div class="mt-4">
-          			<input type="submit" th:value="${add} ? 'Añadir' : 'Actualizar'" class="btn btn-outline-success w-100"/>
-      	 		</div>
+      	 		
       	 	 
 			</form>
         </div>
     </main>
 
-	<script th:src="@{/vendor/bootstrap-5.2.3/js/bootstrap.bundle.min.js}" ></script>
+	<script th:src="@{/vendor/bootstrap-5.2.3/js/bootstrap.bundle.min.js}"></script>
   	<script th:src="@{/js/jquery-3.6.3.js}" ></script>
   	<script th:src="@{/js/script.js}" ></script>
 

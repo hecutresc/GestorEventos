@@ -23,9 +23,10 @@
 
 body {
     min-width: 360px;
-    height: 100vh;
-
-    background: linear-gradient(0deg, rgba(248,206,38,1) 0%, rgba(234,242,251,1) 100%); 
+    min-height: 100vh;
+    height: auto;
+    background: linear-gradient(0deg, rgba(248,206,38,1) 0%, rgba(234,242,251,1) 100%);
+    background-size: cover; 
 }
 
 header, h2{
@@ -60,7 +61,7 @@ a{
  .sidenav {
     width: 0; /* 0 width - change this with JavaScript */
     position: fixed; /* Stay in place */
-    z-index: 1; /* Stay on top */
+    z-index: 10; /* Stay on top */
     top: 0;
     left: 0;
     margin: 2px;
@@ -97,6 +98,18 @@ a{
     font-size: 36px;
     margin-left: 50px;
   }
+
+  /*Clase para las imagenes del formulario*/
+  .formimagediv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .formimage{
+    object-fit: cover;
+    height: 168px;
+    width: 300px;
+  }
   
   /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
   main {
@@ -104,11 +117,7 @@ a{
     padding: 20px;
   }
   
-  /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
-  @media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
-  } 
+  
   
   
   /* ===================================== */
@@ -187,12 +196,8 @@ a:hover {
     color: #261831;
 }
 
-header > h1{
-	font-size: 5vh;
-}
-
 strong:first-of-type{
-	color: red;
+	color: #f8ce26;
 }
 
 /*--------------------------------------------------------------
@@ -289,6 +294,10 @@ footer {
   
   @media (min-width: 800px) {
 
+      body{
+          height: auto;
+
+      }
     .sidenav{
       position: initial !important;
       box-shadow: none;
@@ -300,6 +309,11 @@ footer {
 
     .sidenav > a:hover{
         color: #f8ce26;
+    }
+
+    .formimage{
+      height: 368px;
+      width: 600px;
     }
 
 
@@ -365,3 +379,9 @@ footer {
     }
 
   }
+
+  /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+  @media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+  } 

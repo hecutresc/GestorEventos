@@ -19,39 +19,39 @@ import lombok.ToString;
 
 @Data
 @Entity
-@Table(name="ubicaciones")
+@Table(name = "ubicaciones")
 public class Ubicacion {
 
-	//Atributos de la clase
+	// Atributos de la clase
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "nombre")
 	private String nombre;
-	
+
 	@Column(name = "aforo")
 	private String aforo;
+	
+	@Column(name="precio_hora")
+	private Float precio_hora;
+	
+	@Column(name = "foto")
+	private String foto;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_direccion")
 	@ToString.Exclude
 	private Direccion direccion;
-	
-	@OneToMany( fetch = FetchType.LAZY, 
-			cascade = CascadeType.ALL, 
-			mappedBy = "ubicacion")
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "ubicacion")
 	private Set<Evento> listaEventos;
-	
-	@OneToMany( fetch = FetchType.LAZY, 
-			cascade = CascadeType.ALL, 
-			mappedBy = "ubicacion")
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "ubicacion")
 	private Set<CateringUbicacionEvento> listaCateringUbicacionEventos;
-	
-	
-	
-	//Hash id object equals
-	
+
+	// Hash id object equals
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -63,13 +63,15 @@ public class Ubicacion {
 		Ubicacion other = (Ubicacion) obj;
 		return Objects.equals(id, other.id);
 	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
 	}
-	
+
 	public Ubicacion() {
 		this.direccion = new Direccion();
+		this.listaEventos = new HashSet<Evento>();
 		this.listaCateringUbicacionEventos = new HashSet<CateringUbicacionEvento>();
 	}
 }

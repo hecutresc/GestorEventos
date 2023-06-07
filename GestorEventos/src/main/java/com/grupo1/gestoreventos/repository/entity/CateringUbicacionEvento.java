@@ -24,10 +24,21 @@ public class CateringUbicacionEvento {
 		@Column(name = "fechahora")
 		private Date fechahora;
 		
-		@ManyToOne
-		@JoinColumn(name = "id_catering")
+		@ManyToOne(optional = true)
+		@JoinColumn(name = "id_catering", nullable = true)
 		@ToString.Exclude
 		private Catering catering;
+		
+		@ManyToOne(optional = true)
+		@JoinColumn(name = "id_ocio", nullable = true)
+		@ToString.Exclude
+		private Ocio ocio;
+		
+		@ManyToOne(optional = true)
+		@JoinColumn(name = "id_decorado", nullable = true)
+		@ToString.Exclude
+		private Decorado decorado;
+		
 		@ManyToOne
 		@JoinColumn(name = "id_ubicacion")
 		@ToString.Exclude
@@ -59,6 +70,8 @@ public class CateringUbicacionEvento {
 		//Constructor
 		public CateringUbicacionEvento() {
 			this.catering = new Catering();
+			this.ocio = new Ocio();
+			this.decorado = new Decorado();
 			this.evento = new Evento();
 			this.ubicacion = new Ubicacion();
 		}

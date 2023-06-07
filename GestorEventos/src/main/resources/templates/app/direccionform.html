@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+	<link rel="icon" type="image/x-icon" th:href="@{/favicon/favicon.ico}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modificar Direccion</title>
     <!-- Bootstrap-5.2.3 -->
@@ -50,22 +51,85 @@
       	 		<div class="mt-3">
           			<label for="calle" class="form-label">Calle</label>
          			<input th:type="text" name="calle" class="form-control" id="calle" th:field="*{calle}" th:maxlength="255"/>
+					 <span style="color: red;" th:if="${#fields.hasErrors('calle')}" th:errors="*{calle}"></span>
       	 		</div>
       	 	
       	 		<div class="mt-3">
           			<label for="numero" class="form-label">Numero</label>
          			<input th:type="number" name="numero" class="form-control" id="numero" th:field="*{numero}" th:min="0"/>
+					 <span style="color: red;" th:if="${#fields.hasErrors('numero')}" th:errors="*{numero}"></span>
       	 		</div>
 		
 				<div class="mt-3">
           			<label for="ciudad" class="form-label">Ciudad</label>
          			<input th:type="text" name="ciudad" class="form-control" id="ciudad" th:field="*{ciudad}"/>
+					 <span style="color: red;" th:if="${#fields.hasErrors('ciudad')}" th:errors="*{ciudad}"></span>
       	 		</div>
       	 	
       	 		<div class="mt-3">
           			<label for="cp" class="form-label">Código Postal</label>
          			<input th:type="number" name="cp" class="form-control" id="cp" th:field="*{cp}" th:min="0" th:max="99999"/>
+					 <span style="color: red;" th:if="${#fields.hasErrors('cp')}" th:errors="*{cp}"></span>
       	 		</div>
+				   <div class="row mt-3">
+					<div class="col">
+						<label class="form-label" for="provincia">Provincia</label>
+						<select class="form-select" th:field="*{provincia}" name="provincia" id="provincia" >
+							<option selected hidden="true" value="0">Selecciona una Provincia</option>
+							<option value="Alava">Álava</option>
+							<option value="Albacete">Albacete</option>
+							<option value="Alicante">Alicante</option>
+							<option value="Almeria">Almeria</option>
+							<option value="Asturias">Asturias</option>
+							<option value="Avila">Ávila</option>
+							<option value="Badajoz">Badajoz</option>
+							<option value="Barcelona">Barcelona</option>
+							<option value="Burgos">Burgos</option>
+							<option value="Caceres">Cáceres</option>
+							<option value="Cadiz">Cádiz</option>
+							<option value="Cantabria">Cantabria</option>
+							<option value="Castellon">Castellón</option>
+							<option value="Ciudad Real">Ciudad Real</option>
+							<option value="Cordoba">Córdoba</option>
+							<option value="Cuenca">Cuenca</option>
+							<option value="Gerona">Gerona</option>
+							<option value="Granada">Granada</option>
+							<option value="Guadalajara">Guadalajara</option>
+							<option value="Guipuzcoa">Guipúzcoa</option>
+							<option value="Huelva">Huelva</option>
+							<option value="Huesca">Huesca</option>
+							<option value="Islas Baleares">Islas Baleares</option>
+							<option value="Jaen">Jaén</option>
+							<option value="La Coruña">La Coruña</option>
+							<option value="La Rioja">La Rioja</option>
+							<option value="Las Palmas">Las Palmas</option>
+							<option value="Leon">León</option>
+							<option value="Lerida">Lérida</option>
+							<option value="Lugo">Lugo</option>
+							<option value="Madrid">Madrid</option>
+							<option value="Malaga">Málaga</option>
+							<option value="Murcia">Murcia</option>
+							<option value="Navarra">Navarra</option>
+							<option value="Orense">Orense</option>
+							<option value="Palencia">Palencia</option>
+							<option value="Pontevedra">Pontevedra</option>
+							<option value="Salamanca">Salamanca</option>
+							<option value="Santa Cruz de Tenerife">Santa Cruz de Tenerife</option>
+							<option value="Segovia">Segovia</option>
+							<option value="Sevilla">Sevilla</option>
+							<option value="Soria">Soria</option>
+							<option value="Tarragona">Tarragona</option>
+							<option value="Teruel">Teruel</option>
+							<option value="Toledo">Toledo</option>
+							<option value="Valencia">Valencia</option>
+							<option value="Valladolid">Valladolid</option>
+							<option value="Vizcaya">Vizcaya</option>
+							<option value="Zamora">Zamora</option>
+							<option value="Zaragoza">Zaragoza</option>
+						</select>
+						<span style="color: red;" th:if="${#fields.hasErrors('provincia')}" th:errors="*{provincia}"></span>
+					</div>
+				</div>
       	 	
       	 		<div class="mt-4">
           			<input type="submit" class="btn btn-outline-success w-100" value="Modificar"/>
@@ -102,6 +166,64 @@
           			<label for="cp" class="form-label">Código Postal</label>
          			<input th:type="number" name="cp" class="form-control" id="cp" th:field="*{cp}" th:min="0" th:max="99999"/>
       	 		</div>
+				   <div class="row mt-3">
+					<div class="col">
+						<label class="form-label" for="provincia">Provincia</label>
+						<select class="form-select" th:field="*{direccionDTO.provincia}" name="provincia" id="provincia" >
+							<option selected hidden="true" value="0">Selecciona una Provincia</option>
+							<option value="Alava">Álava</option>
+							<option value="Albacete">Albacete</option>
+							<option value="Alicante">Alicante</option>
+							<option value="Almeria">Almeria</option>
+							<option value="Asturias">Asturias</option>
+							<option value="Avila">Ávila</option>
+							<option value="Badajoz">Badajoz</option>
+							<option value="Barcelona">Barcelona</option>
+							<option value="Burgos">Burgos</option>
+							<option value="Caceres">Cáceres</option>
+							<option value="Cadiz">Cádiz</option>
+							<option value="Cantabria">Cantabria</option>
+							<option value="Castellon">Castellón</option>
+							<option value="Ciudad Real">Ciudad Real</option>
+							<option value="Cordoba">Córdoba</option>
+							<option value="Cuenca">Cuenca</option>
+							<option value="Gerona">Gerona</option>
+							<option value="Granada">Granada</option>
+							<option value="Guadalajara">Guadalajara</option>
+							<option value="Guipuzcoa">Guipúzcoa</option>
+							<option value="Huelva">Huelva</option>
+							<option value="Huesca">Huesca</option>
+							<option value="Islas Baleares">Islas Baleares</option>
+							<option value="Jaen">Jaén</option>
+							<option value="La Coruña">La Coruña</option>
+							<option value="La Rioja">La Rioja</option>
+							<option value="Las Palmas">Las Palmas</option>
+							<option value="Leon">León</option>
+							<option value="Lerida">Lérida</option>
+							<option value="Lugo">Lugo</option>
+							<option value="Madrid">Madrid</option>
+							<option value="Malaga">Málaga</option>
+							<option value="Murcia">Murcia</option>
+							<option value="Navarra">Navarra</option>
+							<option value="Orense">Orense</option>
+							<option value="Palencia">Palencia</option>
+							<option value="Pontevedra">Pontevedra</option>
+							<option value="Salamanca">Salamanca</option>
+							<option value="Santa Cruz de Tenerife">Santa Cruz de Tenerife</option>
+							<option value="Segovia">Segovia</option>
+							<option value="Sevilla">Sevilla</option>
+							<option value="Soria">Soria</option>
+							<option value="Tarragona">Tarragona</option>
+							<option value="Teruel">Teruel</option>
+							<option value="Toledo">Toledo</option>
+							<option value="Valencia">Valencia</option>
+							<option value="Valladolid">Valladolid</option>
+							<option value="Vizcaya">Vizcaya</option>
+							<option value="Zamora">Zamora</option>
+							<option value="Zaragoza">Zaragoza</option>
+						</select>
+					</div>
+				</div>
       	 	
       	 		<div class="mt-4">
           			<input type="submit" class="btn btn-outline-success w-100" value="Modificar"/>
@@ -138,6 +260,64 @@
           			<label for="cp" class="form-label">Código Postal</label>
          			<input th:type="number" name="cp" class="form-control" id="cp" th:field="*{cp}" th:min="0" th:max="99999"/>
       	 		</div>
+				   <div class="row mt-3">
+					<div class="col">
+						<label class="form-label" for="provincia">Provincia</label>
+						<select class="form-select" th:field="*{provincia}" name="provincia" id="provincia" >
+							<option selected hidden="true" value="0">Selecciona una Provincia</option>
+							<option value="Alava">Álava</option>
+							<option value="Albacete">Albacete</option>
+							<option value="Alicante">Alicante</option>
+							<option value="Almeria">Almeria</option>
+							<option value="Asturias">Asturias</option>
+							<option value="Avila">Ávila</option>
+							<option value="Badajoz">Badajoz</option>
+							<option value="Barcelona">Barcelona</option>
+							<option value="Burgos">Burgos</option>
+							<option value="Caceres">Cáceres</option>
+							<option value="Cadiz">Cádiz</option>
+							<option value="Cantabria">Cantabria</option>
+							<option value="Castellon">Castellón</option>
+							<option value="Ciudad Real">Ciudad Real</option>
+							<option value="Cordoba">Córdoba</option>
+							<option value="Cuenca">Cuenca</option>
+							<option value="Gerona">Gerona</option>
+							<option value="Granada">Granada</option>
+							<option value="Guadalajara">Guadalajara</option>
+							<option value="Guipuzcoa">Guipúzcoa</option>
+							<option value="Huelva">Huelva</option>
+							<option value="Huesca">Huesca</option>
+							<option value="Islas Baleares">Islas Baleares</option>
+							<option value="Jaen">Jaén</option>
+							<option value="La Coruña">La Coruña</option>
+							<option value="La Rioja">La Rioja</option>
+							<option value="Las Palmas">Las Palmas</option>
+							<option value="Leon">León</option>
+							<option value="Lerida">Lérida</option>
+							<option value="Lugo">Lugo</option>
+							<option value="Madrid">Madrid</option>
+							<option value="Malaga">Málaga</option>
+							<option value="Murcia">Murcia</option>
+							<option value="Navarra">Navarra</option>
+							<option value="Orense">Orense</option>
+							<option value="Palencia">Palencia</option>
+							<option value="Pontevedra">Pontevedra</option>
+							<option value="Salamanca">Salamanca</option>
+							<option value="Santa Cruz de Tenerife">Santa Cruz de Tenerife</option>
+							<option value="Segovia">Segovia</option>
+							<option value="Sevilla">Sevilla</option>
+							<option value="Soria">Soria</option>
+							<option value="Tarragona">Tarragona</option>
+							<option value="Teruel">Teruel</option>
+							<option value="Toledo">Toledo</option>
+							<option value="Valencia">Valencia</option>
+							<option value="Valladolid">Valladolid</option>
+							<option value="Vizcaya">Vizcaya</option>
+							<option value="Zamora">Zamora</option>
+							<option value="Zaragoza">Zaragoza</option>
+						</select>
+					</div>
+				</div>
       	 	
       	 		<div class="mt-4">
           			<input type="submit" class="btn btn-outline-success w-100" value="Modificar"/>
@@ -149,9 +329,6 @@
 
     </main>
 
-    <footer>
-
-    </footer>
 
 	<script th:src="@{/vendor/bootstrap-5.2.3/js/bootstrap.bundle.min.js}" ></script>
   	<script th:src="@{/js/jquery-3.6.3.js}" ></script>

@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon/favicon.ico}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración</title>
     <!-- Bootstrap-Icons -->
@@ -35,10 +36,8 @@
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>CIF</th>
-                    <th>Nombre</th>
-                    <th>Caterings</th>
+                	<th>Nombre</th>
+                    <th>+Info</th>
                     <th>Dirección</th>
                     <th>Editar</th>
                     <th>Borrar</th>
@@ -47,23 +46,15 @@
             <tbody>
                 <!-- Aqui se pondrá el bucle de thymeleaf para ir construyendo la página-->
                 <tr th:each="empresaDTO : ${listaEmpresasDTO}">
-                    <td th:text="${empresaDTO.id}">...</td>
-                    <td th:text="${empresaDTO.cif}">...</td>
-                    <td th:text="${empresaDTO.nombre}">...</td>
-                    <td><a th:href="@{/admin/empresas/{idEmpresa}/caterings (idEmpresa=${empresaDTO.id})}">Ver Caterings</a></td>
+                	<td th:text="${empresaDTO.nombre}">...</td>
+                    <td><a th:href="@{/admin/empresas/{idEmpresa} (idEmpresa=${empresaDTO.id})}">+Info</a></td>
                     <td><a th:href="@{/admin/empresas/{idEmpresa}/direccion (idEmpresa=${empresaDTO.id})}"><span class="bi bi-geo-alt-fill" role="img" title="Dirección"></span></a></td>
                     <td><a th:href="@{/admin/empresas/update/{idEmpresa} (idEmpresa=${empresaDTO.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
                     <td><a th:href="@{/admin/empresas/delete/{idEmpresa} (idEmpresa=${empresaDTO.id})}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
                 </tr>
             </tbody>
         </table>
-
-
     </main>
-
-    <footer>
-
-    </footer>
   <script th:src="@{/js/jquery-3.6.3.js}" ></script>
   <script th:src="@{/js/script.js}" ></script>
 

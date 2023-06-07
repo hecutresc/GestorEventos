@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon/favicon.ico}">
     <title>Panel de Administración</title>
     <!-- Bootstrap-Icons -->
     <link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
@@ -17,7 +18,7 @@
         <nav>
             <div class="sidenav">
                 <a class="closebtn">&times;</a>
-                <a th:href="@{/admin/empresas}">Volver</a>
+                <a th:href="@{/admin/empresas/{idEmpresa} (idEmpresa=${empresaDTO.id})}">Volver</a>
                 <a th:href="@{/admin/empresas/{idEmpresa}/caterings/add (idEmpresa=${empresaDTO.id})}">Añadir Catering</a>
             </div>
             <div>
@@ -32,20 +33,18 @@
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Nombre Empresa</th>
                     <th>Menu</th>
                     <th>Precio</th>
+                    <th>+Info</th>
                     <th>Editar</th>
                     <th>Borrar</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="cateringDTO : ${listaCateringsDTO}">
-                    <td th:text="${cateringDTO.id}">...</td>
-                    <td th:text="${cateringDTO.empresaDTO.nombre}">...</td>
                     <td th:text="${cateringDTO.menu}">...</td>
                     <td th:text="${cateringDTO.precio}">...</td>
+                    <td ><a th:href="@{/admin/empresas/{idEmpresa}/caterings/{idCatering} (idEmpresa=${empresaDTO.id}, idCatering=${cateringDTO.id})}">+Info</a></td>
                     <td><a th:href="@{/admin/empresas/{idEmpresa}/caterings/update/{idCatering} (idEmpresa=${empresaDTO.id}, idCatering=${cateringDTO.id})}"><span class="bi bi-pencil-square" role="img" title="Editar"></span></a></td>
                     <td><a th:href="@{/admin/empresas/{idEmpresa}/caterings/delete/{idCatering} (idEmpresa=${empresaDTO.id}, idCatering=${cateringDTO.id})}"><span class="bi bi-trash-fill" role="img" title="Borrar"></span></a></td>
                 </tr>
@@ -53,10 +52,7 @@
         </table>
     </main>
 
-    <footer>
-
-    </footer>
-
+    <script th:src="@{/vendor/bootstrap-5.2.3/js/bootstrap.bundle.min.js}"></script>
       <script th:src="@{/js/jquery-3.6.3.js}" ></script>
   <script th:src="@{/js/script.js}" ></script>
 

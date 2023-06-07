@@ -1,15 +1,23 @@
 package com.grupo1.gestoreventos.web.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.grupo1.gestoreventos.model.dto.CateringDTO;
@@ -18,6 +26,9 @@ import com.grupo1.gestoreventos.model.dto.EventoDTO;
 import com.grupo1.gestoreventos.model.dto.UsuarioDTO;
 import com.grupo1.gestoreventos.service.CateringService;
 import com.grupo1.gestoreventos.service.EventoService;
+import com.grupo1.gestoreventos.service.UsuarioService;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class CateringController {
@@ -28,9 +39,12 @@ public class CateringController {
 	// Objetos Autowired
 	@Autowired
 	private CateringService cateringService;
-	
+
 	@Autowired
 	private EventoService eventoService;
+	
+	@Autowired
+	private UsuarioService usuarioService;
 
 	@GetMapping("/admin/empresas/{idEmpresa}/caterings")
 	public ModelAndView findByEmpresa(@PathVariable("idEmpresa") Long idEmpresa) {
@@ -90,15 +104,64 @@ public class CateringController {
 
 	// Salvar clientes
 	@PostMapping("/admin/empresas/{idEmpresa}/caterings/save")
-	public ModelAndView save(@PathVariable("idEmpresa") Long idEmpresa, @ModelAttribute("cateringDTO") CateringDTO cateringDTO) {
+	public ModelAndView save(@PathVariable("idEmpresa") Long idEmpresa,
+			@Valid @ModelAttribute("cateringDTO") CateringDTO cateringDTO, BindingResult bindingResult,
+			@RequestParam("archivo") MultipartFile foto) {
 
 		log.info("ClienteController - save: Salvamos los datos del cliente:" + cateringDTO.toString());
-		
-		//Seteamos la empresa al nuevo Catering
+
+		// Seteamos la empresa al nuevo Catering
 		EmpresaDTO empresaDTO = new EmpresaDTO();
 		empresaDTO.setId(idEmpresa);
 		cateringDTO.setEmpresaDTO(empresaDTO);
-		
+
+		if (bindingResult.hasErrors() == true) {
+			if (cateringDTO.getId() == null) {
+				ModelAndView mav = new ModelAndView("app/cateringform");
+				mav.addObject("empresaDTO", empresaDTO);
+				mav.addObject("cateringDTO", cateringDTO);
+				mav.addObject("add", true);
+
+				return mav;
+			} else {
+				ModelAndView mav = new ModelAndView("app/cateringform");
+				mav.addObject("empresaDTO", empresaDTO);
+				mav.addObject("cateringDTO", cateringDTO);
+				mav.addObject("add", false);
+
+				return mav;
+			}
+		}
+
+		// Guardamos la foto
+		if (cateringDTO.getId() == null) {
+			try {
+				Files.createDirectories(Paths.get("src/main/resources/static/imagesCaterings"));
+
+				byte[] bytes = foto.getBytes();
+				Path ruta = Paths.get("src/main/resources/static/imagesCaterings/" + foto.getOriginalFilename());
+
+				Files.write(ruta, bytes);
+			} catch (IOException e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			cateringDTO.setFoto("/imagesUbicaciones/" + foto.getOriginalFilename());
+		} else if (cateringDTO.getId() != null && foto.getOriginalFilename() != "") {
+			try {
+				Files.createDirectories(Paths.get("src/main/resources/static/imagesCaterings"));
+
+				byte[] bytes = foto.getBytes();
+				Path ruta = Paths.get("src/main/resources/static/imagesCaterings/" + foto.getOriginalFilename());
+
+				Files.write(ruta, bytes);
+			} catch (IOException e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			cateringDTO.setFoto("/imagesCaterings/" + foto.getOriginalFilename());
+		}
+
 		// Invocamos a la capa de servicios para que almacene los datos del cliente
 		cateringService.save(cateringDTO);
 
@@ -125,6 +188,27 @@ public class CateringController {
 
 	}
 
+	@GetMapping("/admin/empresas/{idEmpresa}/caterings/{idCatering}")
+	public ModelAndView findbyEmpresa(@PathVariable("idEmpresa") Long idEmpresa,
+			@PathVariable("idCatering") Long idCatering) {
+		log.info("CateringController - +info: Muestra más información del catering " + idCatering);
+
+		EmpresaDTO empresaDTO = new EmpresaDTO();
+		empresaDTO.setId(idEmpresa);
+
+		CateringDTO cateringDTO = new CateringDTO();
+		cateringDTO.setId(idCatering);
+		cateringDTO = cateringService.findById(cateringDTO);
+
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("app/catering_info");
+		mv.addObject("cateringDTO", cateringDTO);
+		mv.addObject("empresaDTO", empresaDTO);
+
+		return mv;
+
+	}
+
 	@GetMapping("/admin/usuarios/{idUsuario}/eventos/{idEvento}/catering")
 	public ModelAndView findByEvento(@PathVariable("idUsuario") Long idUsuario,
 			@PathVariable("idEvento") Long idEvento) {
@@ -135,7 +219,7 @@ public class CateringController {
 		eventoDTO = eventoService.findById(eventoDTO);
 
 		CateringDTO cateringDTO = eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO();
-		
+
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("app/cateringshow");
 		mv.addObject("usuarioDTO", usuarioDTO);
@@ -145,26 +229,33 @@ public class CateringController {
 		return mv;
 
 	}
-	
+
 	@GetMapping("/user/usuarios/{idUsuario}/eventos/{idEvento}/catering")
 	public ModelAndView findByEventoUser(@PathVariable("idUsuario") Long idUsuario,
-			@PathVariable("idEvento") Long idEvento) {
+			@PathVariable("idEvento") Long idEvento, @CookieValue(value = "JSESSIONID", defaultValue = "") String sessionId) {
 		log.info("CateringController - findByEvento: Muestra el Catering del Evento: " + idEvento);
-
-		UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
-		EventoDTO eventoDTO = new EventoDTO(idEvento);
-		eventoDTO = eventoService.findById(eventoDTO);
-
-		CateringDTO cateringDTO = eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO();
 		
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("app/cateringshowuser");
-		mv.addObject("usuarioDTO", usuarioDTO);
-		mv.addObject("eventoDTO", eventoDTO);
-		mv.addObject("cateringDTO", cateringDTO);
+			UsuarioDTO usuarioDTO = new UsuarioDTO(idUsuario);
+			usuarioDTO = usuarioService.findById(usuarioDTO);
+		if(usuarioDTO.getCookie().equals(String.valueOf(sessionId))) {
+			EventoDTO eventoDTO = new EventoDTO(idEvento);
+			eventoDTO = eventoService.findById(eventoDTO);
 
-		return mv;
+			CateringDTO cateringDTO = eventoDTO.getListaCateringubicacioneventoDTO().get(0).getCateringDTO();
+
+			ModelAndView mv = new ModelAndView();
+			mv.setViewName("app/cateringshowuser");
+			mv.addObject("usuarioDTO", usuarioDTO);
+			mv.addObject("eventoDTO", eventoDTO);
+			mv.addObject("cateringDTO", cateringDTO);
+
+			return mv;
+		}else {
+			ModelAndView mav = new ModelAndView("errors/503");
+			return mav;
+		}
+		
 
 	}
-	
+
 }

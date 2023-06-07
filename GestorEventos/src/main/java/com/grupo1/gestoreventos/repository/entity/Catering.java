@@ -32,6 +32,9 @@ public class Catering {
 
 	@Column(name = "precio")
 	private Float precio;
+	
+	@Column(name = "foto")
+	private String foto;
 
 	@ManyToOne
 	@JoinColumn(name = "id_empresa")

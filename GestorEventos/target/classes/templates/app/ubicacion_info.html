@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon/favicon.ico}">
+    <title>Panel de Administración</title>
+    <!-- Bootstrap-Icons -->
+    <!-- Bootstrap-Icons -->
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}">
+
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap-5.2.3/css/bootstrap.min.css}">
+    <!-- General CSS -->
+    <link th:href="@{/css/app.css}" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <h1>Panel de Administración</h1>
+        <nav>
+            <div class="sidenav">
+                <a class="closebtn">&times;</a>
+                <a th:href="@{/admin/ubicaciones}">Volver</a>
+            </div>
+            <div>
+                <img th:src="@{/media/img/menu.png}" alt="menu">
+            </div>
+        </nav>
+    </header>
+
+    <main>
+
+        <div class="container col-lg-8 p-4 rounded shadow bg-body text-start">
+
+            <div class="mt-1 text-center">
+                <h2 class="h2 rounded" th:text="Ubicacion"></h2>
+            </div>
+
+            <div class="mt-3" th:if="${errorMessage}" th:utext="${errorMessage}"></div>
+
+            <div class="row mt-3">
+
+                <div class="col">
+                    <label for="numero" class="form-label">Nombre</label> <input readonly th:type="text" name="numero"
+                        class="form-control" id="nombre" th:field="${ubicacionDTO.nombre}" th:min="0" />
+                </div>
+
+                <div class="col">
+                    <label for="calle" class="form-label">Aforo</label> <input readonly th:type="text" name="calle"
+                        class="form-control" id="calle" th:field="${ubicacionDTO.aforo}" th:maxlength="7" />
+                </div>
+
+            </div>
+            <div class="row mt-3">
+                <label class="form-label"></label>
+                <img alt="*Imagen de la ubicacion*" class="form-control formimage" th:src="${ubicacionDTO.foto}">
+            </div>
+            <div class="row mt-3">
+                <div class="col">
+                    <label for="precio_hora" class="form-label">Precio Por Hora</label>
+                    <input readonly th:type="number" step="0.01" name="precio_hora" th:field="${ubicacionDTO.precio_hora}"
+                        id="precio_hora" class="form-control">
+                </div>
+            </div>
+            <!-- Ocultamos el campo id de la dirección -->
+            <input type="hidden" th:field="${ubicacionDTO.direccionDTO.id}">
+
+            <div class="row mt-3">
+                <div class="col">
+                    <label for="dcalle" class="form-label">Calle</label> <input readonly th:type="text" name="dcalle"
+                        class="form-control" id="dcalle" th:field="${ubicacionDTO.direccionDTO.calle}" />
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col">
+                    <label for="dnumero" class="form-label">Número</label> <input readonly th:type="number" name="dnumero"
+                        class="form-control" id="dnumero" th:field="${ubicacionDTO.direccionDTO.numero}" th:min="0" />
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col">
+                    <label for="dciudad" class="form-label">Ciudad</label> <input readonly th:type="text" name="dciudad"
+                        class="form-control" id="dciudad" th:field="${ubicacionDTO.direccionDTO.ciudad}" />
+                </div>
+            </div>
+
+            <div class="col mt-3">
+                <div class="col">
+                    <label for="dcp" class="form-label">CP</label> <input readonly th:type="number" name="dcp"
+                        class="form-control" id="dcp" th:field="${ubicacionDTO.direccionDTO.cp}" th:min="0"
+                        th:max="99999" />
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col">
+                    <label class="form-label" for="provincia">Provincia</label>
+                    <input readonly type="text" class="form-control" th:field="${ubicacionDTO.direccionDTO.provincia}">
+                </div>
+
+
+            </div>
+
+        </div>
+        </div>
+
+    </main>
+    <script th:src="@{/vendor/bootstrap-5.2.3/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/jquery-3.6.3.js}"></script>
+    <script th:src="@{/js/script.js}"></script>
+
+</body>
+
+</html>
