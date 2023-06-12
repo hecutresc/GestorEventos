@@ -57,7 +57,7 @@ public class UbicacionController {
 		List<UbicacionDTO> listaUbicacionesDTO = ubicacionService.findAll();
 
 		// Mostramos la lista
-		ModelAndView mav = new ModelAndView("/app/ubicaciones");
+		ModelAndView mav = new ModelAndView("app/ubicaciones");
 		mav.addObject("listaUbicacionesDTO", listaUbicacionesDTO);
 		return mav;
 
