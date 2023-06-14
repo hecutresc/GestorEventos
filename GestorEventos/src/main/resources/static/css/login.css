@@ -9,13 +9,13 @@
 body {
   min-width: 360px;
   min-height: 100vh;
-  height: auto;
+  height: 100vh;
   background: linear-gradient(0deg, rgba(248,206,38,1) 0%, rgba(234,242,251,1) 100%);
   background-size: cover; 
 }
 
 header {
-  height: 140px;
+  height: 20vh;
 
   width: 100vw;
 
@@ -24,7 +24,7 @@ header {
 }
 
 main{
-  height: auto;
+  height: 70vh;
   position: relative;
   padding: 0!important;
   margin-top: 20px;
@@ -153,8 +153,7 @@ form > div:last-child > label {
 }
 
 footer{
-
-  position: absolute !important;
+  height: 10vh;
   bottom: 0 !important;
   width: 100vw;
   flex-shrink: 0;
