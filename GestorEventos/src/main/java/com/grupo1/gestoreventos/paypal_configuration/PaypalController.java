@@ -71,11 +71,11 @@ public class PaypalController {
 			
 				e.printStackTrace();
 			}
-			return "redirect:/user";
+			return "redirect:/userType";
 			
 		}else {
 			//Se devuelve malas credenciales y un error 403
-			return "";
+			return "/";
 		}
 		
 		
