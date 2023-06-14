@@ -83,14 +83,8 @@ public class PaypalController {
 	
 	//Cambiar por ModelAndView
 	 @GetMapping(value = CANCEL_URL)
-	    public ModelAndView cancelPay(@CookieValue(value = "idEvento") String idEvento, @CookieValue(value = "idUsuario") String idUsuario) {
-	     UsuarioDTO usuarioDTO = new UsuarioDTO();
-	     EventoDTO eventoDTO = new EventoDTO();
-	     usuarioDTO.setId(Long.valueOf(idUsuario));
-	     eventoDTO.setId(Long.valueOf(idEvento));
+	    public ModelAndView cancelPay() {
 		 ModelAndView mav = new ModelAndView("paypal/cancel");
-		 mav.addObject("usuarioDTO", usuarioDTO);
-		 mav.addObject("eventoDTO", eventoDTO);
 		 return mav;
 	    }
 
