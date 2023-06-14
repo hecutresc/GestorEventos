@@ -35,8 +35,8 @@ public class PaypalController {
 	@Autowired
 	EventoService eventoService;
 	
-	public static final String SUCCESS_URL = "pay/success";
-	public static final String CANCEL_URL = "pay/cancel";
+	public static final String SUCCESS_URL = "/pay/success";
+	public static final String CANCEL_URL = "/pay/cancel";
 	
 	@GetMapping("/user/usuarios/{idUsuario}/eventos/{idEvento}/pay")
 	public String payment(@PathVariable("idUsuario") Long idUsuario, @PathVariable("idEvento") Long idEvento, @CookieValue(value = "JSESSIONID", defaultValue = "") String sessionId, HttpServletResponse response) {
@@ -59,8 +59,8 @@ public class PaypalController {
 			//Se hace el pago o se intenta
 			try {
 				Payment payment = paypalService.createPayment(orderDTO.getPrice(), orderDTO.getCurrency(), orderDTO.getMethod(),
-						orderDTO.getIntent(), orderDTO.getDescription(), orderDTO.getIdEvento(),"http://localhost:8888/" + CANCEL_URL,
-						"http://localhost:8888/" + SUCCESS_URL);
+						orderDTO.getIntent(), orderDTO.getDescription(), orderDTO.getIdEvento(),"http://eventappserver.azurewebsites.net/" + CANCEL_URL,
+						"http://eventappserver.azurewebsites.net/" + SUCCESS_URL);
 				for(Links link:payment.getLinks()) {
 					if(link.getRel().equals("approval_url")) {
 						return "redirect:"+link.getHref();
