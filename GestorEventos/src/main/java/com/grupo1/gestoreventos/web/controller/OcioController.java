@@ -64,7 +64,7 @@ public class OcioController {
 		List<OcioDTO> listaOcioDTO = ocioService.findAllByEmpresa(empresaDTO);
 
 		// Mostramos la lista a la vista
-		ModelAndView mav = new ModelAndView("/app/ocios");
+		ModelAndView mav = new ModelAndView("app/ocios");
 		mav.addObject("empresaDTO", empresaDTO);
 		mav.addObject("listaOciosDTO", listaOcioDTO);
 

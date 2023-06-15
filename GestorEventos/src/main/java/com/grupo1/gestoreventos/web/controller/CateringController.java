@@ -55,7 +55,7 @@ public class CateringController {
 		List<CateringDTO> listaCateringsDTO = cateringService.findAllByEmpresa(empresaDTO);
 
 		// Mostramos la lista a la vista
-		ModelAndView mav = new ModelAndView("/app/caterings");
+		ModelAndView mav = new ModelAndView("app/caterings");
 		mav.addObject("empresaDTO", empresaDTO);
 		mav.addObject("listaCateringsDTO", listaCateringsDTO);
 

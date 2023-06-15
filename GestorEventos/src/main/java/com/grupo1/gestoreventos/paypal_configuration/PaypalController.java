@@ -35,8 +35,8 @@ public class PaypalController {
 	@Autowired
 	EventoService eventoService;
 	
-	public static final String SUCCESS_URL = "/pay/success";
-	public static final String CANCEL_URL = "/pay/cancel";
+	public static final String SUCCESS_URL = "pay/success";
+	public static final String CANCEL_URL = "pay/cancel";
 	
 	@GetMapping("/user/usuarios/{idUsuario}/eventos/{idEvento}/pay")
 	public String payment(@PathVariable("idUsuario") Long idUsuario, @PathVariable("idEvento") Long idEvento, @CookieValue(value = "JSESSIONID", defaultValue = "") String sessionId, HttpServletResponse response) {

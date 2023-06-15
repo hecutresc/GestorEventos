@@ -64,7 +64,7 @@ public class DecoradoController {
 		List<DecoradoDTO> listaDecoradoDTO = decoradoService.findAllByEmpresa(empresaDTO);
 
 		// Mostramos la lista a la vista
-		ModelAndView mav = new ModelAndView("/app/decorados");
+		ModelAndView mav = new ModelAndView("app/decorados");
 		mav.addObject("empresaDTO", empresaDTO);
 		mav.addObject("listaDecoradoDTO", listaDecoradoDTO);
 
