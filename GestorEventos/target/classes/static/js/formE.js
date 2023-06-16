@@ -37,7 +37,7 @@ function listados(ubicacionList, cateringList, decoradoList, ocioList) {
     if (ubi) {
         //Comprobar que ha elegido el tipo de evento que quiere
         if (selectnAsitentes.value != 0) {
-            if (selectnAsitentes.value <= ubi.aforo) {
+            if (parseInt(ubi.aforo) >= parseInt(selectnAsitentes.value)) {
                 var res = calcular_precio_hora("p_ubi", ubi.precio_hora);
                 if (res) {
                     //Ponemos la imagen y el precio de la ubicacion
